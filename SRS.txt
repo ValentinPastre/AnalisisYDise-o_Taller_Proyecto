@@ -1,0 +1,67 @@
+SRS
+1. Introducción
+1.1 Propósito
+El presente documento especifica los requerimientos del sistema para una billetera virtual dirigida a personas jubiladas, con el fin de facilitar el manejo de dinero digital de forma segura y accesible.
+
+1.2 Alcance
+ La aplicación permitirá:
+
+ Recibir pagos (jubilaciones, subsidios, otros usuarios).
+
+ Realizar pagos de servicios y compras.
+
+ Visualizar el historial de movimientos.
+
+ Asistir con recordatorios y notificaciones útiles.
+
+1.3 Definiciones
+ Jubilado: Persona retirada laboralmente que recibe una pensión o jubilación.
+
+ Billetera virtual: Aplicación que permite gestionar dinero digitalmente.
+
+2. Descripción General
+2.1 Perspectiva del producto
+ Sistema independiente accesible de una pagina web sencilla.
+
+2.2 Características del usuario
+ Usuarios mayores de 60 años, en su mayoría con conocimientos tecnológicos limitados.  Se prioriza:
+
+ Interfaces amigables, simples y con tipografía grande, fáciles de entender.
+
+ Seguridad sin complejidad (PIN fácil).
+
+2.3 Supuestos y dependencias
+ El usuario tendrá acceso/notificaciones por medio de su correo electronico.
+
+ Se integrará con redes de pago ya existentes (ej. Red Link, Banelco, MercadoPago, etc.).
+
+3. Requisitos funcionales
+3.1 Registro y autenticación
+ RF01: El usuario podrá registrarse con su número de DNI.
+
+ RF02: El usuario podrá iniciar sesión con PIN.
+
+3.2 Gestión de saldos y movimientos
+ RF03: El sistema mostrará el saldo disponible en pantalla principal.
+ RF04: El usuario podrá consultar su historial de movimientos.
+3.3 Operaciones de pago y cobro
+ RF05: El usuario podrá pagar servicios con pocos pasos.
+ RF06: Podrá enviar dinero ingresando el alias o CVU/CBU del destinatario.
+ RF07: Podrá recibir pagos automáticos (ANSES, familiares, etc.)
+ RF08: Podra acceder a informacion sobre su Obra social mediante la pagina web.
+
+3.4 Soporte y ayuda
+ RF09: Acceso a ayuda por llamada a un operador humano.
+
+4. Requisitos no funcionales
+4.1 Usabilidad
+ IU orientada a adultos mayores: botones grandes, contrastes altos, lenguaje simple.
+
+4.2 Seguridad
+ Preguntas de seguridad (Definidas por el usuario)
+
+4.3 Rendimiento
+ Tiempo de respuesta menor a 2 segundos para acciones comunes.
+
+Anexo
+ Mockups de pantallas.
