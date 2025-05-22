@@ -45,7 +45,7 @@ Este repositorio contiene el desarrollo del proyecto JubiPago, realizado en el m
 
 🚀 Uso
 
-Una vez iniciado el contenedor, la aplicación estará disponible en http://localhost:3000. Desde allí, se puede interactuar con la interfaz de usuario diseñada para facilitar los pagos de los jubilados.
+Una vez iniciado el contenedor, la aplicación estará disponible en http://localhost:8000. Desde allí, se puede interactuar con la interfaz de usuario diseñada para facilitar los pagos de los jubilados.
 
 🛠️ Tecnologías utilizadas
 
