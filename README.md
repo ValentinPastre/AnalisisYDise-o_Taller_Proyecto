@@ -1,34 +1,66 @@
-                                # AnalisisYDise-o_Taller_Proyecto
+## JubiPago – Análisis y Diseño de Software
 
-# Documentación: 
+Este repositorio contiene el desarrollo del proyecto JubiPago, realizado en el marco del Taller de Proyecto de la carrera de Tecnicatura en las ciencias de la computación. El objetivo es diseñar y desarrollar una aplicación de pagos destinada a jubilados, enfocándose en la usabilidad, seguridad y eficiencia.
+
+📄 Documentación
+
+    Figma: Diseño de la interfaz de usuario.
+    https://www.figma.com/design/T6FTRXlNtsrcSGkuEA8t5K/Untitled?node-id=0-1
+
+    Miro: Diagramas de flujo y arquitectura del sistema.
+    https://miro.com/welcomeonboard/dDZKQjl6NldwdnpabldQWmdxL0E5YVBzaTV6WGRTVWhFbWNSUXI0Q1V0SmJrUWJyc1dCSUNIN3dtS21qb2J4OVpXcEJ0VmVPbzRVNXlSRmMyK0haU2dnc2tNb0pYQVo2dldSRXAzRnh1VkhCMmRuTDgzam9JK1hTRHIyUk9RS3NyVmtkMG5hNDA3dVlncnBvRVB2ZXBnPT0hdjE
+
+    Documentos clave:
+
+        Product Backlog - JubiPago.pdf
+
+        SRS.pdf (Especificación de Requisitos del Software)
+
+        Diagramas UML:
+
+            Contexto del sistema
+
+            Clases
+
+            Objetos
+
+⚙️ Instalación
+
+    Clonar el repositorio:
+
+    git clone https://github.com/ValentinPastre/AnalisisYDise-o_Taller_Proyecto.git
+    cd AnalisisYDise-o_Taller_Proyecto
+
+    Construir la imagen Docker:
+
+    docker build -t jubipago-app .
+
+    Ejecutar el contenedor:
+
+    docker run -p 3000:3000 jubipago-app
+
+🚀 Uso
+
+Una vez iniciado el contenedor, la aplicación estará disponible en http://localhost:3000. Desde allí, se puede interactuar con la interfaz de usuario diseñada para facilitar los pagos de los jubilados.
+
+🛠️ Tecnologías utilizadas
+
+    Ruby: Lenguaje de programación principal.
+
+    Docker: Contenerización de la aplicación para facilitar su despliegue.
+
+    Figma: Diseño de interfaces de usuario.
+
+    Miro: Diagramación y planificación del proyecto.
+
+👥 Autores
+
+    Valentín Pastre
+
+    Francisco Gribaudo
     
-    Figma:
-    https://www.figma.com/design/T6FTRXlNtsrcSGkuEA8t5K/Untitled?node-id=0-1&t=MooqtATIebR8zgUm-1
-
-    Miro:
-    https://miro.com/welcomeonboard/dDZKQjl6NldwdnpabldQWmdxL0E5YVBzaTV6WGRTVWhFbWNSUXI0Q1V0SmJrUWJyc1dCSUNIN3dtS21qb2J4OVpXcEJ0VmVPbzRVNXlSRmMyK0haU2dnc2tNb0pYQVo2dldSRXAzRnh1VkhCMmRuTDgzam9JK1hTRHIyUk9RS3NyVmtkMG5hNDA3dVlncnBvRVB2ZXBnPT0hdjE=?share_link_id=231358031658
+    Camilo Girardi
     
+    Francisco Andeani
     
-# Proyecto Ruby con ActiveRecord, Docker y SQLite3
-
-Este proyecto es un ejemplo básico de cómo usar ActiveRecord sin Rails, utilizando SQLite3 como base de datos.
-
-## ✅ Requisitos
-
-- Ruby instalado (`ruby -v`)
-- Bundler instalado (`gem install bundler`)
-- Git (opcional, para clonar el repo)
-
-## 🚀 Instalación
-
-1. Clona este repositorio:
-
-```bash
-git clone https://github.com/tu-usuario/tu-repo.git
-cd tu-repo
-
-    
-    
-    
-    
-
+    Fabricio Parejo
