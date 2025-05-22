@@ -1,0 +1,28 @@
+current directory: C:/Users/frana/OneDrive/Desktop/Ruby/vendor/bundle/ruby/3.2.0/gems/puma-6.6.0/ext/puma_http11
+C:/Ruby32-x64/bin/ruby.exe extconf.rb
+checking for whether -fstack-protector-strong -D_FORTIFY_SOURCE=2 is accepted as CFLAGS... yes
+checking for whether -fstack-protector-strong -l:libssp.a is accepted as LDFLAGS... yes
+checking for -lssp... yes
+checking for BIO_read() in -llibcrypto... no
+checking for BIO_read() in -lcrypto... no
+checking for BIO_read() in -llibeay32... no
+** Puma will be compiled without SSL support
+creating Makefile
+
+current directory: C:/Users/frana/OneDrive/Desktop/Ruby/vendor/bundle/ruby/3.2.0/gems/puma-6.6.0/ext/puma_http11
+make DESTDIR\= sitearchdir\=./.gem.20250515-16428-ui1ocp sitelibdir\=./.gem.20250515-16428-ui1ocp clean
+
+current directory: C:/Users/frana/OneDrive/Desktop/Ruby/vendor/bundle/ruby/3.2.0/gems/puma-6.6.0/ext/puma_http11
+make DESTDIR\= sitearchdir\=./.gem.20250515-16428-ui1ocp sitelibdir\=./.gem.20250515-16428-ui1ocp
+generating puma_http11-x64-mingw-ucrt.def
+compiling http11_parser.c
+compiling mini_ssl.c
+compiling puma_http11.c
+linking shared-object puma/puma_http11.so
+
+current directory: C:/Users/frana/OneDrive/Desktop/Ruby/vendor/bundle/ruby/3.2.0/gems/puma-6.6.0/ext/puma_http11
+make DESTDIR\= sitearchdir\=./.gem.20250515-16428-ui1ocp sitelibdir\=./.gem.20250515-16428-ui1ocp install
+/usr/bin/install -c -m 0755 puma_http11.so ./.gem.20250515-16428-ui1ocp/puma
+
+current directory: C:/Users/frana/OneDrive/Desktop/Ruby/vendor/bundle/ruby/3.2.0/gems/puma-6.6.0/ext/puma_http11
+make DESTDIR\= sitearchdir\=./.gem.20250515-16428-ui1ocp sitelibdir\=./.gem.20250515-16428-ui1ocp clean

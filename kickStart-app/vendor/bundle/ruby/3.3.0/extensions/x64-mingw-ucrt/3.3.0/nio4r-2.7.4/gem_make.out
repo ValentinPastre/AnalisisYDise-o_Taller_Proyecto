@@ -1,0 +1,18 @@
+current directory: C:/Users/frana/OneDrive/Desktop/Ruby/vendor/bundle/ruby/3.3.0/gems/nio4r-2.7.4/ext/nio4r
+C:/Ruby33-x64/bin/ruby.exe extconf.rb
+
+current directory: C:/Users/frana/OneDrive/Desktop/Ruby/vendor/bundle/ruby/3.3.0/gems/nio4r-2.7.4/ext/nio4r
+make DESTDIR\= sitearchdir\=./.gem.20250515-23468-meo0sm sitelibdir\=./.gem.20250515-23468-meo0sm clean
+make: *** No rule to make target 'clean'.  Stop.
+
+current directory: C:/Users/frana/OneDrive/Desktop/Ruby/vendor/bundle/ruby/3.3.0/gems/nio4r-2.7.4/ext/nio4r
+make DESTDIR\= sitearchdir\=./.gem.20250515-23468-meo0sm sitelibdir\=./.gem.20250515-23468-meo0sm
+make: Nothing to be done for 'all'.
+
+current directory: C:/Users/frana/OneDrive/Desktop/Ruby/vendor/bundle/ruby/3.3.0/gems/nio4r-2.7.4/ext/nio4r
+make DESTDIR\= sitearchdir\=./.gem.20250515-23468-meo0sm sitelibdir\=./.gem.20250515-23468-meo0sm install
+make: Nothing to be done for 'install'.
+
+current directory: C:/Users/frana/OneDrive/Desktop/Ruby/vendor/bundle/ruby/3.3.0/gems/nio4r-2.7.4/ext/nio4r
+make DESTDIR\= sitearchdir\=./.gem.20250515-23468-meo0sm sitelibdir\=./.gem.20250515-23468-meo0sm clean
+make: *** No rule to make target 'clean'.  Stop.
