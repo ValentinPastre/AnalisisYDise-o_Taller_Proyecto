@@ -33,11 +33,15 @@ Este repositorio contiene el desarrollo del proyecto JubiPago, realizado en el m
 
     Construir la imagen Docker:
 
-    docker-compose build
+        docker-compose build
 
     Ejecutar el contenedor:
 
-    docker-compose up
+        docker-compose up
+    
+    Crear la base de datos:
+
+        docker-compose exec app bundle exec rake db:create
 
 🚀 Uso
 
