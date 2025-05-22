@@ -33,11 +33,11 @@ Este repositorio contiene el desarrollo del proyecto JubiPago, realizado en el m
 
     Construir la imagen Docker:
 
-    docker build -t jubipago-app .
+    docker-compose build
 
     Ejecutar el contenedor:
 
-    docker run -p 3000:3000 jubipago-app
+    docker-compose up
 
 🚀 Uso
 
