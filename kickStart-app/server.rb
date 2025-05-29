@@ -25,14 +25,42 @@ class App < Sinatra::Application
   get '/' do
     erb :inicio
   end
-   
-  get '/signup' do  
-    erb :signup
-  end 
   
   get '/login' do  
     erb :login
   end 
+  
+  get '/signup' do  
+    erb :signup
+  end 
+  
+  post '/signup' do
+    dni = params[:dni]
+    email = params[:email]
+    password = params[:password]
+    confirm = params[:confirmPassword]
+    name = params[:name]
+    last_name = params[:last_name]
+    if password != confirm
+      puts "Las contraseñas no coinciden"
+    end
+
+    if User.exists?(dni: dni)
+      puts "El DNI ya está registrado"
+    end 
+
+    if User.exists?(email: email)
+      puts "El correo ya está registrado"
+    end
+
+    user = User.new(
+    dni: dni,
+    email: email,
+    name: name,
+    )
+    redirect '/login'
+  end
+
 
   get '/logout' do 
     session.clear
