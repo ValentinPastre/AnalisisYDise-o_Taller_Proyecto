@@ -1,13 +1,118 @@
-<h2>Sign Up</h2>
-<form action="/signup" method="post">
-  <label>Name:</label><br>
-  <input type="text" name="name" required><br>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sign Up</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      padding: 20px;
+    }
+    form {
+      max-width: 350px;
+      margin: 0 auto;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    label {
+      font-weight: bold;
+      margin-top: 10px;
+      display: block;
+    }
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-top: 4px;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 20px;
+      background-color: #4CAF50;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:disabled {
+      background-color: #a5a5a5;
+      cursor: default;
+    }
+  </style>
+</head>
+<body>
 
-  <label>Email:</label><br>
-  <input type="email" name="email" required><br>
+  <h2 style="text-align:center;">Sign Up</h2>
 
-  <label>Password:</label><br>
-  <input type="password" name="password" required><br><br>
+  <form action="/signup" method="post" onsubmit="return validarFormulario();">
+    <!-- Si usás Rails, recordá incluir csrf_meta_tags en el layout -->
 
-  <button type="submit">Sign Up</button>
-</form>
+    <label>Name:</label>
+    <input type="text" name="name" required>
+
+    <label>Lastname:</label>
+    <input type="text" lastname="lastname" required>
+
+    <label>DNI:</label>
+    <input type="text" dni="dni" required>
+
+    <label>CUIL:</label>
+    <input type="text" cuil="cuil" required>
+
+    <label>Email:</label>
+    <input type="email" id="email" name="email" required>
+
+    <label>Confirm Email:</label>
+    <input type="email" id="confirm_email" required>
+
+    <label>Password:</label>
+    <input type="password" id="password" name="password" required>
+
+    <label>Confirm Password:</label>
+    <input type="password" id="confirm_password" required>
+
+    <button type="submit" id="submit_button" disabled>Sign Up</button>
+  </form>
+
+  <script>
+    const email = document.getElementById('email');
+    const confirmEmail = document.getElementById('confirm_email');
+    const password = document.getElementById('password');
+    const confirmPassword = document.getElementById('confirm_password');
+    const submitButton = document.getElementById('submit_button');
+
+    const campos = [email, confirmEmail, password, confirmPassword];
+
+    campos.forEach(campo => campo.addEventListener('input', validarCampos));
+
+    function validarCampos() {
+      const emailOK = email.value === confirmEmail.value && email.value !== '';
+      const passOK = password.value === confirmPassword.value && password.value !== '';
+
+      if (emailOK && passOK) {
+        submitButton.disabled = false;
+        submitButton.style.backgroundColor = "#4CAF50";
+        submitButton.style.cursor = "pointer";
+      } else {
+        submitButton.disabled = true;
+        submitButton.style.backgroundColor = "#a5a5a5";
+        submitButton.style.cursor = "default";
+      }
+    }
+
+    function validarFormulario() {
+      return email.value === confirmEmail.value &&
+            password.value === confirmPassword.value;
+    }
+  </script>
+
+</body>
+</html>
