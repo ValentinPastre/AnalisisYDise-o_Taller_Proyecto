@@ -23,9 +23,20 @@ class App < Sinatra::Application
   end
 
   get '/' do
-    name = "juan"
-    u = User.new(name: name)
-    @user_name = u.name
-    erb :welcome
+    erb :inicio
   end
+   
+  get '/signup' do  
+    erb :signup
+  end 
+  
+  get '/login' do  
+    erb :login
+  end 
+
+  get '/logout' do 
+    session.clear
+    redirect '/login'
+  end 
+
 end

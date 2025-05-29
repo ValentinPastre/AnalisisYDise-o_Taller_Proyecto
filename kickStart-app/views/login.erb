@@ -1,10 +1,95 @@
-<h2>Login</h2>
-<form action="/login" method="post">
-  <label>Email:</label><br>
-  <input type="email" name="email" required><br>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>JubiPago - Inicio de Sesión</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+    }
 
-  <label>Password:</label><br>
-  <input type="password" name="password" required><br><br>
+    .logo {
+      margin-bottom: 10px;
+    }
 
-  <button type="submit">Login</button>
-</form>
+    .container {
+      text-align: center;
+    }
+
+    .login-box {
+      background-color: #d9d9d9;
+      padding: 30px;
+      border-radius: 15px;
+      width: 300px;
+      margin: 0 auto;
+    }
+
+    input[type="email"],
+    input[type="password"] {
+      width: 90%;
+      padding: 10px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 5px;
+    }
+
+    button {
+      background-color: #8c8c8c;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 20px;
+      width: 100%;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .create-account {
+      margin-top: 40px;
+    }
+
+    .create-account button {
+      background-color: #d9d9d9;
+      color: black;
+      padding: 10px 20px;
+      border-radius: 20px;
+      font-size: 16px;
+    }
+
+    .create-account p {
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <img src="AnalisisYDise-o_Taller_Proyecto\kickStart-app\Images\JubiPago2.png" alt="JubiPago Logo" class="logo" width="100">
+    <h2>¡HOLA!</h2>
+    <div class="login-box">
+      <form action="/login" method="post">
+        <div style="text-align: left;">
+          <label>Email</label><br>
+          <input type="email" name="email" required><br>
+          <label>Contraseña</label><br>
+          <input type="password" name="password" required><br>
+        </div>
+        <button type="submit">Ingresar</button>
+      </form>
+    </div>
+
+    <div class="create-account">
+      <p>¿No tienes una cuenta? ¡Haz click aquí!</p>
+      <button onclick="location.href='/signup'">Crear Cuenta </button>
+    </div>
+  </div>
+
+</body>
+</html>
