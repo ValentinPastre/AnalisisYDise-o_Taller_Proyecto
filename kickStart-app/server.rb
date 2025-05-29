@@ -13,6 +13,8 @@ class App < Sinatra::Application
     logger = Logger.new(STDOUT)
     logger.level = Logger::DEBUG if development?
     set :logger, logger
+    set :views, File.dirname(__FILE__) + '/views'
+    set :public_folder, File.dirname(__FILE__) + '/public'
 
     register Sinatra::Reloader
     after_reload do
@@ -21,6 +23,9 @@ class App < Sinatra::Application
   end
 
   get '/' do
-    'Welcome'
+    name = "juan"
+    u = User.new(name: name)
+    @user_name = u.name
+    erb :welcome
   end
 end
