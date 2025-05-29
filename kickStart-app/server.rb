@@ -35,28 +35,19 @@ class App < Sinatra::Application
   end 
   
   post '/signup' do
+
     dni = params[:dni]
     email = params[:email]
     password = params[:password]
     confirm = params[:confirmPassword]
     name = params[:name]
     last_name = params[:last_name]
-    if password != confirm
-      puts "Las contraseñas no coinciden"
-    end
-
-    if User.exists?(dni: dni)
-      puts "El DNI ya está registrado"
-    end 
-
-    if User.exists?(email: email)
-      puts "El correo ya está registrado"
-    end
 
     user = User.new(
     dni: dni,
     email: email,
     name: name,
+    last_name: lastname
     )
     redirect '/login'
   end
