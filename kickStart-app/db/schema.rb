@@ -10,7 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_30_024918) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_29_224624) do
+  create_table "accounts", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "balance", default: 0
+    t.string "password_digest"
+    t.string "cvu"
+    t.string "alias"
+    t.string "email"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_accounts_on_user_id"
+  end
+
   create_table "security_questions", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "account_id", null: false
@@ -22,17 +34,30 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_30_024918) do
     t.index ["user_id"], name: "index_security_questions_on_user_id"
   end
 
-  create_table "users", force: :cascade do |t|
-    t.string "name"
+  create_table "transactions", force: :cascade do |t|
+    t.integer "source_account_id"
+    t.integer "target_account_id"
+    t.integer "amount"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "dni"
-    t.string "lastname"
-    t.string "password_digest"
-    t.integer "cuil"
-    t.string "email"
+    t.index ["source_account_id"], name: "index_transactions_on_source_account_id"
+    t.index ["target_account_id"], name: "index_transactions_on_target_account_id"
   end
 
+  create_table "users", force: :cascade do |t|
+    t.string "name"
+    t.string "dni"
+    t.string "lastname"
+    t.string "cuil"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "email"
+    t.string "password_digest"
+  end
+
+  add_foreign_key "accounts", "users"
   add_foreign_key "security_questions", "accounts"
   add_foreign_key "security_questions", "users"
+  add_foreign_key "transactions", "accounts", column: "source_account_id"
+  add_foreign_key "transactions", "accounts", column: "target_account_id"
 end
