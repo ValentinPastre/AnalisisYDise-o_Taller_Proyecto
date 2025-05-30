@@ -41,13 +41,17 @@ class App < Sinatra::Application
     password = params[:password]
     confirm = params[:confirmPassword]
     name = params[:name]
-    last_name = params[:lastname]
+    lastname = params[:lastname]
+    cuil = params[:cuil]
 
     user = User.new(
     dni: dni,
-    email: email,
     name: name,
-    lastname: last_name
+    lastname: lastname,
+    email: email,
+    cuil: cuil,
+    password: password,
+    password_confirmation: confirm
     )
     user.save
     redirect '/login'
