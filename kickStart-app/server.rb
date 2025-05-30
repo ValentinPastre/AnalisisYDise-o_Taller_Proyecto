@@ -66,4 +66,13 @@ class App < Sinatra::Application
     redirect '/login'
   end 
 
+  get '/welcome' do  
+    erb :welcome
+  end 
+
+  post '/login' do
+    redirect '/welcome'
+  end
+
+  
 end

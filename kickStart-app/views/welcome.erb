@@ -1,2 +1,105 @@
-<h2>Welcome, <%= @user_name %>!</h2>
-<p>You are now logged in.</p>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Panel de Usuario</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+      background-color: #f4f4f4;
+    }
+
+    .panel {
+      max-width: 500px;
+      margin: 0 auto;
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #ccc;
+    }
+
+    .dinero {
+      background-color: #e0e0e0;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 5px;
+      font-size: 18px;
+      text-align: center;
+    }
+
+    .botones {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .botones a {
+      display: block;
+      text-align: center;
+      background-color: #d3d3d3;
+      padding: 15px;
+      border-radius: 8px;
+      text-decoration: none;
+      color: black;
+      font-weight: bold;
+    }
+
+    .historial {
+      background-color: #e0e0e0;
+      padding: 15px;
+      border-radius: 5px;
+    }
+
+    .historial h3 {
+      text-align: center;
+      margin-top: 0;
+    }
+
+    .transaccion {
+      text-align: center;
+      margin: 10px 0;
+    }
+
+    .ver-mas {
+      display: block;
+      text-align: center;
+      margin-top: 15px;
+      background-color: #ccc;
+      padding: 10px;
+      border-radius: 5px;
+      text-decoration: none;
+      color: black;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="panel">
+    <div class="dinero">
+      <strong>Tu Dinero</strong><br>
+      $ ***
+    </div>
+
+    <div class="botones">
+      <a href="/transferir">Transferir dinero</a>
+      <a href="/alias">Mi Alias - CVU</a>
+      <a href="/contactos">Contactos</a>
+      <a href="/pagar-servicios">Pagar Servicios</a>
+      <a href="/ahorros">Ahorros</a>
+      <a href="/obra-social">Obra Social</a>
+    </div>
+
+    <div class="historial">
+      <h3>Historial</h3>
+      <div class="transaccion">$**** fue enviado a ------ el día **/**/****</div>
+      <div class="transaccion">$**** fue enviado a ------ el día **/**/****</div>
+      <div class="transaccion">$**** fue enviado a ------ el día **/**/****</div>
+      <div class="transaccion">$**** fue enviado a ------ el día **/**/****</div>
+      <div class="transaccion">$**** fue enviado a ------ el día **/**/****</div>
+      <a class="ver-mas" href="/historial">Ver más</a>
+    </div>
+  </div>
+</body>
+</html>
