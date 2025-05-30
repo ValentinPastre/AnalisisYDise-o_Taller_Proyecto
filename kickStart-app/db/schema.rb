@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_29_224624) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_30_004301) do
   create_table "security_questions", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "account_id", null: false
@@ -28,6 +28,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_29_224624) do
     t.datetime "updated_at", null: false
     t.string "email"
     t.string "password_digest"
+    t.integer "dni"
+    t.integer "cuil"
+    t.string "lastname"
   end
 
   add_foreign_key "security_questions", "accounts"
