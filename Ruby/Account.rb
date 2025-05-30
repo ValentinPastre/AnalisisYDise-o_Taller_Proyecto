@@ -3,7 +3,7 @@ require_relative 'Movement'
 require_relative 'SecurtiyQuestion'
 
 class Account
-  attr_accessor :password, :email, :balance, :cvu, :alias, :securityQ, :email
+  attr_accessor :password, :email, :balance, :cvu, :alias, :securityQ, :email, :saving
   #ver si SecurityQuestion debe ser una clase propia o clase asociacion
   
   def initialize(password, email, user)
@@ -38,4 +38,10 @@ class Account
         @securityQ = securityQ
   end
 
+  def add_saving(saving)
+      saving.account = self
+      #Este ahorro pertenece a esta cuenta
+      @savings << saving
+      #Agrega el ahorro al array @savings de la cuenta, guarda todos los ahorros relacionados a la cuenta
+  end
 end
