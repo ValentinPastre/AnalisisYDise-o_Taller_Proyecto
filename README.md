@@ -41,12 +41,19 @@ Este repositorio contiene el desarrollo del proyecto JubiPago, realizado en el m
     
     Crear la base de datos:
 
-        docker-compose exec app bundle exec rake db:create
-    
-    Desarollo de la base de datos:
         docker-compose exec app bundle exec rake db:drop
+
+        docker-compose exec app bundle exec rake db:create
+        
         docker-compose exec app bundle exec rake db:migrate
 
+    Para migrar tablas individualmente:
+
+        docker-compose exec app bundle exec rake db:migrate:up  VERSION="Numero de la migracion"
+
+    Para acceder al sqlite:
+
+        docker compose exec app sqlite3 db/wallet_development.sqlite3
 
 🚀 Uso
 
