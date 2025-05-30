@@ -54,6 +54,9 @@ class App < Sinatra::Application
     password_confirmation: confirm
     )
     user.save
+
+    # Agregar creación de account y manejo de error en caso que no se cree el usuario
+
     redirect '/login'
   end
 
