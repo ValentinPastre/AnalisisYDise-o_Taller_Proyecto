@@ -2,6 +2,8 @@ class Transaction < ActiveRecord::Base
   belongs_to :source_account, class_name: 'Account'
   belongs_to :target_account, class_name: 'Account'
 
+  validate :has_enough_balance, on: :create
+  
   after_create :transfer_balance
 
   private
@@ -14,6 +16,13 @@ class Transaction < ActiveRecord::Base
 
       target_account.balance += amount
       target_account.save!
+    end
+  end
+
+  def has_enough_balance
+    if source_account.balance < amount
+      errors.add(:amount, "No tiene suficiente balance para realizar el movimiento")
+    else
     end
   end
 end
