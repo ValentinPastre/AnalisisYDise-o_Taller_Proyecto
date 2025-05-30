@@ -47,7 +47,7 @@ class App < Sinatra::Application
     dni: dni,
     email: email,
     name: name,
-    last_name: lastname
+    lastname: last_name
     )
     redirect '/login'
   end
