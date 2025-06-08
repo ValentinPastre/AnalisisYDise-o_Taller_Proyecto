@@ -1,6 +1,6 @@
 class Service < ActiveRecord::Base
 
   has_many :expirations
-  belongs_to :obra_social
-  
+  has_one :obra_social
+  has_one :expiration
 end
