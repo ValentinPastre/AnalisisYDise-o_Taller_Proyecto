@@ -1,7 +1,7 @@
 require 'bundler/setup'
 require 'sinatra/activerecord'
 require_relative 'models/user'
-#require_relative 'models/account'
+require_relative 'models/account'
 require 'sinatra/base'
 require 'sinatra/reloader' if Sinatra::Base.environment == :development
 require 'logger'
@@ -54,6 +54,12 @@ class App < Sinatra::Application
     password_confirmation: confirm
     )
     user.save
+
+    account = user.build_account(email: email,
+      password: password, 
+      password_confirmation: confirm
+    )
+    account.save
 
     # Agregar creación de account y manejo de error en caso que no se cree el usuario
 
