@@ -1,6 +1,7 @@
 class Transaction < ActiveRecord::Base
   belongs_to :source_account, class_name: 'Account'
   belongs_to :target_account, class_name: 'Account'
+  has_many :confident
 
   validate :has_enough_balance, on: :create
   
