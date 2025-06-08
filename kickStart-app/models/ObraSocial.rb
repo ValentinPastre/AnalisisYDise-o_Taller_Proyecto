@@ -1,4 +1,5 @@
 class ObraSocial < ActiveRecord::Base
-  has_many :services
-  has_many :notifications
+  belongs_to :service
+  has_many :service
+  has_many :notification
 end
