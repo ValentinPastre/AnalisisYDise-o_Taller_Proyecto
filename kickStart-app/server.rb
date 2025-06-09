@@ -7,6 +7,7 @@ require 'sinatra/reloader' if Sinatra::Base.environment == :development
 require 'logger'
 
 class App < Sinatra::Application
+  enable :sessions
 
   configure :development do
     enable :logging
@@ -73,12 +74,21 @@ class App < Sinatra::Application
   end 
 
   get '/welcome' do  
+    redirect '/login' unless session[:user_id]
     erb :welcome
   end 
 
   post '/login' do
-    redirect '/welcome'
-  end
+    email = params[:email]
+    password = params[:password]
+    account = Account.find_by(email: email)
 
-  
+    if account && account.authenticate(password)
+      session[:user_id] = account.user.id
+      redirect '/welcome'
+    else
+      @error = "Email o contraseña incorrectos"
+      erb :login
+    end
+  end
 end
