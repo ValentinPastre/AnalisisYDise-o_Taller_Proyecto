@@ -13,7 +13,7 @@ class Account < ActiveRecord::Base
   validates :cvu, uniqueness: true
 
   before_create :generate_cvu_and_alias
-  after_create :generate_virtual_debit_card
+  #after_create :generate_virtual_debit_card
   
   # logica de generacion de cvu y alias
   private

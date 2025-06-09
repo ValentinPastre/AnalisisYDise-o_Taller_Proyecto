@@ -1,5 +1,7 @@
 <header style="display: flex; align-items: center; justify-content: space-between; padding: 10px 30px;">
-  <img src="/images/jubipago.png" alt="JubiPago Logo" style="height: 60px;">
+  <a href="/welcome">
+    <img src="/images/jubipago.png" alt="JubiPago Logo" style="height: 60px;">
+  </a>
 
   <div style="display: flex; align-items: center; gap: 25px;">
     <div style="text-align: center;">
@@ -9,7 +11,7 @@
     
     <div style="text-align: center;">
       <img src="/images/user-Icon.png" alt="Usuario" style="width: 40px; height: 40px; border-radius: 50%; background-color: #e0e5e7;"><br>
-      <span style="font-size: 12px;">(NOMBRE)</span>
+      <span style="font-size: 12px;"><%= @user&.name || "Invitado" %></span>
     </div>
 
     <div>

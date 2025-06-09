@@ -75,10 +75,14 @@ class App < Sinatra::Application
 
   get '/welcome' do  
     redirect '/login' unless session[:user_id]
+    @user = User.find(session[:user_id])
+    @account = @user.account
+    @balance = @account&.balance || "Vacío"
     erb :welcome
   end 
 
   get '/saving' do
+    @user = User.find(session[:user_id]) if session[:user_id]
     erb :saving
   end
     
@@ -86,7 +90,8 @@ class App < Sinatra::Application
     redirect '/savings_list' 
   end
 
-  get '/savings_list' do  
+  get '/savings_list' do
+    @user = User.find(session[:user_id]) if session[:user_id]
     erb :savings_list
   end
 
