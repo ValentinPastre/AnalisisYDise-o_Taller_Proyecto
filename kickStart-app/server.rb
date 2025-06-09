@@ -140,6 +140,29 @@ end
     erb :alias
   end
 
+  get '/change_alias' do
+    redirect 'login' unless session[:user_id]
+    erb :change_alias
+  end
+
+  post '/change_alias' do
+    redirect 'login' unless session[:user_id]
+
+    usuario = User.find(session[:user_id])
+    cuenta = usuario.account
+
+    new_alias = params[:nuevo_alias].strip
+
+    if new_alias.empty?
+      return "El alias no puede estar vacio"
+    end
+
+    cuenta.alias = new_alias
+    cuenta.save
+
+    redirect '/alias'
+  end
+
   post '/login' do
     email = params[:email]
     password = params[:password]
