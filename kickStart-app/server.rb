@@ -78,6 +78,22 @@ class App < Sinatra::Application
     erb :welcome
   end 
 
+  get '/saving' do
+    erb :saving
+  end
+    
+  post '/saving' do
+    redirect '/savings_list' 
+  end
+
+  get '/savings_list' do  
+    erb :savings_list
+  end
+
+  post '/savings_list' do
+    redirect '/welcome'
+  end
+
   post '/login' do
     email = params[:email]
     password = params[:password]

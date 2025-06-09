@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>JubiPago - Nuevo Ahorro</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    .logo {
+      margin-bottom: 10px;
+    }
+
+    .container {
+      text-align: center;
+      width: 300px;
+    }
+
+    .saving-box {
+      background-color: #d9d9d9;
+      padding: 30px;
+      border-radius: 15px;
+      margin: 20px 0;
+    }
+
+    input[type="text"],
+    input[type="number"] {
+      width: 90%;
+      padding: 10px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 5px;
+    }
+
+    button {
+      background-color: #8c8c8c;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 20px;
+      width: 100%;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .info-text {
+      margin-bottom: 20px;
+      text-align: left;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <img src="/images/jubipago.png" alt="JubiPago Logo" width="200">
+    <h2>¿CÓMO FUNCIONA?</h2>
+    <div class="info-text">
+      <p>El ahorro funciona separando un monto de su cantidad disponible de dinero. Este monto queda inutilizable hasta que se decida retirar.</p>
+      <p>Una vez que se decida retirar el dinero del ahorro, el mismo volverá a estar disponible para su uso.</p>
+    </div>
+
+    <div class="saving-box">
+      <h3>Ingrese el monto que desea ahorrar</h3>
+      <form action="/saving" method="post">
+        <div style="text-align: left;">
+          <label>Nombre del ahorro</label><br>
+          <input type="text" name="saving[name]" required><br>
+          <label>Monto</label><br>
+          <input type="number" step="0.01" min="0.01" name="saving[amount]" required><br>
+        </div>
+        <button type="submit">Siguiente</button>
+      </form>
+    </div>
+  </div>
+
+</body>
+</html>
