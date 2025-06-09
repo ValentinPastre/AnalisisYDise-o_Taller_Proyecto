@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Alias - CVU</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: white;
+      text-align: center;
+    }
+
+    .info-box {
+      display: inline-block;
+      margin-top: 40px;
+      background-color: #d9d9d9;
+      padding: 20px 30px;
+      border-radius: 15px;
+      font-size: 18px;
+      text-align: left;
+    }
+
+    .info-box span {
+      color: gray;
+    }
+
+    .texto-cambio {
+      margin-top: 60px;
+      font-size: 20px;
+      font-weight: normal;
+    }
+
+    .boton-alias {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 15px 30px;
+      background-color: #d9d9d9;
+      border-radius: 12px;
+      font-size: 20px;
+      font-weight: bold;
+      text-decoration: none;
+      color: black;
+    }
+
+    .boton-alias:hover {
+      background-color: #bfbfbf;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="info-box">
+    Tu Alias es: <span><%= @alias %></span><br>
+    Tu CVU es: <span><%= @cvu %></span>
+  </div>
+
+  <div class="texto-cambio">
+    ¿Desea cambiar el alias?<br>
+    Presione el botón
+  </div>
+
+  <a href="/cambiar_alias" class="boton-alias">Cambiar Alias</a>
+
+</body>
+</html>

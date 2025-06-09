@@ -94,6 +94,18 @@ class App < Sinatra::Application
     redirect '/welcome'
   end
 
+  get '/alias' do
+    redirect 'login' unless session[:user_id]
+
+    usuario = User.find(session[:user_id])
+    cuenta = usuario.account
+
+    @alias = cuenta.alias
+    @cvu = cuenta.cvu
+
+    erb :alias
+  end
+
   post '/login' do
     email = params[:email]
     password = params[:password]
