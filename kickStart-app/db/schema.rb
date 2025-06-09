@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_29_224624) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_08_235347) do
   create_table "accounts", force: :cascade do |t|
     t.integer "user_id"
     t.integer "balance", default: 0
@@ -23,14 +23,34 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_29_224624) do
     t.index ["user_id"], name: "index_accounts_on_user_id"
   end
 
+  create_table "confidents", force: :cascade do |t|
+    t.integer "accounts_id", null: false
+    t.integer "transactions_id", null: false
+    t.string "email"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["accounts_id"], name: "index_confidents_on_accounts_id"
+    t.index ["transactions_id"], name: "index_confidents_on_transactions_id"
+  end
+
+  create_table "coverages", force: :cascade do |t|
+    t.integer "obras_sociales_id", null: false
+    t.integer "services_id", null: false
+    t.integer "coverage_percentage"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["obras_sociales_id"], name: "index_coverages_on_obras_sociales_id"
+    t.index ["services_id"], name: "index_coverages_on_services_id"
+  end
+
   create_table "expirations", force: :cascade do |t|
-    t.integer "service_id", null: false
+    t.integer "services_id", null: false
     t.integer "recharge_percentage"
     t.date "date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "state", default: 1, null: false
-    t.index ["service_id"], name: "index_expirations_on_service_id"
+    t.index ["services_id"], name: "index_expirations_on_services_id"
   end
 
   create_table "obras_sociales", force: :cascade do |t|
@@ -83,14 +103,19 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_29_224624) do
     t.string "cuil"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "email"
-    t.string "password_digest"
   end
 
   add_foreign_key "accounts", "users"
-  add_foreign_key "expirations", "services"
+  add_foreign_key "confidents", "accounts", column: "accounts_id"
+  add_foreign_key "confidents", "transactions", column: "transactions_id"
+  add_foreign_key "coverages", "obras_sociales", column: "obras_sociales_id"
+  add_foreign_key "coverages", "services", column: "services_id"
+  add_foreign_key "expirations", "services", column: "services_id"
+  add_foreign_key "obras_sociales", "users", column: "users_id"
   add_foreign_key "security_questions", "accounts"
   add_foreign_key "security_questions", "users"
+  add_foreign_key "services", "obras_sociales", column: "obras_sociales_id"
+  add_foreign_key "services", "transactions", column: "transactions_id"
   add_foreign_key "transactions", "accounts", column: "source_account_id"
   add_foreign_key "transactions", "accounts", column: "target_account_id"
 end
