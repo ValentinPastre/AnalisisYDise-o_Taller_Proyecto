@@ -48,21 +48,21 @@ class App < Sinatra::Application
     dni: dni,
     name: name,
     lastname: lastname,
-    email: email,
-    cuil: cuil,
-    password: password,
-    password_confirmation: confirm
+    cuil: cuil
     )
-    user.save
-
-    account = user.build_account(email: email,
-      password: password, 
-      password_confirmation: confirm
-    )
-    account.save
-
-    # Agregar creación de account y manejo de error en caso que no se cree el usuario
-
+    if user.save
+      account = user.build_account(
+        email: email,
+        password: password, 
+        password_confirmation: confirm
+      )
+      if account.save
+        #cuenta creada exitosamente
+      else
+        user.destroy
+      end
+    end
+    
     redirect '/login'
   end
 
