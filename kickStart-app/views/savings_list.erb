@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>JubiPago - Mis Ahorros</title>
   <style>
+    /* Mantén tus estilos actuales */
     body {
       font-family: Arial, sans-serif;
       background-color: white;
@@ -14,75 +15,7 @@
       margin: 0;
       padding: 20px 0;
     }
-
-    .logo {
-      margin-bottom: 10px;
-    }
-
-    .container {
-      text-align: center;
-      width: 300px;
-    }
-
-    .saving-item {
-      background-color: #d9d9d9;
-      padding: 15px;
-      border-radius: 15px;
-      margin: 10px 0;
-      text-align: left;
-    }
-
-    .saving-name {
-      font-weight: bold;
-      font-size: 18px;
-      margin-bottom: 5px;
-    }
-
-    .saving-amount {
-      font-size: 16px;
-      color: #333;
-    }
-
-    .action-buttons {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 10px;
-    }
-
-    .action-buttons button {
-      width: 48%;
-      padding: 5px;
-      border-radius: 20px;
-      border: none;
-      font-size: 14px;
-      cursor: pointer;
-    }
-
-    .add-button {
-      background-color: #8c8c8c;
-      color: white;
-    }
-
-    .withdraw-button {
-      background-color: #d9d9d9;
-      color: black;
-      border: 1px solid #8c8c8c !important;
-    }
-
-    .new-saving {
-      margin-top: 20px;
-    }
-
-    .new-saving button {
-      background-color: #8c8c8c;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 20px;
-      width: 100%;
-      font-size: 16px;
-      cursor: pointer;
-    }
+    /* ... (otros estilos) ... */
   </style>
 </head>
 <body>
@@ -91,22 +24,26 @@
     <img src="/images/jubipago.png" alt="JubiPago Logo" width="200">
     <h2>MIS AHORROS</h2>
 
-    <% @saving.each do |saving| %>
-      <div class="saving-item">
-        <div class="saving-name"><%= saving.name %></div>
-        <div class="saving-amount">$<%= "%.2f" % saving.amount %> ahorrados</div>
-        <div class="action-buttons">
-          <button class="add-button" onclick="location.href='/saving/new'">Agregar</button>
-          <form action="/saving/<%= saving.id %>" method="post" style="display: inline;">
-            <input type="hidden" name="_method" value="delete">
-            <button type="submit" class="withdraw-button">Retirar</button>
-          </form>
+    <% if @savings.any? %>
+      <% @savings.each do |saving| %>
+        <div class="saving-item">
+          <div class="saving-name"><%= saving.name %></div>
+          <div class="saving-amount">$<%= "%.2f" % saving.amount %> ahorrados</div>
+          <div class="action-buttons">
+            <button class="add-button" onclick="location.href='/saving'">Agregar</button>
+            <form action="/saving/<%= saving.id %>" method="post" style="display: inline;">
+              <input type="hidden" name="_method" value="delete">
+              <button type="submit" class="withdraw-button">Retirar</button>
+            </form>
+          </div>
         </div>
-      </div>
+      <% end %>
+    <% else %>
+      <p>No tienes ahorros creados aún.</p>
     <% end %>
 
     <div class="new-saving">
-      <button onclick="location.href='/saving/new'">Nuevo Ahorro</button>
+      <button onclick="location.href='/saving'">Nuevo Ahorro</button>
     </div>
   </div>
 
