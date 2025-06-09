@@ -13,6 +13,7 @@ class Account < ActiveRecord::Base
   validates :cvu, uniqueness: true
 
   before_create :generate_cvu_and_alias
+  after_create :generate_virtual_debit_card
   
   # logica de generacion de cvu y alias
   private
@@ -37,5 +38,13 @@ class Account < ActiveRecord::Base
       new_alias = "#{adjectives.sample}.#{nouns.sample}.#{rand(100..999)}"
       break new_alias unless Account.exists?(alias: new_alias)
     end
+  end
+
+  def generate_virtual_debit_card
+      create_virtual_debit_card!(
+      card_number: Array.new(16) { rand(0..9) }.join,
+      security_code: Array.new(3) { rand(0..9) }.join,
+      expiration: Date.new(Date.today.next_year(7).year, 12, 31)
+    )
   end
 end
