@@ -144,16 +144,19 @@ end
   get '/alias' do
     redirect 'login' unless session[:user_id]
 
-    usuario = User.find(session[:user_id])
-    cuenta = usuario.account
+    @user = User.find(session[:user_id])
+    @cuenta = @user.account
 
-    @alias = cuenta.alias
-    @cvu = cuenta.cvu
+    @alias = @cuenta.alias
+    @cvu = @cuenta.cvu
 
     erb :alias
   end
 
   get '/change_alias' do
+    @user = User.find(session[:user_id])
+    @cuenta = @user.account
+
     redirect 'login' unless session[:user_id]
     erb :change_alias
   end
