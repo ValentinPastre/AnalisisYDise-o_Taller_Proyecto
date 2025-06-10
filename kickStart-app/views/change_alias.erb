@@ -58,10 +58,28 @@
     .boton-confirmar:hover {
       background-color: #bfbfbf;
     }
+
+    
+    .error-mensaje {
+        background-color: #f8d7da;
+        color: #842029;
+        border: 1px solid #f5c2c7;
+        padding: 12px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        font-size: 15px;
+    }
+
+
   </style>
 </head>
 <body>
 
+  <% if @error %>
+    <div class="error-mensaje">
+      <%= @error %>
+    </div>
+  <% end %>
   <form action="/change_alias" method="post" class="form-container">
     <div class="form-box">
       <label for="nuevo_alias">Escriba su nuevo Alias:</label>

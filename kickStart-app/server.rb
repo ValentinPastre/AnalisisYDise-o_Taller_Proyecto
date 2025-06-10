@@ -162,22 +162,27 @@ end
   end
 
   post '/change_alias' do
-    redirect 'login' unless session[:user_id]
+  redirect '/login' unless session[:user_id]
 
-    usuario = User.find(session[:user_id])
-    cuenta = usuario.account
+  @user = User.find(session[:user_id])
+  @cuenta = @user.account
 
-    new_alias = params[:nuevo_alias].strip
+  nuevo_alias = params[:nuevo_alias].strip
 
-    if new_alias.empty?
-      return "El alias no puede estar vacio"
-    end
-
-    cuenta.alias = new_alias
-    cuenta.save
-
-    redirect '/alias'
+  if nuevo_alias.empty?
+    @error = "El alias no puede estar vacío"
+    return erb :change_alias
   end
+
+  @cuenta.alias = nuevo_alias
+
+  if @cuenta.save
+    redirect '/alias'
+  else
+    @error = @cuenta.errors.full_messages.first
+    erb :change_alias
+  end
+end
 
   post '/login' do
     email = params[:email]

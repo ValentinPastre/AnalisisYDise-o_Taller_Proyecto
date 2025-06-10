@@ -11,7 +11,7 @@ class Account < ActiveRecord::Base
   has_secure_password
 
   # verifica que el alias y cvu sean unicos
-  validates :alias, uniqueness: true
+  validates :alias, uniqueness: { message: "ya está en uso. Elegí otro." }
   validates :cvu, uniqueness: true
 
   before_create :generate_cvu_and_alias
