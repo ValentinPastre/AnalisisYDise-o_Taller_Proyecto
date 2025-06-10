@@ -6,6 +6,7 @@ require_relative 'models/saving'
 require 'sinatra/base'
 require 'sinatra/reloader' if Sinatra::Base.environment == :development
 require 'logger'
+require_relative 'models/transaction'
 
 class App < Sinatra::Application
   enable :sessions
@@ -25,7 +26,7 @@ class App < Sinatra::Application
   end
 
   get '/' do
-    erb :inicio
+    erb :login
   end
   
   get '/login' do  
@@ -79,8 +80,19 @@ class App < Sinatra::Application
     @user = User.find(session[:user_id])
     @account = @user.account
     @balance = @account&.balance || "Vacío"
+    #@movements = @account ? @account.source_transactions.order(created_at: :desc).limit(5) : []
     erb :welcome
   end 
+
+  get '/historial' do
+    redirect '/login' unless session[:user_id]
+    @user = User.find(session[:user_id])
+    @account = @user.account
+    @movements = @account ? @account.source_transactions.order(created_at: :desc) : []
+    @contacts = @movements.map { |mov| mov.target_account&.user }.compact.uniq
+    erb :historial
+  end
+
 # Ruta para mostrar el formulario de ahorro
 get '/saving' do
   redirect '/login' unless session[:user_id]
