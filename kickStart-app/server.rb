@@ -2,6 +2,7 @@ require 'bundler/setup'
 require 'sinatra/activerecord'
 require_relative 'models/user'
 require_relative 'models/account'
+require_relative 'models/saving'
 require 'sinatra/base'
 require 'sinatra/reloader' if Sinatra::Base.environment == :development
 require 'logger'
@@ -96,7 +97,7 @@ post '/saving' do
   @account = @user.account
   
   @saving = @account.savings.new(
-    name: params[:saving][:name],
+    description: params[:saving][:name],
     amount: params[:saving][:amount]
   )
   

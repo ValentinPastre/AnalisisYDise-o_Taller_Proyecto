@@ -5,7 +5,7 @@ class Account < ActiveRecord::Base
   has_one :security_questions
   has_one :virtual_debit_card
   has_many :source_transactions, class_name: 'Transaction', foreign_key: :source_account_id
-  has_many :savings, class_name: 'Saving'
+  has_many :savings
   has_many :confident
 
   has_secure_password
@@ -15,7 +15,7 @@ class Account < ActiveRecord::Base
   validates :cvu, uniqueness: true
 
   before_create :generate_cvu_and_alias
-  #after_create :generate_virtual_debit_card
+  after_create :generate_virtual_debit_card
   
   # logica de generacion de cvu y alias
   private

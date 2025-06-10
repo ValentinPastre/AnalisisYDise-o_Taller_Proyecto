@@ -27,7 +27,7 @@
     <% if @savings.any? %>
       <% @savings.each do |saving| %>
         <div class="saving-item">
-          <div class="saving-name"><%= saving.name %></div>
+          <div class="saving-name"><%= saving.description %></div>
           <div class="saving-amount">$<%= "%.2f" % saving.amount %> ahorrados</div>
           <div class="action-buttons">
             <button class="add-button" onclick="location.href='/saving'">Agregar</button>
