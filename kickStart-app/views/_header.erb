@@ -14,8 +14,27 @@
       <span style="font-size: 12px;"><%= @user&.name || "Invitado" %></span>
     </div>
 
-    <div>
-      <i class="fas fa-ellipsis-v" style="font-size: 20px;"></i>
+    <div style="position: relative;">
+      <i class="fas fa-ellipsis-v" id="menu-toggle" style="font-size: 28px; cursor: pointer;"></i>
+      <div id="dropdown-menu" style="display: none; position: absolute; right: 0; top: 35px; background: #fff; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); min-width: 120px; z-index: 100;">
+        <form action="/logout" method="get" style="margin: 0;">
+          <button type="submit" style="width: 100%; padding: 10px; border: none; background: none; cursor: pointer; text-align: left;">Cerrar sesión</button>
+        </form>
+      </div>
     </div>
   </div>
 </header>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const toggle = document.getElementById('menu-toggle');
+    const menu = document.getElementById('dropdown-menu');
+    document.addEventListener('click', function(e) {
+      if (toggle.contains(e.target)) {
+        menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+      } else if (!menu.contains(e.target)) {
+        menu.style.display = 'none';
+      }
+    });
+  });
+</script>
