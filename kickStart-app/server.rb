@@ -32,6 +32,20 @@ class App < Sinatra::Application
   get '/login' do  
     erb :login
   end 
+
+  post '/login' do
+    email = params[:email]
+    password = params[:password]
+    account = Account.find_by(email: email)
+
+    if account && account.authenticate(password)
+      session[:user_id] = account.user.id
+      redirect '/welcome'
+    else
+      @error = "Email o contraseña incorrectos"
+      erb :login
+    end
+  end
   
   get '/signup' do  
     erb :signup
@@ -184,17 +198,22 @@ end
   end
 end
 
-  post '/login' do
-    email = params[:email]
-    password = params[:password]
-    account = Account.find_by(email: email)
-
-    if account && account.authenticate(password)
-      session[:user_id] = account.user.id
-      redirect '/welcome'
-    else
-      @error = "Email o contraseña incorrectos"
-      erb :login
-    end
+  get '/obra-social' do
+    erb :obra_social
   end
+
+  post '/obra-social' do
+    if [params[:obra_social], params[:documento], params[:credencial]].any?(&:nil?) ||
+        [params[:obra_social], params[:documento], params[:credencial]].any?(&:empty?)
+      @error = "Todos los campos son obligatorios"
+      return erb :obra_social
+    end
+
+    redirect '/discounts'
+  end
+
+  get '/discounts' do
+    erb :discounts
+  end
+  
 end
