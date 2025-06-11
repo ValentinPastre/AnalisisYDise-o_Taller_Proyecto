@@ -88,7 +88,7 @@ class App < Sinatra::Application
     session.clear
     redirect '/login'
   end 
-
+# Ruta para mostrar la página de bienvenida 
   get '/welcome' do  
     redirect '/login' unless session[:user_id]
     @user = User.find(session[:user_id])
@@ -98,6 +98,7 @@ class App < Sinatra::Application
     erb :welcome
   end 
 
+# Ruta para mostrar el historial de transacciones y contactos
   get '/historial' do
     redirect '/login' unless session[:user_id]
     @user = User.find(session[:user_id])
@@ -215,5 +216,62 @@ end
   get '/discounts' do
     erb :discounts
   end
+
+  get '/transferir' do
+    redirect '/login' unless session[:user_id]
+    
+    @user = User.find(session[:user_id])
+    @account = @user.account
+    @contacts = @account.source_transactions.map { |mov| mov.target_account&.user }.compact.uniq
+
+    erb :transferir
+  end
+
+  get '/transferencia' do
+    erb :transferencia
+  end
+
+  post '/transferencia' do
+    redirect '/login' unless session[:user_id]
+    monto = params[:monto].to_f
+    destino = params[:destino]&.strip
+
+    @user = User.find(session[:user_id])
+    @account = @user.account
+
+    # Buscar cuenta destino por alias, cvu o email
+    dest_account = Account.find_by(alias: destino) || Account.find_by(cvu: destino) || Account.find_by(email: destino)
+
+    if dest_account.nil?
+      @balance = @account.balance
+      @destino = destino
+      @error = "No se encontró la cuenta destino."
+      return erb :transferencia
+    end
+
+    if monto <= 0
+      @balance = @account.balance
+      @destino = destino
+      @error = "El monto debe ser mayor a 0."
+      return erb :transferencia
+    end
+
+    if @account.balance < monto
+      @balance = @account.balance
+      @destino = destino
+      @error = "No tienes saldo suficiente."
+      return erb :transferencia
+    end
+
+    # Crear la transacción (esto actualiza los saldos por el callback en Transaction)
+    Transaction.create!(
+      source_account: @account,
+      target_account: dest_account,
+      amount: monto
+    )
+
+    redirect '/welcome'
+  end
+
   
 end
