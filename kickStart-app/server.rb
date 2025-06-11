@@ -94,7 +94,7 @@ class App < Sinatra::Application
     @user = User.find(session[:user_id])
     @account = @user.account
     @balance = @account&.balance || "Vacío"
-    #@movements = @account ? @account.source_transactions.order(created_at: :desc).limit(5) : []
+    @movements = @account ? @account.source_transactions.order(created_at: :desc).limit(5) : []
     erb :welcome
   end 
 
