@@ -157,11 +157,11 @@ class App < Sinatra::Application
       @contacto.errors.add(:alias, "Ya tenes agregado a este contacto en tu lista")
       @contacts = account.contacts
       return erb :contactos_agregar
-  end
+    end
   
-  account.contacts << contacto
-  redirect '/contactos'
-end
+    account.contacts << contacto
+    redirect '/contactos'
+  end
 
 get '/contactos/eliminar' do
   redirect '/login' unless session[:user_id]
