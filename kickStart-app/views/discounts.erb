@@ -6,100 +6,83 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
+      background-color: #f4f4f4;
+      margin: 30px;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h2 {
       text-align: center;
+      margin-bottom: 30px;
     }
 
-    h1 {
-      margin-top: 60px;
-      font-size: 28px;
-    }
-
-    .section {
-      background-color: #d9d9d9;
-      margin: 30px auto;
-      padding: 20px;
-      width: 80%;
-      max-width: 600px;
-      border-radius: 15px;
-      text-align: left;
-    }
-
-    .section h2 {
-      font-size: 18px;
-      margin-bottom: 10px;
-    }
-
-    .content-box {
-      background-color: white;
-      padding: 15px 20px;
+    .info-box {
+      background-color: #f0f0f0;
+      padding: 15px;
       border-radius: 10px;
+      margin-bottom: 25px;
     }
 
-    .item {
+    .discount {
+      background-color: #e0f7fa;
+      border-left: 6px solid #00acc1;
+      padding: 12px 16px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+    }
+
+    .no-discounts {
+      text-align: center;
+      color: #777;
+      font-style: italic;
+    }
+
+    .card-linea {
       display: flex;
       justify-content: space-between;
-      padding: 5px 0;
+      align-items: center;
+      background-color: white;
+      border-radius: 10px;
+      padding: 12px 20px;
+      margin-bottom: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      font-family: Arial, sans-serif;
     }
+
+    .card-linea span {
+      margin-right: 20px;
+    }
+
   </style>
 </head>
 <body>
+  <div class="container">
+    <h2>Descuentos disponibles</h2>
 
-  <h1>Descuentos de tu obra social</h1>
-
-  <!-- Farmacias -->
-  <div class="section">
-    <h2>Farmacias</h2>
-    <div class="content-box">
-      <div class="item">
-        <span>Farmacia Gonzalez</span>
-        <span>descuento: 30%</span>
-      </div>
-      <div class="item">
-        <span>Farmacia Pepe</span>
-        <span>descuento: 15%</span>
-      </div>
-      <div class="item">
-        <span>Farmacia Rio IV</span>
-        <span>descuento: 10%</span>
-      </div>
+    <div class="info-box">
+      <p><strong>Usuario:</strong> <%= @user.name %> </p>
+      <p><strong>Obra social:</strong> <%= @obra_social.name %> </p>
     </div>
-  </div>
 
-  <!-- Consultas -->
-  <div class="section">
-    <h2>Consultas</h2>
-    <div class="content-box">
-      <div class="item">
-        <span>Pediatría</span>
-        <span>sin costo</span>
-      </div>
-      <div class="item">
-        <span>Odontología</span>
-        <span>solo coseguro</span>
-      </div>
-      <div class="item">
-        <span>Cardiología</span>
-        <span>sin costo</span>
-      </div>
-    </div>
+    <% if @notifications.any? %>
+      <% @notifications.each do |notification| %>
+        <div class="card-linea">
+          <span><strong>Producto:</strong> <%= notification.product %></span>
+          <span><strong>Descuento:</strong> <%= notification.discount %>%</span>
+          <span><strong>Válido hasta:</strong> <%= notification.promo_end_date.strftime("%d/%m/%Y") %></span>
+        </div>
+      <% end %>
+    <% else %>
+      <p class="no-discounts">No hay descuentos disponibles para tu obra social.</p>
+    <% end %>
   </div>
-
-  <!-- Medicamentos -->
-  <div class="section">
-    <h2>Medicamentos</h2>
-    <div class="content-box">
-      <div class="item">
-        <span>Recetados</span>
-        <span>descuento: 50%</span>
-      </div>
-      <div class="item">
-        <span>Crónicos</span>
-        <span>descuento: 100%</span>
-      </div>
-    </div>
-  </div>
-
 </body>
 </html>

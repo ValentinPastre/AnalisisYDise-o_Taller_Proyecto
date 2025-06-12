@@ -3,6 +3,8 @@ require 'sinatra/activerecord'
 require_relative 'models/user'
 require_relative 'models/account'
 require_relative 'models/saving'
+require_relative 'models/obra_social'
+require_relative 'models/notification'
 require 'sinatra/base'
 require 'sinatra/reloader' if Sinatra::Base.environment == :development
 require 'logger'
@@ -209,11 +211,26 @@ end
       return erb :obra_social
     end
 
+    #session[:documento]   = params[:documento]
+    session[:obra_social] = params[:obra_social]
+
     redirect '/discounts'
   end
 
   get '/discounts' do
+    #documento = session[:documento]
+    redirect '/login' unless session[:user_id]
+    @user = User.find(session[:user_id])
+    @cuenta = @user.account
+    @obra_social = ObraSocial.find_by(name: session[:obra_social])
+
+    @notifications = Notification.where(
+      account_id: @cuenta.id,
+      obras_sociales_id: @obra_social.id
+    )
+
     erb :discounts
   end
+
   
 end
