@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Transferencia</title>
+    <style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 30px;
+    }
+
+    .panel {
+        max-width: 500px;
+        margin: 0 auto;
+        background-color: white;
+        padding: 30px 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px #ccc;
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+    }
+
+    .input-box, .contact-box, .button-next {
+        background-color: #e4e4e4;
+        border-radius: 10px;
+        padding: 20px;
+        width: 100%;
+        box-sizing: border-box;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .input-box input {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 12px 14px;
+        font-size: 14px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        background-color: #f9f9f9;
+        box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
+        transition: all 0.2s ease-in-out;
+        margin-top: 10px;
+    }
+
+    .input-box input:focus {
+        outline: none;
+        border-color: #999;
+        background-color: #fff;
+        box-shadow: 0 0 0 2px rgba(0,0,0,0.05);
+    }
+
+    .contact-box table {
+        background: #fff;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+        width: 100%;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    .contact-box th, .contact-box td {
+        text-align: left;
+        padding: 8px;
+    }
+
+    .contact-box th {
+        font-weight: bold;
+        background: #f0f0f0;
+    }
+
+    .contact-box img {
+        width: 24px;
+        height: 24px;
+        vertical-align: middle;
+        margin-right: 5px;
+    }
+
+    .contact-box .ver-mas {
+        text-align: center;
+    }
+
+    .contact-box .ver-mas button {
+        padding: 6px 20px;
+        border: none;
+        background-color: #fff;
+        border-radius: 4px;
+        cursor: pointer;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+    }
+
+    .button-next {
+        text-align: center;
+    }
+
+    .button-next button {
+        padding: 10px 30px;
+        font-size: 16px;
+        border: none;
+        border-radius: 8px;
+        background-color: #d0d0d0;
+        cursor: pointer;
+    }
+    </style>
+</head>
+<body>
+    <div class="panel">
+        <div class="input-box">
+            <label>¿A quien le quieres transferir?</label><br>
+            <input type="text" placeholder="Ingrese Alias o CBU/CVU">
+        </div>
+
+        <div class="contact-box">
+            <label>O selecciona un contacto</label>
+            <table>
+                <tr>
+                    <th>Nombre contacto</th>
+                    <th>Banco o Tarjeta</th>
+                </tr>
+                <% if @contacts.any? %>
+                    <% @contacts.each do |contact| %>
+                        <tr>
+                        <td>
+                            <form action="/transferencia" method="post" style="display:inline;">
+                            <input type="hidden" name="destino" value="<%= contact.account.alias %>">
+                            <button type="submit" style="background:none;border:none;color:#007bff;cursor:pointer;text-decoration:underline;padding:0;">
+                            👤 <%= contact.name %> <%= contact.lastname %>
+                            </button>
+                            </form>
+                        </td>
+                        <td>JubiPago</td>
+                        </tr>
+                    <% end %>
+                <% else %>
+                    <tr>
+                        <td colspan="2">No hay contactos aún</td>
+                    </tr>
+                <% end %>
+            </table>
+            <div class="ver-mas">
+                <button onclick="window.location.href='/contactos'">Ver más</button>
+            </div>
+        </div>
+
+            <div class="button-next">
+            <form action="/transferencia" method="post">
+                <input type="hidden" name="destino" id="destino-hidden">
+                <button type="submit">Siguiente</button>
+            </form>
+        </div>
+    </div>
+    <script>
+      // Copia el valor del input principal al hidden antes de enviar
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('.button-next form');
+            const input = document.querySelector('.input-box input');
+            const hidden = document.getElementById('destino-hidden');
+            form.addEventListener('submit', function(e) {
+                hidden.value = input.value.trim();
+                if (!hidden.value) {
+                    e.preventDefault();
+                    alert('Por favor ingresa un Alias, CBU o CVU antes de continuar.');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
