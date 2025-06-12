@@ -93,6 +93,31 @@ class App < Sinatra::Application
     erb :historial
   end
 
+  get '/contactos' do
+    redirect '/login' unless session[:user_id]
+    @user = User.find(session[:user_id])
+    @account = @user.account
+    @contacts = @account.contacts
+    erb :contactos
+  end
+
+  get '/contactos-agregar' do
+    redirect '/login' unless session[:user_id]
+    @user = User.find(session[:user_id])
+    @account = @user.account
+    @contacts = @account.contacts
+    erb :contactos_agregar
+  end
+
+  post '/contactos-agregar' do
+    redirect '/login' unless session[:user_id]
+    @user = User.find(session[:user_id])
+    @account = @user.account
+    contact = Account.find_by(alias: params[:alias].to_s.strip)
+    account.contacts << contact
+    redirect '/contactos'
+  end
+
 # Ruta para mostrar el formulario de ahorro
 get '/saving' do
   redirect '/login' unless session[:user_id]
