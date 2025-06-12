@@ -132,28 +132,31 @@ class App < Sinatra::Application
     erb :contactos_agregar
   end
 
-post '/contactos/agregar' do
-  redirect '/login' unless session[:user_id]
-  user = User.find(session[:user_id])
-  account = user.account
-  alias_ingresado = params[:alias].to_s.strip
-  contacto = Account.find_by(alias: alias_ingresado)
+  post '/contactos/agregar' do
+    redirect '/login' unless session[:user_id]
+    user = User.find(session[:user_id])
+    account = user.account
+    alias_ingresado = params[:alias].to_s.strip
+    contacto = Account.find_by(alias: alias_ingresado)
 
-  if contacto.nil?
-    # mostrar mensaje de error en la vista si querés
-    @error = "No existe ninguna cuenta con el alias '#{alias_ingresado}'"
-    @contacts = account.contacts
-    return erb :contactos
-  end
-  if contacto == account
-    @error = "No podés agregarte a vos mismo como contacto"
-    @contacts = account.contacts
-    return erb :contactos
-  end
-  if account.contacts.include?(contacto)
-    @error = "Ese contacto ya está en tu lista"
-    @contacts = account.contacts
-    return erb :contactos
+    if contacto.nil?
+      # mostrar mensaje de error en la vista si querés
+      @contacto = Account.new(alias: alias_ingresado)
+      @contacto.errors.add(:alias, "No existe ninguna cuenta con el alias ingresado")
+      @contacts = account.contacts
+      return erb :contactos_agregar
+    end
+    if contacto == account
+      @contacto = Account.new(alias: alias_ingresado)
+      @contacto.errors.add(:alias, "No podes ingresarte a vos mismo como contacto")
+      @contacts = account.contacts
+      return erb :contactos_agregar
+    end
+    if account.contacts.include?(contacto)
+      @contacto = Account.new(alias: alias_ingresado)
+      @contacto.errors.add(:alias, "Ya tenes agregado a este contacto en tu lista")
+      @contacts = account.contacts
+      return erb :contactos_agregar
   end
   
   account.contacts << contacto

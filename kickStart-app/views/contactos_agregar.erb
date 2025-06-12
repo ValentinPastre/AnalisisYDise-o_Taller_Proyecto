@@ -89,13 +89,6 @@
     <h2>Agregar contacto</h2>
     <table>
       <tbody>
-        <% if @contacto && @contacto.errors.any? %>
-          <div style="color: red;">
-            <% @contacto.errors.full_messages.each do |message| %>
-              <p><%= message %></p>
-            <% end %>
-          </div>
-        <% end %>
         <form action="/contactos/agregar" method="post">
             <label for="alias" style="display: block; margin-bottom: 8px; font-weight: bold; color: #444;">
               Alias del contacto
@@ -103,11 +96,19 @@
                 <input type="text" name="alias" placeholder="Ingrese el alias de su contacto" required
                   style="width: 95%; padding: 10px; font-size: 15px; margin-bottom: 5px; border-radius: 5px; border: 1px solid #ccc;">
 
-                <div class="actions">
-                  <div class="button">
-                    <button type="submit" class="metro-button">Agregar</button>
-                  </div>
-                </div>
+                    <% if @contacto && @contacto.errors.any? %>
+                      <div style="color: red;">
+                        <% @contacto.errors.full_messages.each do |message| %>
+                          <p><%= message %></p>
+                        <% end %>
+                      </div>
+                    <% end %>
+
+                    <div class="actions">
+                      <div class="button">
+                        <button type="submit" class="metro-button">Agregar</button>
+                      </div>
+                    </div>
         </form>
       </tbody>
     </table>
