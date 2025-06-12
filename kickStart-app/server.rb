@@ -202,6 +202,8 @@ end
 end
 
   get '/obra-social' do
+    redirect '/login' unless session[:user_id]
+    @user = User.find(session[:user_id])
     erb :obra_social
   end
 
