@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Lista de Contactos - JubiPago</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: #f6f6f6;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      width: 80%;
+      max-width: 400px;
+      margin: 40px auto;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.1);
+      padding: 30px;
+    }
+    .header img {
+      height: 40px;
+    }
+    .header span {
+      margin-left: 15px;
+      font-weight: bold;
+    }
+    h2 {
+      margin-top: 0px;
+      text-align: center;
+      color: #333;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+    th, td {
+      text-align: left;
+      padding: 12px;
+      border-bottom: 1px solid #ccc;
+    }
+    th {
+      background-color: #f0f0f0;
+    }
+    .actions {
+      margin-top: 20px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+    .button a{
+      padding: 10px 18px;
+      border: none;
+      border-radius: 5px;
+      background-color: #ccc;
+      color: black;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .actions button:hover {
+      background-color: #ccc;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div>
+      </div>
+    </div>
+
+    <h2>Lista de contactos</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Nombre contacto</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if @contacts.any? %>
+            <% @contacts.each do |contact| %>
+                <tr>
+                <td>👤 <%= (contact.user).name %> <%= (contact.user).lastname %></td>
+                </tr>
+            <% end %>
+        <% else %>
+            <tr>
+            <td colspan="2">No hay contactos aún</td>
+            </tr>
+          <% end %>
+      </tbody>
+    </table>
+    
+    <div class="actions">
+      <div class="button">
+        <a href="/contactos-agregar">Agregar</a>
+      </div>
+      <div class="button"> 
+        <a>Eliminar</a>
+    </div>
+    </div>
+  </div>
+</body>
+</html>

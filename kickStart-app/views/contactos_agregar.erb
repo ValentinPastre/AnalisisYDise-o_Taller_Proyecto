@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Lista de Contactos - JubiPago</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: #f6f6f6;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      width: 80%;
+      max-width: 400px;
+      margin: 40px auto;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.1);
+      padding: 30px;
+    }
+    .header img {
+      height: 40px;
+    }
+    .header span {
+      margin-left: 15px;
+      font-weight: bold;
+    }
+    h2 {
+      margin-top: 0px;
+      text-align: center;
+      color: #333;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+    th, td {
+      text-align: left;
+      padding: 12px;
+      border-bottom: 1px solid #ccc;
+    }
+    th {
+      background-color: #f0f0f0;
+    }
+    .actions {
+      margin-top: 20px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+    .button a{
+      padding: 10px 18px;
+      border: none;
+      border-radius: 5px;
+      background-color: #ccc;
+      color: black;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .actions button:hover {
+      background-color: #ccc;
+    }
+    .metro-button {
+      background-color: #d3d3d3;
+      color: black;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      font-size: 15px;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .metro-button:hover {
+      background-color: #ccc;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div>
+      </div>
+    </div>
+
+    <h2>Agregar contacto</h2>
+    <table>
+      <tbody>
+        <% if @contacto && @contacto.errors.any? %>
+          <div style="color: red;">
+            <% @contacto.errors.full_messages.each do |message| %>
+              <p><%= message %></p>
+            <% end %>
+          </div>
+        <% end %>
+        <form action="/contactos-agregar" method="post">
+            <label for="alias" style="display: block; margin-bottom: 8px; font-weight: bold; color: #444;">
+              Alias del contacto
+            </label>
+                <input type="text" name="alias" placeholder="Ingrese el alias de su contacto" required
+                  style="width: 95%; padding: 10px; margin-bottom: 15px; border-radius: 5px; border: 1px solid #ccc;">
+
+                <div class="actions">
+                  <div class="button">
+                    <button type="submit" class="metro-button">Agregar</button>
+                  </div>
+                </div>
+        </form>
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>

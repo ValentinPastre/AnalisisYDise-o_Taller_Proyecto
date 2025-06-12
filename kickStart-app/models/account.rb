@@ -8,6 +8,12 @@ class Account < ActiveRecord::Base
   has_many :savings
   has_many :confident
 
+  has_and_belongs_to_many :contacts, 
+    class_name: 'Account', 
+    join_table: 'accounts_contacts', 
+    foreign_key: 'account_id',
+    association_foreign_key: 'contact_id'
+
   has_secure_password
 
   # verifica que el alias y cvu sean unicos
