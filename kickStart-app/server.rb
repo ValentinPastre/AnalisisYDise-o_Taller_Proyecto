@@ -124,7 +124,7 @@ class App < Sinatra::Application
     erb :contactos
   end
 
-  get '/contactos-agregar' do
+  get '/contactos/agregar' do
     redirect '/login' unless session[:user_id]
     @user = User.find(session[:user_id])
     @account = @user.account
@@ -132,7 +132,7 @@ class App < Sinatra::Application
     erb :contactos_agregar
   end
 
-post '/contactos-agregar' do
+post '/contactos/agregar' do
   redirect '/login' unless session[:user_id]
   user = User.find(session[:user_id])
   account = user.account
@@ -160,6 +160,30 @@ post '/contactos-agregar' do
   redirect '/contactos'
 end
 
+get '/contactos/eliminar' do
+  redirect '/login' unless session[:user_id]
+    @user = User.find(session[:user_id])
+    @account = @user.account
+    @contacts = @account.contacts
+    erb :contactos_eliminar
+end
+
+post '/contactos/eliminar' do
+  redirect '/login' unless session[:user_id]
+
+  @user = User.find(session[:user_id])
+  @account = @user.account
+  contacto = Account.find_by(id: params[:contacto_id])
+
+  if contacto && @account.contacts.include?(contacto)
+    @account.contacts.delete(contacto)
+    redirect '/contactos'
+  else
+    @error = "Contacto no encontrado o no está en tu lista"
+    @contacts = @account.contacts
+    erb :contactos
+  end
+end
 
 
 # Ruta para mostrar el formulario de ahorro

@@ -63,6 +63,26 @@
     .actions button:hover {
       background-color: #ccc;
     }
+    .fila-contacto:hover {
+      background-color: #f0f0f0;
+      cursor: pointer;
+    }
+    .fila-contacto.selected {
+      background-color: #d1eaff;
+    }
+    .metro-button {
+      background-color: #d3d3d3;
+      color: black;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      font-size: 15px;
+      cursor: pointer;
+      letter-spacing: 1px;
+    }
+    .metro-button:hover {
+      background-color: #ccc;
+    }
   </style>
 </head>
 <body>
@@ -73,6 +93,7 @@
     </div>
 
     <h2>Lista de contactos</h2>
+    Seleccione el contacto a eliminar
     <table>
       <thead>
         <tr>
@@ -82,7 +103,7 @@
       <tbody>
         <% if @contacts.any? %>
             <% @contacts.each do |contact| %>
-                <tr>
+                <tr class="fila-contacto" data-id="<%= contact.id %>">
                 <td>👤 <%= (contact.user).name %> <%= (contact.user).lastname %></td>
                 </tr>
             <% end %>
@@ -94,14 +115,39 @@
       </tbody>
     </table>
     
-    <div class="actions">
-      <div class="button">
-        <a href="/contactos/agregar">Agregar</a>
-      </div>
-      <div class="button"> 
-        <a href="/contactos/eliminar">Eliminar</a>
-    </div>
-    </div>
+    <form action="/contactos/eliminar" method="post" id="form-eliminar">
+      <input type="hidden" name="contacto_id" id="contacto_id_input" />
+        <div class="actions">
+            <div class="button">
+                <button type="submit" id="boton-eliminar" class="metro-button" disabled>Eliminar</button>
+            </div>
+        </div>
+    </form>
+
   </div>
+
+  <script>
+  const filas = document.querySelectorAll('.fila-contacto');
+  const inputID = document.getElementById('contacto_id_input');
+  const botonELiminar = document.getElementById('boton-eliminar');
+  let filaSeleccionada = null;
+
+  filas.forEach(fila => {
+    fila.addEventListener('click', () => {
+      if (filaSeleccionada) {
+        filaSeleccionada.classList.remove('selected');
+      }
+      fila.classList.add('selected');
+      filaSeleccionada = fila;
+
+      // ⚠️ Acá podés guardar el ID para enviarlo luego
+      const contactoId = fila.dataset.id;
+      inputID.value = contactoId;
+      botonELiminar.disabled = false;
+    });
+  });
+</script>
+
+
 </body>
 </html>
