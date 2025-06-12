@@ -47,18 +47,24 @@
     .actions {
       margin-top: 20px;
       display: flex;
-      justify-content: flex-end;
+      justify-content: center;
       gap: 10px;
     }
+    .button {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 20px;
+    }
     .button a{
+      display: inline-block; /* o block si preferís */
       padding: 10px 18px;
-      border: none;
       border-radius: 5px;
       background-color: #ccc;
-      color: black;
-      cursor: pointer;
       text-decoration: none;
-      display: inline-block;
+      color: black;
+      min-width: 100px;
+      text-align: center;
     }
     .actions button:hover {
       background-color: #ccc;
@@ -96,11 +102,9 @@
     
     <div class="actions">
       <div class="button">
-        <a href="/contactos/agregar">Agregar</a>
+        <a href="/contactos/agregar">Agregar contacto</a>
+        <a href="/contactos/eliminar">Eliminar contacto</a>
       </div>
-      <div class="button"> 
-        <a href="/contactos/eliminar">Eliminar</a>
-    </div>
     </div>
   </div>
 </body>
