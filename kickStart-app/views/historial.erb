@@ -106,21 +106,35 @@
         <h3>Historial de movimientos</h3>
         <table>
           <tr>
+            <th>Tipo</th>
             <th>Monto</th>
-            <th>Destino</th>
+            <th>Contacto</th>
             <th>Fecha</th>
           </tr>
           <% if @movements.any? %>
             <% @movements.each do |mov| %>
               <tr>
+                <td style="text-align:center;">
+                  <% if mov.source_account_id == @account.id %>
+                    <span style="color:#c00;">Enviado</span>
+                  <% else %>
+                    <span style="color:#090;">Recibido</span>
+                  <% end %>
+                </td>
                 <td>$<%= mov.amount || "Vacío" %></td>
-                <td><%= mov.target_account&.user&.name || "Vacío" %></td>
+                <td>
+                  <% if mov.source_account_id == @account.id %>
+                    <%= mov.target_account&.user&.name || "Vacío" %>
+                  <% else %>
+                    <%= mov.source_account&.user&.name || "Vacío" %>
+                  <% end %>
+                </td>
                 <td><%= mov.created_at ? mov.created_at.strftime("%d/%m/%Y") : "Vacío" %></td>
               </tr>
             <% end %>
           <% else %>
             <tr>
-              <td colspan="3">No hay movimientos</td>
+              <td colspan="4">No hay movimientos</td>
             </tr>
           <% end %>
         </table>
