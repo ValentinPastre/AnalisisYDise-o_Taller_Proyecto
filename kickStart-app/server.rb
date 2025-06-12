@@ -211,7 +211,7 @@ delete '/saving/:id' do
 end
 
   get '/alias' do
-    redirect 'login' unless session[:user_id]
+    redirect '/login' unless session[:user_id]
 
     @user = User.find(session[:user_id])
     @cuenta = @user.account
@@ -226,7 +226,7 @@ end
     @user = User.find(session[:user_id])
     @cuenta = @user.account
 
-    redirect 'login' unless session[:user_id]
+    redirect '/login' unless session[:user_id]
     erb :change_alias
   end
 
@@ -260,20 +260,25 @@ end
   end
 
   post '/obra-social' do
-    if [params[:obra_social], params[:documento], params[:credencial]].any?(&:nil?) ||
-        [params[:obra_social], params[:documento], params[:credencial]].any?(&:empty?)
-      @error = "Todos los campos son obligatorios"
+    @user = User.find(session[:user_id])
+
+    session[:obra_social] = params[:obra_social].upcase
+    @obra_social = ObraSocial.find_by(name: session[:obra_social])
+
+    if @obra_social.nil?
+      @error = "La obra social ingresada no está disponible"
       return erb :obra_social
     end
 
-    #session[:documento]   = params[:documento]
-    session[:obra_social] = params[:obra_social]
+    unless params[:documento] == @user.dni
+      @error = "El documento ingresado no coincide con el del usuario"
+      return erb :obra_social
+    end
 
     redirect '/discounts'
   end
 
   get '/discounts' do
-    #documento = session[:documento]
     redirect '/login' unless session[:user_id]
     @user = User.find(session[:user_id])
     @cuenta = @user.account

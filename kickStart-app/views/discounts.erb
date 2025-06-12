@@ -69,7 +69,7 @@
 
     <div class="info-box">
       <p><strong>Usuario:</strong> <%= @user.name %> </p>
-      <p><strong>Obra social:</strong> <%= @obra_social.name %> </p>
+      <p><strong>Obra social:</strong> <%= @obra_social.name.titleize %> </p>
     </div>
 
     <% if @notifications.any? %>

@@ -62,6 +62,17 @@
       color: red;
       margin-bottom: 20px;
     }
+
+    .error-message {
+      background-color: #ffe0e0;
+      border: 1px solid #ff5c5c;
+      color: #b30000;
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      font-weight: bold;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
@@ -72,8 +83,11 @@
     <h2>Ingrese los datos de su cobertura médica</h2>
 
     <% if @error %>
-      <p class="error"><%= @error %></p>
+      <div class="error-message">
+        <span> <%= @error %></span>
+      </div>
     <% end %>
+
 
     <form action="/obra-social" method="post">
       <label for="obra_social">Obra social</label>
