@@ -5,6 +5,7 @@ require_relative 'models/account'
 require_relative 'models/saving'
 require_relative 'models/obra_social'
 require_relative 'models/notification'
+require_relative 'models/link_obra_social_user'
 require 'sinatra/base'
 require 'sinatra/reloader' if Sinatra::Base.environment == :development
 require 'logger'
@@ -282,8 +283,13 @@ end
 
   get '/obra-social' do
     redirect '/login' unless session[:user_id]
-    @user = User.find(session[:user_id])
-    erb :obra_social
+
+    if session[:obra_social]
+      redirect '/discounts'
+    else 
+      @user = User.find(session[:user_id])
+      erb :obra_social
+    end
   end
 
   post '/obra-social' do
@@ -291,16 +297,27 @@ end
 
     session[:obra_social] = params[:obra_social].upcase
     @obra_social = ObraSocial.find_by(name: session[:obra_social])
-
+    
     if @obra_social.nil?
       @error = "La obra social ingresada no está disponible"
       return erb :obra_social
     end
-
+    
     unless params[:documento] == @user.dni
       @error = "El documento ingresado no coincide con el del usuario"
       return erb :obra_social
     end
+    
+    @link = LinkObraSocialUser.find_by(users_id: session[:user_id], obras_sociales_id: @obra_social.id)
+    if @link.nil?
+      @error = "No se encontraron datos asociados a esta obra social y usuario"
+      return erb :obra_social
+    end
+
+    unless params[:credencial].strip == @link.credential.to_s.strip
+      @error = "La credencial ingresada es incorrecta"
+      return erb :obra_social
+    end 
 
     redirect '/discounts'
   end
