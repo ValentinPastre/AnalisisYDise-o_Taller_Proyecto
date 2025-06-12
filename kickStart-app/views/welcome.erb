@@ -96,7 +96,13 @@
       <% if @movements && @movements.any? %>
         <% @movements.each do |mov| %>
           <div class="transaccion">
-            $<%= mov.amount %> fue enviado a <%= mov.target_account&.user&.name || "Desconocido" %> el día <%= mov.created_at.strftime("%d/%m/%Y") %>
+            <% if mov.source_account_id == @account.id %>
+              <!-- Enviado -->
+              $<%= mov.amount %> fue enviado a <%= mov.target_account&.user&.name || "Desconocido" %> el día <%= mov.created_at.strftime("%d/%m/%Y") %>
+            <% else %>
+              <!-- Recibido -->
+              $<%= mov.amount %> recibido de <%= mov.source_account&.user&.name || "Desconocido" %> el día <%= mov.created_at.strftime("%d/%m/%Y") %>
+            <% end %>
           </div>
         <% end %>
       <% else %>

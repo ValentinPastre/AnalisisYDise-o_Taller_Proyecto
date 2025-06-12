@@ -90,13 +90,16 @@ class App < Sinatra::Application
     session.clear
     redirect '/login'
   end 
+  
 # Ruta para mostrar la página de bienvenida 
   get '/welcome' do  
     redirect '/login' unless session[:user_id]
     @user = User.find(session[:user_id])
     @account = @user.account
     @balance = @account&.balance || "Vacío"
-    @movements = @account ? @account.source_transactions.order(created_at: :desc).limit(5) : []
+    @movements = Transaction.where("source_account_id = ? OR target_account_id = ?", @account.id, @account.id)
+                            .order(created_at: :desc)
+                            .limit(5)
     erb :welcome
   end 
 
@@ -105,8 +108,11 @@ class App < Sinatra::Application
     redirect '/login' unless session[:user_id]
     @user = User.find(session[:user_id])
     @account = @user.account
-    @movements = @account ? @account.source_transactions.order(created_at: :desc) : []
-    @contacts = @movements.map { |mov| mov.target_account&.user }.compact.uniq
+    @movements = Transaction.where("source_account_id = ? OR target_account_id = ?", @account.id, @account.id).order(created_at: :desc)
+    @contacts = @movements.map { |mov| mov.target_account&.user }
+                      .compact
+                      .uniq
+                      .reject { |user| user.id == @user.id }
     erb :historial
   end
 
@@ -248,6 +254,8 @@ end
 end
 
   get '/obra-social' do
+    redirect '/login' unless session[:user_id]
+    @user = User.find(session[:user_id])
     erb :obra_social
   end
 
