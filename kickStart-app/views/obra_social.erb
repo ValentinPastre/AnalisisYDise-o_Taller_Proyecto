@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Obra Social</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+
+    h1 {
+      margin-top: 60px;
+      font-size: 36px;
+    }
+
+    .form-container {
+      background-color: #d9d9d9;
+      width: 60%;
+      max-width: 500px;
+      margin: 40px auto;
+      padding: 30px 40px;
+      border-radius: 20px;
+    }
+
+    .form-container h2 {
+      font-size: 18px;
+      margin-bottom: 30px;
+    }
+
+    label {
+      display: block;
+      text-align: left;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: none;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    button {
+      background-color: #7a7a7a;
+      color: white;
+      padding: 12px 30px;
+      font-size: 16px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #666666;
+    }
+
+    .error {
+      color: red;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Obra social</h1>
+
+  <div class="form-container">
+    <h2>Ingrese los datos de su cobertura médica</h2>
+
+    <% if @error %>
+      <p class="error"><%= @error %></p>
+    <% end %>
+
+    <form action="/obra-social" method="post">
+      <label for="obra_social">Obra social</label>
+      <input type="text" name="obra_social" id="obra_social" required>
+
+      <label for="documento">Número de documento</label>
+      <input type="text" name="documento" id="id" required>
+
+      <label for="credencial">Número de credencial</label>
+      <input type="text" name="credencial" id="credential" required>
+
+      <button type="submit">Ingresar</button>
+    </form>
+    
+  </div>
+
+</body>
+</html>

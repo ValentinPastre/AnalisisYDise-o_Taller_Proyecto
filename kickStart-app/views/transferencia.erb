@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Transferencia</title>
+    <style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 40px 0;
+    }
+
+    .panel {
+        max-width: 500px;
+        margin: 0 auto;
+        background-color: white;
+        padding: 30px 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px #ccc;
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+        align-items: center;
+    }
+
+    .box {
+        background-color: #e4e4e4;
+        border-radius: 10px;
+        padding: 15px 20px;
+        margin-bottom: 0;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        font-size: 16px;
+        font-weight: bold;
+        box-sizing: border-box;
+    }
+
+    .input-container {
+        background-color: #e4e4e4;
+        border-radius: 10px;
+        padding: 20px;
+        width: 100%;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 0;
+    }
+
+    .input-container label {
+        display: block;
+        text-align: center;
+        margin-bottom: 10px;
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .input-container input {
+        width: 100%;
+        padding: 12px;
+        font-size: 14px;
+        border: none;
+        border-radius: 6px;
+        background-color: white;
+        text-align: center;
+        box-sizing: border-box;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    .input-container input::placeholder {
+        color: #999;
+    }
+
+    .button {
+        background-color: #d0d0d0;
+        border: none;
+        padding: 12px 30px;
+        border-radius: 10px;
+        font-size: 16px;
+        cursor: pointer;
+        font-weight: bold;
+        margin-top: 10px;
+        transition: background 0.2s;
+    }
+    .button:hover {
+        background-color: #bcbcbc;
+    }
+    </style>
+</head>
+<body>
+    <div class="panel">
+        <!-- Saldo total -->
+        <div class="box">
+            <span>Saldo total</span>
+            <span>$<%= @balance %></span>
+        </div>
+
+        <!-- Destino -->
+        <div class="box">
+            <span>Destino</span>
+            <span><%= @destino %></span>
+        </div>
+
+        <!-- Ingreso de dinero y botón Transferir -->
+        <form action="/transferencia" method="post" style="width:100%;">
+            <input type="hidden" name="destino" value="<%= @destino %>">
+            <div class="input-container">
+                <label>¿Cuánto dinero quieres transferir?</label>
+                <input type="text" name="monto" placeholder="$**** (Cantidad de plata que desea transferir)" required>
+            </div>
+            <div style="display: flex; justify-content: center;">
+                <button class="button" type="submit">Transferir</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

@@ -93,11 +93,15 @@
 
     <div class="historial">
       <h3>Historial</h3>
-      <div class="transaccion">$**** fue enviado a ------ el día **/**/****</div>
-      <div class="transaccion">$**** fue enviado a ------ el día **/**/****</div>
-      <div class="transaccion">$**** fue enviado a ------ el día **/**/****</div>
-      <div class="transaccion">$**** fue enviado a ------ el día **/**/****</div>
-      <div class="transaccion">$**** fue enviado a ------ el día **/**/****</div>
+      <% if @movements && @movements.any? %>
+        <% @movements.each do |mov| %>
+          <div class="transaccion">
+            $<%= mov.amount %> fue enviado a <%= mov.target_account&.user&.name || "Desconocido" %> el día <%= mov.created_at.strftime("%d/%m/%Y") %>
+          </div>
+        <% end %>
+      <% else %>
+        <div class="transaccion">No hay movimientos recientes.</div>
+      <% end %>
       <a class="ver-mas" href="/historial">Ver más</a>
     </div>
   </div>

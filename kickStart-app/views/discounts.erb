@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Descuentos</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 30px;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .info-box {
+      background-color: #f0f0f0;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 25px;
+    }
+
+    .discount {
+      background-color: #e0f7fa;
+      border-left: 6px solid #00acc1;
+      padding: 12px 16px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+    }
+
+    .no-discounts {
+      text-align: center;
+      color: #777;
+      font-style: italic;
+    }
+
+    .card-linea {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: white;
+      border-radius: 10px;
+      padding: 12px 20px;
+      margin-bottom: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      font-family: Arial, sans-serif;
+    }
+
+    .card-linea span {
+      margin-right: 20px;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Descuentos disponibles</h2>
+
+    <div class="info-box">
+      <p><strong>Usuario:</strong> <%= @user.name %> </p>
+      <p><strong>Obra social:</strong> <%= @obra_social.name %> </p>
+    </div>
+
+    <% if @notifications.any? %>
+      <% @notifications.each do |notification| %>
+        <div class="card-linea">
+          <span><strong>Producto:</strong> <%= notification.product %></span>
+          <span><strong>Descuento:</strong> <%= notification.discount %>%</span>
+          <span><strong>Válido hasta:</strong> <%= notification.promo_end_date.strftime("%d/%m/%Y") %></span>
+        </div>
+      <% end %>
+    <% else %>
+      <p class="no-discounts">No hay descuentos disponibles para tu obra social.</p>
+    <% end %>
+  </div>
+</body>
+</html>

@@ -3,6 +3,8 @@ require 'sinatra/activerecord'
 require_relative 'models/user'
 require_relative 'models/account'
 require_relative 'models/saving'
+require_relative 'models/obra_social'
+require_relative 'models/notification'
 require 'sinatra/base'
 require 'sinatra/reloader' if Sinatra::Base.environment == :development
 require 'logger'
@@ -32,6 +34,20 @@ class App < Sinatra::Application
   get '/login' do  
     erb :login
   end 
+
+  post '/login' do
+    email = params[:email]
+    password = params[:password]
+    account = Account.find_by(email: email)
+
+    if account && account.authenticate(password)
+      session[:user_id] = account.user.id
+      redirect '/welcome'
+    else
+      @error = "Email o contraseña incorrectos"
+      erb :login
+    end
+  end
   
   get '/signup' do  
     erb :signup
@@ -74,16 +90,17 @@ class App < Sinatra::Application
     session.clear
     redirect '/login'
   end 
-
+# Ruta para mostrar la página de bienvenida 
   get '/welcome' do  
     redirect '/login' unless session[:user_id]
     @user = User.find(session[:user_id])
     @account = @user.account
     @balance = @account&.balance || "Vacío"
-    #@movements = @account ? @account.source_transactions.order(created_at: :desc).limit(5) : []
+    @movements = @account ? @account.source_transactions.order(created_at: :desc).limit(5) : []
     erb :welcome
   end 
 
+# Ruta para mostrar el historial de transacciones y contactos
   get '/historial' do
     redirect '/login' unless session[:user_id]
     @user = User.find(session[:user_id])
@@ -209,17 +226,93 @@ end
   end
 end
 
-  post '/login' do
-    email = params[:email]
-    password = params[:password]
-    account = Account.find_by(email: email)
-
-    if account && account.authenticate(password)
-      session[:user_id] = account.user.id
-      redirect '/welcome'
-    else
-      @error = "Email o contraseña incorrectos"
-      erb :login
-    end
+  get '/obra-social' do
+    erb :obra_social
   end
+
+  post '/obra-social' do
+    if [params[:obra_social], params[:documento], params[:credencial]].any?(&:nil?) ||
+        [params[:obra_social], params[:documento], params[:credencial]].any?(&:empty?)
+      @error = "Todos los campos son obligatorios"
+      return erb :obra_social
+    end
+
+    #session[:documento]   = params[:documento]
+    session[:obra_social] = params[:obra_social]
+
+    redirect '/discounts'
+  end
+
+  get '/discounts' do
+    #documento = session[:documento]
+    redirect '/login' unless session[:user_id]
+    @user = User.find(session[:user_id])
+    @cuenta = @user.account
+    @obra_social = ObraSocial.find_by(name: session[:obra_social])
+
+    @notifications = Notification.where(
+      account_id: @cuenta.id,
+      obras_sociales_id: @obra_social.id
+    )
+
+    erb :discounts
+  end
+
+  get '/transferir' do
+    redirect '/login' unless session[:user_id]
+    
+    @user = User.find(session[:user_id])
+    @account = @user.account
+    @contacts = @account.source_transactions.map { |mov| mov.target_account&.user }.compact.uniq
+
+    erb :transferir
+  end
+
+  get '/transferencia' do
+    erb :transferencia
+  end
+
+  post '/transferencia' do
+    redirect '/login' unless session[:user_id]
+    monto = params[:monto].to_f
+    destino = params[:destino]&.strip
+
+    @user = User.find(session[:user_id])
+    @account = @user.account
+
+    # Buscar cuenta destino por alias, cvu o email
+    dest_account = Account.find_by(alias: destino) || Account.find_by(cvu: destino) || Account.find_by(email: destino)
+
+    if dest_account.nil?
+      @balance = @account.balance
+      @destino = destino
+      @error = "No se encontró la cuenta destino."
+      return erb :transferencia
+    end
+
+    if monto <= 0
+      @balance = @account.balance
+      @destino = destino
+      @error = "El monto debe ser mayor a 0."
+      return erb :transferencia
+    end
+
+    if @account.balance < monto
+      @balance = @account.balance
+      @destino = destino
+      @error = "No tienes saldo suficiente."
+      return erb :transferencia
+    end
+
+    # Crear la transacción (esto actualiza los saldos por el callback en Transaction)
+    Transaction.create!(
+      source_account: @account,
+      target_account: dest_account,
+      amount: monto
+    )
+
+    redirect '/welcome'
+  end
+
+  
 end
