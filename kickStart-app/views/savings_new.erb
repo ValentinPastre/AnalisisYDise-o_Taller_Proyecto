@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JubiPago - Nuevo Ahorro</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f8f9fa;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 500px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+    }
+    
+    .logo-container {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+    
+    .logo {
+      width: 180px;
+    }
+    
+    h2 {
+      color: #2c3e50;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    
+    .info-box {
+      background-color: #f8f9fa;
+      border-left: 4px solid #3498db;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 25px;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #2c3e50;
+    }
+    
+    input[type="text"],
+    input[type="number"] {
+      width: 100%;
+      padding: 14px;
+      border: 2px solid #e0e0e0;
+      border-radius: 10px;
+      font-size: 1rem;
+      transition: border-color 0.3s;
+    }
+    
+    input[type="text"]:focus,
+    input[type="number"]:focus {
+      border-color: #3498db;
+      outline: none;
+    }
+    
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-primary {
+      background-color: #3498db;
+      color: white;
+      margin-bottom: 10px;
+    }
+    
+    .btn-secondary {
+      background-color: #95a5a6;
+      color: white;
+    }
+    
+    .error-message {
+      color: #e74c3c;
+      margin: 5px 0;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo-container">
+      <img src="/images/jubipago.png" alt="JubiPago Logo" class="logo">
+    </div>
+    
+    <h2>CREAR NUEVO AHORRO</h2>
+    
+    <div class="info-box">
+      <p>El ahorro funciona separando un monto de su cantidad disponible de dinero. Este monto queda inutilizable hasta que se decida retirar.</p>
+      <p>Una vez que se decida retirar el dinero del ahorro, el mismo volverá a estar disponible para su uso.</p>
+    </div>
+    
+    <h3>Ingrese el monto que desea ahorrar</h3>
+    
+    <form action="/savings" method="post">
+      <div class="form-group">
+        <label for="saving_name">Nombre del ahorro</label>
+        <input type="text" id="saving_name" name="saving[name]" placeholder="Ej: Vacaciones, Auto nuevo..." required>
+      </div>
+      
+      <div class="form-group">
+        <label for="saving_amount">Monto</label>
+        <input type="number" id="saving_amount" name="saving[amount]" min="0.01" step="0.01" placeholder="0.00" required>
+      </div>
+      
+      <% if @saving && @saving.errors.any? %>
+        <div style="color: #e74c3c; margin-bottom: 15px;">
+          <% @saving.errors.full_messages.each do |message| %>
+            <div class="error-message"><%= message %></div>
+          <% end %>
+        </div>
+      <% end %>
+      
+      <button type="submit" class="btn btn-primary">Siguiente</button>
+      <a href="/savings" class="btn btn-secondary">Cancelar</a>
+    </form>
+  </div>
+</body>
+</html>

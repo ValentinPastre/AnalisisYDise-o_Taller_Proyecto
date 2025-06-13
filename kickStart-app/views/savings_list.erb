@@ -2,50 +2,140 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>JubiPago - Mis Ahorros</title>
   <style>
-    /* Mantén tus estilos actuales */
     body {
-      font-family: Arial, sans-serif;
-      background-color: white;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 100vh;
-      margin: 0;
-      padding: 20px 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f8f9fa;
+      padding: 20px;
     }
-    /* ... (otros estilos) ... */
+    
+    .container {
+      max-width: 500px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+    }
+    
+    .logo-container {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+    
+    .logo {
+      width: 180px;
+    }
+    
+    h2 {
+      color: #2c3e50;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    
+    .saving-item {
+      background: white;
+      border-radius: 15px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+      border: 1px solid #e0e0e0;
+    }
+    
+    .saving-name {
+      font-weight: 700;
+      font-size: 1.3rem;
+      color: #2c3e50;
+      text-align: center;
+    }
+    
+    .saving-amount {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #27ae60;
+      text-align: center;
+      margin: 10px 0;
+    }
+    
+    .saving-status {
+      text-align: center;
+      color: #7f8c8d;
+      font-size: 0.9rem;
+      margin-bottom: 15px;
+    }
+    
+    .action-buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-add {
+      background-color: #2ecc71;
+      color: white;
+    }
+    
+    .btn-withdraw {
+      background-color: #e74c3c;
+      color: white;
+    }
+    
+    .btn-primary {
+      background-color: #3498db;
+      color: white;
+      margin-top: 20px;
+    }
+    
+    .btn-secondary {
+      background-color: #95a5a6;
+      color: white;
+      margin-top: 10px;
+    }
   </style>
 </head>
 <body>
-
   <div class="container">
-    <img src="/images/jubipago.png" alt="JubiPago Logo" width="200">
+    <div class="logo-container">
+      <img src="/images/jubipago.png" alt="JubiPago Logo" class="logo">
+    </div>
+    
     <h2>MIS AHORROS</h2>
-
+    
     <% if @savings.any? %>
       <% @savings.each do |saving| %>
         <div class="saving-item">
           <div class="saving-name"><%= saving.description %></div>
-          <div class="saving-amount">$<%= "%.2f" % saving.amount %> ahorrados</div>
+          <div class="saving-amount">$<%= "%.2f" % saving.amount %></div>
+          <div class="saving-status">ahorrados</div>
           <div class="action-buttons">
-            <button class="add-button" onclick="location.href='/saving'">Agregar</button>
-            <form action="/saving/<%= saving.id %>" method="post" style="display: inline;">
+            <button class="btn btn-add" onclick="location.href='/savings/new'">Agregar</button>
+            <form action="/savings/<%= saving.id %>" method="post" style="width: 100%;">
               <input type="hidden" name="_method" value="delete">
-              <button type="submit" class="withdraw-button">Retirar</button>
+              <button type="submit" class="btn btn-withdraw">Retirar</button>
             </form>
           </div>
         </div>
       <% end %>
     <% else %>
-      <p>No tienes ahorros creados aún.</p>
+      <p style="text-align: center; color: #7f8c8d; margin: 30px 0;">No tienes ahorros creados aún.</p>
     <% end %>
-
-    <div class="new-saving">
-      <button onclick="location.href='/saving'">Nuevo Ahorro</button>
-    </div>
+    
+    <a href="/savings/new" class="btn btn-primary">Nuevo Ahorro</a>
+    <a href="/savings" class="btn btn-secondary">Volver</a>
   </div>
-
 </body>
 </html>
