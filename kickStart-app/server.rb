@@ -203,16 +203,24 @@ post '/contactos/eliminar' do
 end
 
 
-# Ruta para mostrar el formulario de ahorro
-get '/saving' do
+# Ruta para el menú principal de ahorros
+get '/savings' do
   redirect '/login' unless session[:user_id]
   @user = User.find(session[:user_id])
   @account = @user.account
-  erb :saving
+  erb :savings_menu
 end
 
-# Ruta para procesar el nuevo ahorro
-post '/saving' do
+# Ruta para mostrar el formulario de creación de ahorro
+get '/savings/new' do
+  redirect '/login' unless session[:user_id]
+  @user = User.find(session[:user_id])
+  @account = @user.account
+  erb :savings_new
+end
+
+# Ruta para procesar el nuevo ahorro (POST)
+post '/savings' do
   redirect '/login' unless session[:user_id]
   
   @user = User.find(session[:user_id])
@@ -224,31 +232,30 @@ post '/saving' do
   )
   
   if @saving.save
-    redirect '/savings_list'
+    redirect '/savings/list'
   else
-    # Mostrar errores si la validación falla
-    erb :saving
+    erb :savings_new
   end
 end
 
 # Ruta para listar ahorros
-get '/savings_list' do
+get '/savings/list' do
   redirect '/login' unless session[:user_id]
   
   @user = User.find(session[:user_id])
   @account = @user.account
-  @savings = @account.savings  # Esto carga todos los ahorros de la cuenta
+  @savings = @account.savings
   
   erb :savings_list
 end
 
-# Ruta para eliminar ahorros
-delete '/saving/:id' do
+# Ruta para eliminar ahorros (retirar)
+delete '/savings/:id' do
   redirect '/login' unless session[:user_id]
   
   saving = Saving.find(params[:id])
   saving.destroy
-  redirect '/savings_list'
+  redirect '/savings/list'
 end
 
   get '/alias' do

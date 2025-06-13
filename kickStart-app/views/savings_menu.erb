@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JubiPago - Mis Ahorros</title>
+  <style>
+    /* Estilos del menú principal */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f8f9fa;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 500px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+    }
+    
+    .logo-container {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+    
+    .logo {
+      width: 180px;
+    }
+    
+    h2 {
+      color: #2c3e50;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    
+    .info-box {
+      background-color: #f8f9fa;
+      border-left: 4px solid #3498db;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 25px;
+    }
+    
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    
+    .option-card {
+      background: #ffffff;
+      border: 2px solid #e0e0e0;
+      border-radius: 15px;
+      padding: 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .option-card:hover {
+      border-color: #3498db;
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(52, 152, 219, 0.2);
+    }
+    
+    .option-card h3 {
+      color: #2c3e50;
+      margin-bottom: 10px;
+    }
+    
+    .option-card p {
+      color: #7f8c8d;
+      font-size: 0.95rem;
+    }
+    
+    .option-icon {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+      color: #3498db;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo-container">
+      <img src="/images/jubipago.png" alt="JubiPago Logo" class="logo">
+    </div>
+    
+    <h2>MIS AHORROS</h2>
+    
+    <div class="info-box">
+      <p>El ahorro funciona separando un monto de su cantidad disponible de dinero. Este monto queda inutilizable hasta que se decida retirar.</p>
+      <p>Una vez que se decida retirar el dinero del ahorro, el mismo volverá a estar disponible para su uso.</p>
+    </div>
+    
+    <div class="options-container">
+      <div class="option-card" onclick="location.href='/savings/new'">
+        <div class="option-icon">💰</div>
+        <h3>Crear Ahorro</h3>
+        <p>Comience un nuevo objetivo de ahorro con un nombre y monto específico</p>
+      </div>
+      
+      <div class="option-card" onclick="location.href='/savings/list'">
+        <div class="option-icon">📋</div>
+        <h3>Ver Ahorros</h3>
+        <p>Revise y gestione sus ahorros existentes</p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
