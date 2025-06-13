@@ -75,14 +75,14 @@
 </head>
 <body>
 
-  <% if @error %>
-    <div class="error-mensaje">
-      <%= @error %>
-    </div>
-  <% end %>
   <form action="/change_alias" method="post" class="form-container">
     <div class="form-box">
       <label for="nuevo_alias">Escriba su nuevo Alias:</label>
+       <% if @error %>
+        <div class="error-mensaje">
+          <%= @error %>
+        </div>
+      <% end %>
       <input type="text" id="nuevo_alias" name="nuevo_alias" placeholder="Alias" required>
     </div>
 

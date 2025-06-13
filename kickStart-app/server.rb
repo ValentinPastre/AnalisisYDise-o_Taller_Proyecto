@@ -276,7 +276,7 @@ end
   if @cuenta.save
     redirect '/alias'
   else
-    @error = @cuenta.errors.full_messages.first
+    @error = "Ese alias ya está en uso, elegí otro"
     erb :change_alias
   end
 end
