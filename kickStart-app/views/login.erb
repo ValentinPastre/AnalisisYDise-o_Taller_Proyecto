@@ -71,6 +71,12 @@
 </head>
 <body>
 
+  <% if @error %>
+      <div class="error-message">
+        <span> <%= @error %></span>
+      </div>
+    <% end %>
+
   <div class="container">
     <img src="/images/jubipago.png" alt="JubiPago Logo" width="200">
     <h2>¡HOLA!</h2>
