@@ -67,20 +67,30 @@
     .create-account p {
       margin-bottom: 10px;
     }
+
+    .error-message {
+      background-color: #ffe0e0;
+      border: 1px solid #ff5c5c;
+      color: #b30000;
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      font-weight: bold;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
-
-  <% if @error %>
-      <div class="error-message">
-        <span> <%= @error %></span>
-      </div>
-    <% end %>
 
   <div class="container">
     <img src="/images/jubipago.png" alt="JubiPago Logo" width="200">
     <h2>¡HOLA!</h2>
     <div class="login-box">
+    <% if @error %>
+      <div class="error-message">
+        <span> <%= @error %></span>
+      </div>
+    <% end %>
       <form action="/login" method="post">
         <div style="text-align: left;">
           <label>Email</label><br>
