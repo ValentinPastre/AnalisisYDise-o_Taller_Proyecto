@@ -284,7 +284,7 @@ end
   get '/obra-social' do
     redirect '/login' unless session[:user_id]
 
-    if session[:obra_social]
+    if session[:obra_social] && session[:credential]
       redirect '/discounts'
     else 
       @user = User.find(session[:user_id])
@@ -318,6 +318,9 @@ end
       @error = "La credencial ingresada es incorrecta"
       return erb :obra_social
     end 
+
+    # para evitar redirect /login cuando la credencial es incorrecta
+    session[:credential] = @link.credential
 
     redirect '/discounts'
   end
