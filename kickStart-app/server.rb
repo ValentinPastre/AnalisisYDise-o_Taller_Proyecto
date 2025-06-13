@@ -64,11 +64,24 @@ class App < Sinatra::Application
     lastname = params[:lastname]
     cuil = params[:cuil]
 
+    if User.exists?(dni: dni)
+      @error = "El dni ya fue registrado"
+      return erb :signup
+    end
+    if User.exists?(cuil: cuil)
+      @error = "El cuil ya fue registrado"
+      return erb :signup
+    end
+    if Account.exists?(email: email)
+      @error = "El correo ya fue registrado"
+      return erb :signup
+    end
+
     user = User.new(
-    dni: dni,
-    name: name,
-    lastname: lastname,
-    cuil: cuil
+      dni: dni,
+      name: name,
+      lastname: lastname,
+      cuil: cuil
     )
     if user.save
       account = user.build_account(

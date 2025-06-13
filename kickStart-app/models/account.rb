@@ -19,6 +19,7 @@ class Account < ActiveRecord::Base
   # verifica que el alias y cvu sean unicos
   validates :alias, uniqueness: true
   validates :cvu, uniqueness: true
+  validates :email, uniqueness: true
 
   before_create :generate_cvu_and_alias
   after_create :generate_virtual_debit_card
