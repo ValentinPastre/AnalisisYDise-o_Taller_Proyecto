@@ -29,7 +29,8 @@ class App < Sinatra::Application
   end
 
   get '/' do
-    erb :login
+    redirect '/login' unless session[:user_id]
+    redirect '/welcome'
   end
   
   get '/login' do  
