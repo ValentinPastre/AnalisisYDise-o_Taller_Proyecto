@@ -7,7 +7,7 @@
     body {
       font-family: sans-serif;
       background-color: #f6f6f6;
-      margin: 0;
+      margin: 30px;
       padding: 0;
     }
     .container {
@@ -83,6 +83,7 @@
       <thead>
         <tr>
           <th>Nombre contacto</th>
+          <th>Alias</th>
         </tr>
       </thead>
       <tbody>
@@ -90,6 +91,7 @@
             <% @contacts.each do |contact| %>
                 <tr>
                 <td>👤 <%= (contact.user).name %> <%= (contact.user).lastname %></td>
+                <td><%= contact.alias %></td>
                 </tr>
             <% end %>
         <% else %>
