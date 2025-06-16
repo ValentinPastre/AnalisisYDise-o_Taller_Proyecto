@@ -10,6 +10,7 @@ require 'sinatra/base'
 require 'sinatra/reloader' if Sinatra::Base.environment == :development
 require 'logger'
 require_relative 'models/transaction'
+require_relative 'models/confident'
 
 class App < Sinatra::Application
   enable :sessions
@@ -438,5 +439,12 @@ end
     redirect '/welcome'
   end
 
-  
+  get '/profile' do
+    redirect '/login' unless session[:user_id]
+    @user = User.find(session[:user_id])
+    @account = @user.account
+    @confident = @account.confidents
+    erb :profile
+  end
+
 end

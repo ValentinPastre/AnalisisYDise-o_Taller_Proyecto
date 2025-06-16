@@ -25,9 +25,12 @@
     </div>
     
     <div style="text-align: center;">
-      <img src="/images/user-Icon.png" alt="Usuario" style="width: 40px; height: 40px; border-radius: 50%; background-color: #e0e5e7;"><br>
-      <span style="font-size: 12px;"><%= @user&.name || "Invitado" %></span>
+      <a href="/profile" style="text-decoration: none; color: inherit;">
+        <img src="/images/user-Icon.png" alt="Usuario" style="width: 40px; height: 40px; border-radius: 50%; background-color: #e0e5e7;"><br>
+        <span style="font-size: 12px;"><%= @user&.name || "Invitado" %></span>
+      </a>
     </div>
+
 
     <div style="position: relative;">
       <i class="fas fa-ellipsis-v" id="menu-toggle" style="font-size: 28px; cursor: pointer;"></i>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Informacion de Usuario</title>
+    <style>
+        body {
+          font-family: Arial, sans-serif;
+          margin: 30px;
+          background-color: #f4f4f4;
+        }
+        .panel {
+          max-width: 500px;
+          margin: 0 auto;
+          background-color: white;
+          padding: 20px;
+          border-radius: 10px;
+          box-shadow: 0 0 10px #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div style="display: flex; justify-content: center; align-items: center; margin-top: 60px;">
+      <div style="background: white; border-radius: 12px; padding: 30px 50px; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1); max-width: 300px; width: 100%;">
+
+        <h2 style="text-align: center; margin-bottom: 30px;">Perfil de Usuario</h2>
+
+        <div style="display: flex; flex-direction: column; gap: 15px; font-size: 16px;">
+          <div><strong>Nombre:</strong> <%= @user.name %></div>
+          <div><strong>Apellido:</strong> <%= @user.lastname %></div>
+          <div><strong>DNI:</strong> <%= @user.dni %></div>
+          <div><strong>CUIL:</strong> <%= @user.cuil %></div>
+          <div><strong>Email:</strong> <%= @account.email %></div>
+          <div class="section-title"><strong>Confidentes</strong></div>
+            <% if @confident.any? %>
+              <% @confident.each do |conf| %>
+                <div class="info-item"><strong>Confidente:</strong> <%= conf.email %></div>
+              <% end %>
+            <% else %>
+              <div class="no-data">No hay confidentes aún</div>
+            <% end %>
+        </div>
+
+      </div>
+    </div>
+</body>
+</html>
