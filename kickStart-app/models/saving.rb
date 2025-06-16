@@ -20,9 +20,7 @@ class Saving < ActiveRecord::Base
       end
     end
   end
-
-  # ... (mantén los demás métodos existentes)
-
+  
   private
 
   def valid_amount
@@ -31,6 +29,7 @@ class Saving < ActiveRecord::Base
     end
   end
 
+  # Este método se utiliza para devolver el monto a la cuenta cuando el ahorro es destruido. 
   def return_to_account
     ActiveRecord::Base.transaction do
       account.balance += amount
