@@ -1,0 +1,2 @@
+class Luz < Service
+end
