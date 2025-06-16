@@ -124,7 +124,13 @@ class App < Sinatra::Application
     @user = User.find(session[:user_id])
     @account = @user.account
     @movements = Transaction.where("source_account_id = ? OR target_account_id = ?", @account.id, @account.id).order(created_at: :desc)
-    @contacts = @movements.map { |mov| mov.target_account&.user }
+    @contacts_target = @movements.map { |mov| mov.target_account&.user }
+                      .compact
+                      .uniq
+                      .reject { |user| user.id == @user.id }
+
+    
+    @contacts_source = @movements.map { |mov| mov.source_account&.user }
                       .compact
                       .uniq
                       .reject { |user| user.id == @user.id }

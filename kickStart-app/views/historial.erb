@@ -81,14 +81,14 @@
 
     <div class="center-container">
         <div class="contact-box">
-        <h3>Lista de contactos</h3>
+        <h3>Cuentas a las que transferiste</h3>
         <table>
             <tr>
-            <th>Nombre contacto</th>
+            <th>Nombre usuario</th>
             <th>Banco o Tarjeta</th>
             </tr>
-            <% if @contacts.any? %>
-            <% @contacts.each do |contact| %>
+            <% if @contacts_target.any? %>
+            <% @contacts_target.each do |contact| %>
                 <tr>
                 <td>👤 <%= contact.name %> <%= contact.lastname %></td>
                 <td>JubiPago</td>
@@ -96,7 +96,28 @@
             <% end %>
             <% else %>
             <tr>
-                <td colspan="2">No hay contactos aún</td>
+                <td colspan="2">No haz hecho transferencias aún</td>
+            </tr>
+          <% end %>
+        </table>
+      </div>
+      <div class="contact-box">
+        <h3>Cuentas que te transfirieron</h3>
+        <table>
+            <tr>
+            <th>Nombre usuario</th>
+            <th>Banco o Tarjeta</th>
+            </tr>
+            <% if @contacts_source.any? %>
+            <% @contacts_source.each do |contact| %>
+                <tr>
+                <td>👤 <%= contact.name %> <%= contact.lastname %></td>
+                <td>JubiPago</td>
+                </tr>
+            <% end %>
+            <% else %>
+            <tr>
+                <td colspan="2">No recibiste transferencias aún</td>
             </tr>
           <% end %>
         </table>
@@ -108,7 +129,7 @@
           <tr>
             <th>Tipo</th>
             <th>Monto</th>
-            <th>Contacto</th>
+            <th>Usuario</th>
             <th>Fecha</th>
           </tr>
           <% if @movements.any? %>
