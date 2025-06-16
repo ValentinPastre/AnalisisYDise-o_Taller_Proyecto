@@ -66,11 +66,18 @@
       margin-bottom: 15px;
     }
     
-    .action-buttons {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-    }
+    .action-buttons form {
+    width: 100%;
+  }
+  
+  .action-buttons input[type="number"] {
+    width: calc(100% - 16px);
+    padding: 8px;
+    margin-bottom: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 0.9rem;
+  }
     
     .btn {
       display: block;
@@ -122,8 +129,13 @@
           <div class="saving-amount">$<%= "%.2f" % saving.amount %></div>
           <div class="saving-status">ahorrados</div>
           <div class="action-buttons">
-            <button class="btn btn-add" onclick="location.href='/savings/new'">Agregar</button>
-            <form action="/savings/<%= saving.id %>" method="post" style="width: 100%;">
+            <form action="/savings/<%= saving.id %>/add" method="post">
+              <input type="number" name="additional_amount" min="0.01" step="0.01" 
+                     placeholder="Monto a agregar" required>
+              <button type="submit" class="btn btn-add">Agregar</button>
+            </form>
+            
+            <form action="/savings/<%= saving.id %>" method="post">
               <input type="hidden" name="_method" value="delete">
               <button type="submit" class="btn btn-withdraw">Retirar</button>
             </form>

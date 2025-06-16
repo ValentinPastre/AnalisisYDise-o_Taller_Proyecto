@@ -238,6 +238,22 @@ post '/savings' do
     erb :savings_new
   end
 end
+post '/savings/:id/add' do
+  redirect '/login' unless session[:user_id]
+  
+  saving = Saving.find(params[:id])
+  additional_amount = params[:additional_amount].to_f
+  
+  if saving.add_amount(additional_amount)
+    redirect '/savings/list'
+  else
+    @error = saving.errors.full_messages.join(", ")
+    @user = User.find(session[:user_id])
+    @account = @user.account
+    @savings = @account.savings
+    erb :savings_list
+  end
+end
 
 # Ruta para listar ahorros
 get '/savings/list' do
