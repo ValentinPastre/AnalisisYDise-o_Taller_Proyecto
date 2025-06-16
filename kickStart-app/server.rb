@@ -381,7 +381,7 @@ end
     
     @user = User.find(session[:user_id])
     @account = @user.account
-    @contacts = @account.source_transactions.map { |mov| mov.target_account&.user }.compact.uniq
+    @contacts = @account.contacts #@account.source_transactions.map { |mov| mov.target_account&.user }.compact.uniq
 
     erb :transferir
   end
