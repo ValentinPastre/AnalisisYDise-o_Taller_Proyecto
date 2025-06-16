@@ -117,20 +117,20 @@
             <table>
                 <tr>
                     <th>Nombre contacto</th>
-                    <th>Banco o Tarjeta</th>
+                    <th>Alias</th>
                 </tr>
                 <% if @contacts.any? %>
                     <% @contacts.each do |contact| %>
                         <tr>
                         <td>
                             <form action="/transferencia" method="post" style="display:inline;">
-                            <input type="hidden" name="destino" value="<%= contact.account.alias %>">
-                            <button type="submit" style="background:none;border:none;color:#007bff;cursor:pointer;text-decoration:underline;padding:0;">
-                            👤 <%= contact.name %> <%= contact.lastname %>
+                            <input type="hidden" name="destino" value="<%= contact.alias %>">
+                            <button type="submit" style="background:none; border:none; color:black; cursor:pointer; font-size: 15px; padding:0; ">
+                            👤 <%= (contact.user).name %> <%= (contact.user).lastname %>
                             </button>
                             </form>
                         </td>
-                        <td>JubiPago</td>
+                        <td><%= contact.alias %></td>
                         </tr>
                     <% end %>
                 <% else %>
