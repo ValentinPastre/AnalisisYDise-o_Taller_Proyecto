@@ -85,13 +85,13 @@
         <table>
             <tr>
             <th>Nombre usuario</th>
-            <th>Banco o Tarjeta</th>
+            <th>Alias</th>
             </tr>
             <% if @contacts_target.any? %>
             <% @contacts_target.each do |contact| %>
                 <tr>
                 <td>👤 <%= contact.name %> <%= contact.lastname %></td>
-                <td>JubiPago</td>
+                <td><%= (contact.account).alias %></td>
                 </tr>
             <% end %>
             <% else %>
@@ -106,13 +106,13 @@
         <table>
             <tr>
             <th>Nombre usuario</th>
-            <th>Banco o Tarjeta</th>
+            <th>Alias</th>
             </tr>
             <% if @contacts_source.any? %>
             <% @contacts_source.each do |contact| %>
                 <tr>
                 <td>👤 <%= contact.name %> <%= contact.lastname %></td>
-                <td>JubiPago</td>
+                <td><%= (contact.account).alias %></td>
                 </tr>
             <% end %>
             <% else %>
