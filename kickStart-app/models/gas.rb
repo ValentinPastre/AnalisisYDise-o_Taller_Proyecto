@@ -1,0 +1,2 @@
+class Gas < Service
+end
