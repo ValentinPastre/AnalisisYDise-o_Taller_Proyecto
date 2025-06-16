@@ -1,0 +1,2 @@
+class Agua < Service
+end
