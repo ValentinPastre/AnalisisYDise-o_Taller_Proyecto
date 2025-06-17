@@ -11,6 +11,7 @@ require 'sinatra/reloader' if Sinatra::Base.environment == :development
 require 'logger'
 require_relative 'models/transaction'
 require_relative 'models/confident'
+require_relative 'models/security_question'
 
 class App < Sinatra::Application
   enable :sessions
@@ -444,6 +445,7 @@ end
     @user = User.find(session[:user_id])
     @account = @user.account
     @confident = @account.confidents
+    @secq = [@account.security_question].compact
     erb :profile
   end
 
@@ -470,6 +472,31 @@ end
     
     conf = Confident.find(params[:confident_id])
     conf.destroy
+    redirect '/profile'
+  end
+
+  get '/security-question-agregar' do
+    redirect '/login' unless session[:user_id]
+    @user = User.find(session[:user_id])
+    @account = @user.account
+
+    erb :security_question_agregar
+  end
+
+  post '/security-question-agregar' do
+    redirect '/login' unless session[:user_id]
+    @user = User.find(session[:user_id])
+    @account = @user.account
+
+    SecurityQuestion.create(user_id: @user.id, account_id: @account.id, question: params[:question], answer: params[:answer].upcase)
+    redirect '/profile'
+  end
+
+  post '/security-question-eliminar' do
+    redirect '/login' unless session[:user_id]
+
+    secquestion = SecurityQuestion.find(params[:sq_id])
+    secquestion.destroy
     redirect '/profile'
   end
 end
