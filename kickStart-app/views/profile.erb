@@ -1,47 +1,104 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Informacion de Usuario</title>
-    <style>
-        body {
-          font-family: Arial, sans-serif;
-          margin: 30px;
-          background-color: #f4f4f4;
-        }
-        .panel {
-          max-width: 500px;
-          margin: 0 auto;
-          background-color: white;
-          padding: 20px;
-          border-radius: 10px;
-          box-shadow: 0 0 10px #ccc;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Información de Usuario</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+      background-color: #f4f4f4;
+    }
+
+    .panel {
+      max-width: 500px;
+      margin: 0 auto;
+      background-color: white;
+      padding: 30px 50px;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    }
+
+    .info-item {
+      margin-bottom: 15px;
+      font-size: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .section-title {
+      font-size: 18px;
+      margin-top: 30px;
+      margin-bottom: 10px;
+      text-align: center;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .no-data {
+      text-align: center;
+      color: #777;
+      font-style: italic;
+    }
+
+    .btn-delete, .btn-add {
+      border: none;
+      border-radius: 6px;
+      padding: 6px 12px;
+      font-size: 16px;
+      color: white;
+      cursor: pointer;
+    }
+
+    .btn-delete {
+      background-color: #e74c3c;
+    }
+
+    .btn-add {
+      background-color: #27ae60;
+    }
+  </style>
 </head>
 <body>
-    <div style="display: flex; justify-content: center; align-items: center; margin-top: 60px;">
-      <div style="background: white; border-radius: 12px; padding: 30px 50px; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1); max-width: 300px; width: 100%;">
+  <div class="panel">
+    <h2 style="text-align: center; margin-bottom: 30px;">Perfil de Usuario</h2>
 
-        <h2 style="text-align: center; margin-bottom: 30px;">Perfil de Usuario</h2>
+    <div class="info-item"><strong>Nombre:</strong> <%= @user.name %></div>
+    <div class="info-item"><strong>Apellido:</strong> <%= @user.lastname %></div>
+    <div class="info-item"><strong>DNI:</strong> <%= @user.dni %></div>
+    <div class="info-item"><strong>CUIL:</strong> <%= @user.cuil %></div>
+    <div class="info-item"><strong>Email:</strong> <%= @account.email %></div>
 
-        <div style="display: flex; flex-direction: column; gap: 15px; font-size: 16px;">
-          <div><strong>Nombre:</strong> <%= @user.name %></div>
-          <div><strong>Apellido:</strong> <%= @user.lastname %></div>
-          <div><strong>DNI:</strong> <%= @user.dni %></div>
-          <div><strong>CUIL:</strong> <%= @user.cuil %></div>
-          <div><strong>Email:</strong> <%= @account.email %></div>
-          <div class="section-title"><strong>Confidentes</strong></div>
-            <% if @confident.any? %>
-              <% @confident.each do |conf| %>
-                <div class="info-item"><strong>Confidente:</strong> <%= conf.email %></div>
-              <% end %>
-            <% else %>
-              <div class="no-data">No hay confidentes aún</div>
-            <% end %>
+    <div class="section-title">Confidentes</div>
+
+    <% if @confident.any? %>
+      <% @confident.each do |conf| %>
+        <div class="info-item">
+          <span><%= conf.email %></span>
+          <form action="/confidente_eliminar" method="post" style="margin: 0;">
+            <input type="hidden" name="confident_id" value="<%= conf.id %>">
+            <button type="submit" class="btn-delete" style="font-size: 15px">Eliminar confidente</button>
+          </form>
         </div>
+      <% end %>
 
+      <div style="text-align: center; margin-top: 20px;">
+        <form action="/confidente_agregar" method="get" style="display: inline-block;">
+          <button type="submit" class="btn-add" style="font-size: 15px">Agregar confidente</button>
+        </form>
       </div>
-    </div>
+
+
+    <% else %>
+      <div class="info-item no-data">
+        No hay confidentes aún
+        <form action="/confidente_agregar" method="get" style="margin-left: 10px;">
+          <button type="submit" class="btn-add" style="font-size: 15px">Agregar confidente</button>
+        </form>
+      </div>
+    <% end %>
+  </div>
 </body>
 </html>
+

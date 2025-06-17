@@ -447,4 +447,29 @@ end
     erb :profile
   end
 
+  get '/confidente_agregar' do
+    redirect '/login' unless session[:user_id]
+    @user = User.find(session[:user_id])
+    @account = @user.account
+    @confident = @account.confidents
+
+    erb :confidente_agregar
+  end
+  
+  post '/confidente_agregar' do
+    redirect '/login' unless session[:user_id]
+    @user = User.find(session[:user_id])
+    @account = @user.account
+
+    Confident.create(account_id: @account.id, email: params[:email])
+    redirect '/profile'
+  end
+
+  post '/confidente_eliminar' do
+    redirect '/login' unless session[:user_id]
+    
+    conf = Confident.find(params[:confident_id])
+    conf.destroy
+    redirect '/profile'
+  end
 end
