@@ -5,5 +5,5 @@ class AddTargetAccountToServices < ActiveRecord::Migration[8.0]
     add_reference :services, :target_account, foreing_key: {to_table: :accounts}
     #foreing_key, crea una asociacion hacia la tabla accounts, no a una tabla target_accounts
     #nos sirve para saber cual es la cuenta de destino del pago
-
+  end
 end
