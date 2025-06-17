@@ -42,7 +42,7 @@
       font-style: italic;
     }
 
-    .btn-delete, .btn-add {
+    .btn-delete, .btn-add, .btn-erase {
       border: none;
       border-radius: 6px;
       padding: 6px 12px;
@@ -51,10 +51,12 @@
       cursor: pointer;
     }
 
-    .btn-delete {
+    .btn-erase {
+      background-color:rgb(114, 114, 114);
+    }
+    .btn-delete{
       background-color: #e74c3c;
     }
-
     .btn-add {
       background-color: #27ae60;
     }
@@ -123,6 +125,11 @@
         </form>
       </div>
     <% end %>
+  </div>
+  <div style="text-align: center; margin-top: 20px;">
+    <form action="/cuenta_eliminar" method="get" style="display: inline-block;">
+      <button type="submit" class="btn-erase" style="font-size: 20px">Eliminar Cuenta</button>
+    </form>
   </div>
 </body>
 </html>
