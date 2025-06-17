@@ -70,7 +70,12 @@
     <div class="info-item"><strong>CUIL:</strong> <%= @user.cuil %></div>
     <div class="info-item"><strong>Email:</strong> <%= @account.email %></div>
 
+    <div style="border-top: 2px solid #ccc; margin: 30px 0;"></div>
     <div class="section-title">Confidentes</div>
+      <div style="background-color: #e0e0e0; padding: 12px 16px; border-radius: 8px; margin-bottom: 20px; text-align: center; font-size: 15px; color: #333;">
+        Acá podés administrar las personas de confianza vinculadas a tu cuenta.<br><br>
+        Estas personas recibirán un correo electrónico por cada transferencia o pagos que realices.
+      </div>
 
     <% if @confident.any? %>
       <% @confident.each do |conf| %>
@@ -82,14 +87,11 @@
           </form>
         </div>
       <% end %>
-
       <div style="text-align: center; margin-top: 20px;">
         <form action="/confidente_agregar" method="get" style="display: inline-block;">
           <button type="submit" class="btn-add" style="font-size: 15px">Agregar confidente</button>
         </form>
       </div>
-
-
     <% else %>
       <div class="info-item no-data">
         No hay confidentes aún
