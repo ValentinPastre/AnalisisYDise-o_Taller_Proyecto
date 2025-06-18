@@ -499,4 +499,59 @@ end
     secquestion.destroy
     redirect '/profile'
   end
+
+  get '/security-question' do
+    redirect '/login' unless session[:user_id]
+    @user = User.find(session[:user_id])
+    @account = @user.account
+    @secq = @account.security_question
+
+    erb :security_question
+  end
+
+  post '/security-question' do
+    redirect '/login' unless session[:user_id]
+    @user = User.find(session[:user_id])
+    @account = @user.account
+    @secq = @account.security_question
+
+    #puts " paramtetros: #{params.inspect}"
+    #puts "destinooo: #{session[:next_url].inspect}"
+
+    if (@secq && params[:answer].to_s.upcase.strip == @secq.answer.strip)
+      ruta_destino = session.delete(:next_url)
+      redirect ruta_destino
+    elsif (!@secq)
+      ruta_destino = session.delete(:next_url)
+      redirect ruta_destino
+    else
+      @secq.errors.add(:answer, "Respuesta equivocada")
+      erb :security_question
+    end
+  end
+
+  get '/profile/predelete' do
+    redirect '/login' unless session[:user_id]
+    @user = User.find(session[:user_id])
+    @account = @user.account
+
+    session[:next_url] = '/profile/delete'
+    redirect '/security-question'
+  end
+
+  get '/profile/delete' do
+    redirect '/login' unless session[:user_id]
+    @user = User.find(session[:user_id])
+    @account = @user.account
+
+    erb :delete_profile
+  end
+
+  post 'profile/delete' do
+    redirect '/login' unless session[:user_id]
+    @user = User.find(session[:user_id])
+    @account = @user.account
+
+    
+  end
 end
