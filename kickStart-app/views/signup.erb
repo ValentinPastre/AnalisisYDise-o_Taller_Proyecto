@@ -62,7 +62,21 @@
   </style>
 </head>
 <body>
-
+  <!-- Header con botón de volver -->
+    <div style="position: fixed; top: 30px; left: 30px;">
+      <a href="/" style="
+          background-color: #3498db;
+          color: white;
+          padding: 10px 16px;
+          border-radius: 6px;
+          text-decoration: none;
+          font-size: 14px;
+          font-weight: bold;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        ">
+        ← Volver a la página principal
+      </a>
+    </div>
   <h2 style="text-align:center;">Sign Up</h2>
     <% if @error %>
       <div class="error-message">

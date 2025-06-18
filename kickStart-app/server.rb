@@ -45,10 +45,12 @@ class App < Sinatra::Application
   end
   
   get '/login' do  
+    @hide_header = true
     erb :login
   end 
 
   post '/login' do
+    @hide_header = true
     email = params[:email]
     password = params[:password]
     account = Account.find_by(email: email)
@@ -66,11 +68,12 @@ class App < Sinatra::Application
   end
   
   get '/signup' do  
+    @hide_header = true
     erb :signup
   end 
   
   post '/signup' do
-
+    @hide_header = true
     dni = params[:dni]
     email = params[:email]
     password = params[:password]
@@ -123,10 +126,12 @@ class App < Sinatra::Application
   end
 
   get '/restore-account' do
+    @hide_header = true
     erb :restore_account    
   end
 
   post '/restore-account' do
+    @hide_header = true
     email = session.delete(:restore_email)
     password = session.delete(:restore_password)
     dni = session.delete(:restore_dni)
