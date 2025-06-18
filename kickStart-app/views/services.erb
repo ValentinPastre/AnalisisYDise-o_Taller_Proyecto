@@ -1,34 +1,115 @@
-<h1>Mis Servicios</h1>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Servicios - JubiPago</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: #f6f6f6;
+      margin: 30px;
+      padding: 0;
+    }
 
-<% if @services.empty? %>
-  <p>No tenés servicios asociados a tu cuenta.</p>
-<% else %>
-  <table>
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Obra Social</th>
-        <th>Monto</th>
-        <th>Estado</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @services.each do |service| %>
+    .container {
+      width: 90%;
+      max-width: 600px;
+      margin: 40px auto;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.1);
+      padding: 30px;
+    }
+
+    h2 {
+      margin-top: 0;
+      text-align: center;
+      color: #333;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 12px;
+      border-bottom: 1px solid #ccc;
+    }
+
+    th {
+      background-color: #f0f0f0;
+    }
+
+    .actions {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .button {
+      display: flex;
+      justify-content: space-around;
+      gap: 10px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .button a {
+      display: inline-block;
+      padding: 10px 18px;
+      border-radius: 5px;
+      background-color: #ccc;
+      text-decoration: none;
+      color: black;
+      min-width: 120px;
+      text-align: center;
+    }
+
+    .button a:hover {
+      background-color: #bbb;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Pago de servicios</h2>
+
+    <table>
+      <thead>
         <tr>
-          <td><%= service.id %></td>
-          <td><%= service.obra_social&.nombre || "N/A" %></td>
-          <td>$<%= service.amount_to_pay %></td>
-          <td><%= service.already_paid? ? "Pagado" : "Pendiente" %></td>
-          <td>
-            <% unless service.already_paid? %>
-              <a href="/services/<%= service.id %>/pay">Pagar</a>
-            <% else %>
-              <span>Pagado</span>
-            <% end %>
-          </td>
+          <th>Servicio</th>
+          <th>Pago</th>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
-<% end %>
+      </thead>
+      <tbody>
+        <% if @services.any? %>
+          <% @services.each do |service| %>
+            <tr>
+              <td><%= service.nombre || service.obra_social&.nombre %></td>
+              <td><%= service.tipo_pago || "Mensual" %></td>
+            </tr>
+          <% end %>
+        <% else %>
+          <tr>
+            <td colspan="2">No hay servicios registrados.</td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <div class="button">
+      <a href="/services/new">Agregar</a>
+      <a href="/services/delete">Eliminar</a>
+    </div>
+
+    <div class="button">
+      <a href="/services">Pagar Servicios</a>
+      <a href="/transport">Pagar Transporte</a>
+    </div>
+  </div>
+</body>
+</html>
