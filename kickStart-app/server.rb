@@ -53,9 +53,12 @@ class App < Sinatra::Application
     password = params[:password]
     account = Account.find_by(email: email)
 
-    if account && account.authenticate(password)
+    if account && account.authenticate(password) && !account.deleted
       session[:user_id] = account.user.id
       redirect '/welcome'
+    elsif account && account.deleted
+      @error = "La cuenta no existe o fue desactivada"
+      erb :login
     else
       @error = "Email o contraseña incorrectos"
       erb :login
@@ -76,6 +79,14 @@ class App < Sinatra::Application
     lastname = params[:lastname]
     cuil = params[:cuil]
 
+    if Account.joins(:user).exists?(users: { dni: dni }, deleted: true)
+      session[:next_url] = '/restore-account'
+      session[:restore_email] = email
+      session[:restore_password] = password
+      session[:restore_dni] = dni
+      redirect '/security-question'
+    end
+    
     if User.exists?(dni: dni)
       @error = "El dni ya fue registrado"
       return erb :signup
@@ -108,6 +119,27 @@ class App < Sinatra::Application
       end
     end
     
+    redirect '/login'
+  end
+
+  get '/restore-account' do
+    erb :restore_account    
+  end
+
+  post '/restore-account' do
+    email = session.delete(:restore_email)
+    password = session.delete(:restore_password)
+    dni = session.delete(:restore_dni)
+    @account = Account.joins(:user).find_by(users: { dni: dni }, deleted: true)
+
+    @account.update(deleted: false)
+    if @account
+      @account.update(email: email, password: password, password_confirmation: password)
+    else
+      @errors = "No es posible recuperar la cuenta"
+      return erb :signup
+    end
+
     redirect '/login'
   end
 
@@ -510,22 +542,35 @@ end
   end
 
   get '/security-question' do
-    redirect '/login' unless session[:user_id]
-    @user = User.find(session[:user_id])
-    @account = @user.account
+    unless session[:user_id] || session[:next_url]
+      redirect '/login'
+    end
+    if session[:user_id]
+      @user = User.find(session[:user_id])
+      @account = @user.account
+    else
+      dni = session[:restore_dni]
+      @user = User.find_by(dni: dni)
+      @account = Account.find_by(user: @user.id)
+    end
     @secq = @account.security_question
 
     erb :security_question
   end
 
   post '/security-question' do
-    redirect '/login' unless session[:user_id]
-    @user = User.find(session[:user_id])
-    @account = @user.account
+    unless session[:user_id] || session[:next_url]
+      redirect '/login'
+    end
+    if session[:user_id]
+      @user = User.find(session[:user_id])
+      @account = @user.account
+    else
+      dni = session[:restore_dni]
+      @user = User.find_by(dni: dni)
+      @account = Account.find_by(user: @user.id)
+    end
     @secq = @account.security_question
-
-    #puts " paramtetros: #{params.inspect}"
-    #puts "destinooo: #{session[:next_url].inspect}"
 
     if (@secq && params[:answer].to_s.upcase.strip == @secq.answer.strip)
       ruta_destino = session.delete(:next_url)
@@ -556,13 +601,14 @@ end
     erb :delete_profile
   end
 
-  post 'profile/delete' do
+  post '/profile/delete' do
     redirect '/login' unless session[:user_id]
     @user = User.find(session[:user_id])
     @account = @user.account
-    @account.deleted = true;
+    @account.update(deleted: true)
+    session.clear
     
-    redirect 'login'
+    redirect '/login'
   end
 end
 

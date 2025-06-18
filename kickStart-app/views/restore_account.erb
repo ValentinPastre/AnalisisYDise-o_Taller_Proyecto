@@ -1,0 +1,84 @@
+<!-- views/restore_account.erb -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Restaurar Cuenta</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+      background-color: #f4f4f4;
+    }
+
+    .panel {
+      max-width: 500px;
+      margin: 0 auto;
+      background-color: white;
+      padding: 40px 60px;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    .panel h1 {
+      font-size: 24px;
+      margin-bottom: 30px;
+    }
+
+    .panel p {
+      font-size: 16px;
+      margin-bottom: 30px;
+    }
+
+    .errors {
+      margin-bottom: 25px;
+      background-color: #ffecec;
+      color: #e74c3c;
+      padding: 10px;
+      border-radius: 6px;
+      font-size: 14px;
+      text-align: left;
+    }
+
+    .btn-add {
+      background-color: rgb(66, 156, 104);
+      color: white;
+      padding: 12px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .btn-add:hover {
+      background-color: rgb(58, 139, 92);
+    }
+  </style>
+</head>
+<body>
+  <div class="restore-container">
+    <div class="panel">
+      <h1>Restaurar cuenta</h1>
+
+      <% if @errors %>
+        <div class="errors">
+          <ul>
+            <% Array(@errors).each do |err| %>
+              <li><%= err %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <p>¿Querés restaurar la cuenta asociada al DNI <strong><%= session[:restore_dni] %></strong>?</p>
+
+      <form action="/restore-account" method="post">
+        <button class="btn-add" type="submit">Sí, restaurar</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
+

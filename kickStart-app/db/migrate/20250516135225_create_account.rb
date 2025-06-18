@@ -8,6 +8,7 @@ class CreateAccount < ActiveRecord::Migration[8.0]
       t.string :cvu
       t.string :alias
       t.string :email
+      t.boolean :deleted, default: false
       t.timestamps
     end
   end
