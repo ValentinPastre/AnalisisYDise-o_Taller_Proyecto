@@ -551,7 +551,8 @@ end
     redirect '/login' unless session[:user_id]
     @user = User.find(session[:user_id])
     @account = @user.account
-
+    @account.deleted = true;
     
+    redirect 'login'
   end
 end
