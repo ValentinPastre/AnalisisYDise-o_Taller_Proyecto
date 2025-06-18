@@ -1,0 +1,34 @@
+<h1>Mis Servicios</h1>
+
+<% if @services.empty? %>
+  <p>No tenés servicios asociados a tu cuenta.</p>
+<% else %>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Obra Social</th>
+        <th>Monto</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @services.each do |service| %>
+        <tr>
+          <td><%= service.id %></td>
+          <td><%= service.obra_social&.nombre || "N/A" %></td>
+          <td>$<%= service.amount_to_pay %></td>
+          <td><%= service.already_paid? ? "Pagado" : "Pendiente" %></td>
+          <td>
+            <% unless service.already_paid? %>
+              <a href="/services/<%= service.id %>/pay">Pagar</a>
+            <% else %>
+              <span>Pagado</span>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
