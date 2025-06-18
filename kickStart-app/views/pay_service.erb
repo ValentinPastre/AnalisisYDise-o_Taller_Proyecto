@@ -1,0 +1,20 @@
+<h1>Pagar Servicio ID <%= @service.id %></h1>
+
+<p><strong>Obra Social:</strong> <%= @service.obra_social&.nombre || "N/A" %></p>
+<p><strong>Monto a pagar:</strong> $<%= @service.amount_to_pay %></p>
+<p><strong>Tu saldo actual:</strong> $<%= @account.balance %></p>
+
+<% if @error %>
+  <p style="color:red;"><strong>Error:</strong> <%= @error %></p>
+<% end %>
+
+<% if @service.already_paid? %>
+  <p>Este servicio ya fue pagado.</p>
+  <a href="/services">Volver a servicios</a>
+<% else %>
+  <form action="/services/<%= @service.id %>/pay" method="post">
+    <input type="submit" value="Confirmar pago">
+  </form>
+  <br>
+  <a href="/services">Cancelar</a>
+<% end %>

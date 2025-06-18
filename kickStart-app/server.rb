@@ -1,5 +1,9 @@
+
 require 'bundler/setup'
 require 'sinatra/activerecord'
+require 'sinatra'
+require 'bigdecimal'  # si usas BigDecimal
+
 require_relative 'models/user'
 require_relative 'models/account'
 require_relative 'models/saving'
@@ -12,6 +16,11 @@ require 'logger'
 require_relative 'models/transaction'
 require_relative 'models/confident'
 require_relative 'models/security_question'
+require_relative 'models/service'
+require_relative 'models/agua'
+require_relative 'models/luz'
+require_relative 'models/gas'
+require_relative 'models/transportation_card'
 
 class App < Sinatra::Application
   enable :sessions
@@ -554,5 +563,55 @@ end
     @account.deleted = true;
     
     redirect 'login'
+  end
+end
+
+
+
+#Muestra todos los servicios asociados al usuario actual
+get '/services' do
+  redirect '/login' unless session[:user_id]
+
+  user = User.find(session[:user_id])
+  account = user.account
+
+  #Obtiene todos los servicios vinculados a la cuenta
+  @services = Service.where(target_account_id: account.id) 
+
+  erb :services
+end
+
+#muestra el formulario para pagar un servicio en particular
+get'/services/:id/pay' do
+  redirect '/login' unless session[:user_id]
+
+  @service = Service.find(params[:id])
+  @user = User.find(session[:user_id])
+  @account = @user.account
+
+  #paga el servicio
+  erb :pay_service
+end
+
+#procesa el pago del servicio
+post '/services/:id/pay' do
+  redirect '/login' unless session [:user_id]
+
+
+  service = Service.find(params[:id])
+  user = User.find(session[:user_id])
+  account = user.account
+
+  begin
+    #Intenta pagar desde la cuenta del usuario actual
+    transaction = service.pay_from(account)
+    redirect '/services'
+  rescue => e
+    @error = e.message
+    @service = service
+    @user = user
+    @account = account
+
+    erb :pay_service
   end
 end
