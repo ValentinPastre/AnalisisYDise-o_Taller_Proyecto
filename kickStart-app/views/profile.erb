@@ -120,21 +120,21 @@
       <% @confident.each do |conf| %>
         <div class="info-item">
           <span><%= conf.email %></span>
-          <form action="/confidente_eliminar" method="post" style="margin: 0;">
+          <form action="/confidente_preeliminar" method="get" style="margin: 0;">
             <input type="hidden" name="confident_id" value="<%= conf.id %>">
             <button type="submit" class="btn-delete" style="font-size: 16px">Eliminar confidente</button>
           </form>
         </div>
       <% end %>
       <div style="text-align: center; margin-top: 20px;">
-        <form action="/confidente_agregar" method="get" style="display: inline-block;">
+        <form action="/confidente_preagregar" method="get" style="display: inline-block;">
           <button type="submit" class="btn-add" style="font-size: 16px">Agregar confidente</button>
         </form>
       </div>
     <% else %>
       <div class="info-item no-data">
         No hay confidentes aún
-        <form action="/confidente_agregar" method="get" style="margin-left: 10px;">
+        <form action="/confidente_preagregar" method="get" style="margin-left: 10px;">
           <button type="submit" class="btn-add" style="font-size: 15px">Agregar confidente</button>
         </form>
       </div>
