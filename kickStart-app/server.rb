@@ -651,8 +651,55 @@ end
     redirect '/profile'
   end
 
+  get '/premodify-password' do
+    redirect '/login' unless session[:user_id]
+    @user = User.find(session[:user_id])
+    @account = @user.account
+
+    session[:next_url] = '/modify-password'
+    redirect '/security-question'
+  end
+  
   get '/modify-password' do
+    redirect '/login' unless session[:user_id]
+    @user = User.find(session[:user_id])
+    @account = @user.account
     
+    erb :modify_password
+  end
+
+  post '/modify-password' do
+    redirect '/login' unless session[:user_id]
+    @user = User.find(session[:user_id])
+    @account = @user.account
+    actpass = params[:actpass].to_s.strip
+    newpass  = params[:newpass].to_s.strip
+    cnewpass = params[:cnewpass].to_s.strip
+
+    if actpass.empty? || newpass.empty? || cnewpass.empty?
+      @error = "Por favor completá todos los campos"
+      return erb :modify_password
+    end
+    # 2) Contraseña actual válida
+    unless @account.authenticate(actpass)
+      @error = "La contraseña actual es incorrecta"
+      return erb :modify_password
+    end
+    # 3) Coincidencia de nueva contraseña
+    unless newpass == cnewpass
+      @error = "La nueva contraseña y su confirmación deben coincidir"
+      return erb :modify_password
+    end
+    # 4) Intentar guardar la nueva contraseña
+    if @account.update(password: newpass, password_confirmation: cnewpass)
+      redirect '/profile'
+    else
+      # Mostramos cualquier error de validación adicional
+      @error = @account.errors.full_messages.join(", ")
+      erb :modify_password
+    end
+
+    redirect '/profile'
   end
 end
 
