@@ -20,6 +20,7 @@ require_relative 'models/agua'
 require_relative 'models/luz'
 require_relative 'models/gas'
 require_relative 'models/transportation_card'
+require_relative 'models/amount_to_pay'
 
 class App < Sinatra::Application
   enable :sessions
@@ -271,6 +272,14 @@ get '/savings/new' do
   redirect '/login' unless session[:user_id]
   @user = User.find(session[:user_id])
   @account = @user.account
+
+  # Servicios posibles
+  servicios_posibles = ["Luz", "Gas", "Agua"]
+  # Servicios ya agregados por esta cuenta
+  servicios_existentes = Service.where(target_account_id: @account.id).pluck(:service_name)
+  # Servicios que aún puede agregar
+  @servicios_disponibles = servicios_posibles - servicios_existentes
+
   erb :savings_new
 end
 
@@ -780,6 +789,21 @@ get'/services/:id/pay' do
   erb :pay_service
 end
 
+get '/services/new' do
+  redirect '/login' unless session[:user_id]
+  @user = User.find(session[:user_id])
+  @account = @user.account
+
+  # Servicios posibles
+  servicios_posibles = ["Luz", "Gas", "Agua"]
+  # Servicios ya agregados por esta cuenta
+  servicios_existentes = Service.where(target_account_id: @account.id).pluck(:service_name)
+  # Servicios que aún puede agregar
+  @servicios_disponibles = servicios_posibles - servicios_existentes
+
+  erb :new_service
+end
+
 #procesa el pago del servicio
 post '/services/:id/pay' do
   redirect '/login' unless session [:user_id]
@@ -801,4 +825,38 @@ post '/services/:id/pay' do
 
     erb :pay_service
   end
+end
+
+#procesa la creacion de un nuevo servicio
+post '/services/new' do
+  redirect '/login' unless session[:user_id]
+  @user = User.find(session[:user_id])
+  @account = @user.account
+
+  nombre = params[:nombre]
+  tipo_pago = params[:tipo_pago]
+
+  servicios_validos = ["Luz", "Gas", "Agua"]
+  tipos_pago_validos = ["Mensual", "Anual"]
+
+  unless servicios_validos.include?(nombre) && tipos_pago_validos.include?(tipo_pago)
+    @error = "Solo se permiten servicios Luz, Gas o Agua y tipo de pago Mensual o Anual"
+    return erb :new_service
+  end
+
+  service = Service.create!(
+    service_name: nombre,
+    tipo_pago: tipo_pago,
+    target_account_id: @account.id
+  )
+
+  AmountToPay.create!(
+    service_name: nombre,
+    tipo_pago: tipo_pago,
+    paid: false,
+    expired: false,
+    service_id: service.id
+  )
+
+  redirect '/services'
 end
