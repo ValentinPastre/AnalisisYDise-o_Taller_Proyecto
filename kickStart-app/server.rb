@@ -1,4 +1,3 @@
-
 require 'bundler/setup'
 require 'sinatra/activerecord'
 require 'sinatra'
@@ -760,11 +759,11 @@ end
 get '/services' do
   redirect '/login' unless session[:user_id]
 
-  user = User.find(session[:user_id])
-  account = user.account
+  @user = User.find(session[:user_id])
+  @account = @user.account
 
   #Obtiene todos los servicios vinculados a la cuenta
-  @services = Service.where(target_account_id: account.id) 
+  @services = Service.where(target_account_id: @account.id) 
 
   erb :services
 end
