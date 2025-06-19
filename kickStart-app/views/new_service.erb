@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Agregar Servicio</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 40px 0;
+    }
+    .panel {
+      max-width: 500px;
+      margin: 0 auto;
+      background-color: white;
+      padding: 30px 25px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px #ccc;
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+      align-items: center;
+    }
+    h2 {
+      margin-top: 0;
+      text-align: center;
+      color: #333;
+    }
+    .form-group {
+      width: 100%;
+      margin-bottom: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    label {
+      font-weight: bold;
+      font-size: 15px;
+      color: #444;
+    }
+    input[type="text"], input[type="number"], select {
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 15px;
+      background-color: #f9f9f9;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .button {
+      background-color: #d0d0d0;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      font-weight: bold;
+      margin-top: 10px;
+      transition: background 0.2s;
+    }
+    .button:hover {
+      background-color: #bcbcbc;
+    }
+    .error-message {
+      color: #e74c3c;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="panel">
+    <h2>Agregar nuevo servicio</h2>
+    <% if @error %>
+      <div class="error-message"><%= @error %></div>
+    <% end %>
+    <% if @servicios_disponibles.empty? %>
+      <div class="error-message">No hay más facturas por agregar</div>
+    <% else %>
+      <form action="/services/new" method="post">
+        <div class="form-group">
+          <label for="nombre">Nombre del servicio</label>
+          <select id="nombre" name="nombre" required>
+            <option value="">Selecciona un servicio</option>
+            <% @servicios_disponibles.each do |servicio| %>
+              <option value="<%= servicio %>"><%= servicio %></option>
+            <% end %>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="tipo_pago">Tipo de pago</label>
+          <select id="tipo_pago" name="tipo_pago" required>
+            <option value="">Selecciona el tipo de pago</option>
+            <option value="Mensual">Mensual</option>
+            <option value="Anual">Anual</option>
+          </select>
+        </div>
+        <button type="submit" class="button">Agregar Servicio</button>
+      </form>
+    <% end %>
+    <a href="/services" class="button" style="background:#ccc; color:black; text-decoration:none; margin-top:10px;">Volver</a>
+  </div>
+</body>
+</html>
