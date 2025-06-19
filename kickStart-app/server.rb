@@ -9,6 +9,8 @@ require_relative 'models/saving'
 require_relative 'models/obra_social'
 require_relative 'models/notification'
 require_relative 'models/link_obra_social_user'
+require_relative 'models/transport_company'
+require_relative 'models/transport_card'
 require 'sinatra/base'
 require 'sinatra/reloader' if Sinatra::Base.environment == :development
 require 'logger'
@@ -857,4 +859,53 @@ class App < Sinatra::Application
         
         redirect '/services'
   end
+
+  get '/transport' do
+    redirect '/login' unless session[:user_id]
+    @user = User.find(session[:user_id])
+    @empresas = TransportCompany.all  
+    erb :transport
+  end
+
+  post '/transport' do
+    redirect '/login' unless session[:user_id]
+    @user = User.find(session[:user_id])
+    @empresas = TransportCompany.all
+
+    @company = TransportCompany.find_by(id: params[:empresa_id])
+    @card = TransportCard.find_by(number: params[:numero_tarjeta])
+   
+    if @card.nil? || @card.transport_company_id != @company.id
+      @error = "Tarjeta no válida"
+      return erb :transport
+    end   
+
+    erb :load_balance
+  end
+
+  post '/load' do
+    redirect '/login' unless session[:user_id]
+    @user = User.find(session[:user_id])
+    
+    @card = TransportCard.find_by(number: params[:numero_tarjeta])
+
+    monto = params[:monto].to_f
+
+    if monto <= 0
+      @error = "El monto debe ser mayor a 0."
+      return erb :load_balance
+    end
+    if @user.account.balance < monto
+      @error = "No tenés saldo suficiente en tu cuenta."
+      return erb :load_balance
+    end
+    @user.account.balance -= monto
+    @card.balance += monto
+    @user.account.save
+    @card.save
+
+    @success = "Saldo cargado correctamente."
+    erb :load_balance
+  end
+
 end

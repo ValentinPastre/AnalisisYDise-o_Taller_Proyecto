@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Recargar Tarjeta</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: #f4f4f4;
+      padding: 30px;
+    }
+
+    .container {
+      max-width: 400px;
+      margin: auto;
+      background-color: white;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    h2 {
+      margin-top: 0;
+    }
+
+    .balance {
+      font-size: 24px;
+      margin: 20px 0;
+      color: #333;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    input[type="number"] {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+
+    button {
+      padding: 10px;
+      font-size: 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    .mensaje {
+      color: red;
+      margin: 10px 0;
+    }
+
+    .success {
+      color: green;
+      margin: 10px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Recargar Tarjeta</h2>
+
+    <% if @error %>
+      <div class="mensaje"><%= @error %></div>
+    <% end %>
+
+    <% if @success %>
+      <div class="success"><%= @success %></div>
+    <% end %>
+
+    <div class="balance">
+      Saldo actual: $<%= @card.balance %>
+    </div>
+    <div class="balance">
+      Dinero en tu cuenta: $<%= @user.account.balance %>
+    </div>
+
+    <form action="/load" method="POST">
+      <input type="hidden" name="numero_tarjeta" value="<%= @card.number %>">
+      <input type="number" name="monto" min="1" placeholder="Monto a cargar" required>
+      <button type="submit">Cargar Saldo</button>
+    </form>
+  </div>
+</body>
+</html>
