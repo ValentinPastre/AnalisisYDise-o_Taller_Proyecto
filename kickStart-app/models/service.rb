@@ -7,6 +7,9 @@ class Service < ActiveRecord::Base
   has_many :transactions
   has_one :amount_to_pay, -> { order(created_at: :desc) }
 
+
+
+
   def amount_to_pay_cents
     amount_to_pay&.total_to_pay || 0
   end
@@ -38,6 +41,8 @@ class Service < ActiveRecord::Base
 
   #indica si una cuenta tiene saldo suficiente para pagar el servicio
   def payable_by?(account)
+    puts "Saldo de cuenta: #{account.balance}"
+    puts "Monto a pagar: #{amount_to_pay_cents}"
     account.balance >= amount_to_pay_cents
   end
 end
