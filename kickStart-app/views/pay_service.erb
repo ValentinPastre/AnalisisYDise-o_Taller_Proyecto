@@ -1,20 +1,182 @@
-<h1>Pagar Servicio ID <%= @service.id %></h1>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Pagar Servicio - JubiPago</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: #f6f6f6;
+      margin: 0;
+      padding: 0;
+    }
 
-<p><strong>Obra Social:</strong> <%= @service.obra_social&.nombre || "N/A" %></p>
-<p><strong>Monto a pagar:</strong> $<%= @service.amount_to_pay %></p>
-<p><strong>Tu saldo actual:</strong> $<%= @account.balance %></p>
+    .container {
+      width: 90%;
+      max-width: 700px;
+      margin: 40px auto;
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.1);
+      padding: 30px;
+    }
 
-<% if @error %>
-  <p style="color:red;"><strong>Error:</strong> <%= @error %></p>
-<% end %>
+    h2 {
+      margin-top: 0;
+      text-align: center;
+      color: #333;
+    }
 
-<% if @service.already_paid? %>
-  <p>Este servicio ya fue pagado.</p>
-  <a href="/services">Volver a servicios</a>
-<% else %>
-  <form action="/services/<%= @service.id %>/pay" method="post">
-    <input type="submit" value="Confirmar pago">
-  </form>
-  <br>
-  <a href="/services">Cancelar</a>
-<% end %>
+    .message {
+      text-align: center;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+
+    .error {
+      color: red;
+    }
+
+    .success {
+      color: green;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+      table-layout: fixed;
+    }
+
+    th, td {
+      text-align: center;
+      padding: 12px;
+      border-bottom: 1px solid #ccc;
+    }
+
+    th {
+      background-color: #f0f0f0;
+    }
+
+    .service-row:hover {
+      background-color: #f9f9f9;
+      cursor: pointer;
+    }
+
+    .selected {
+      background-color: #e6f7ff;
+    }
+
+    .button {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 20px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .button button, .button a {
+      flex: 1 1 40%;
+      text-align: center;
+      padding: 10px 18px;
+      border-radius: 5px;
+      background-color: #ccc;
+      text-decoration: none;
+      color: black;
+      min-width: 120px;
+      border: none;
+      font-size: 16px;
+      font-family: inherit;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    .button button[type="submit"] {
+      background-color: #4caf50;
+      color: white;
+    }
+
+    .button button[type="submit"]:hover {
+      background-color: #45a049;
+    }
+
+    .button a:hover {
+      background-color: #bbb;
+    }
+
+    #pay-form {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Pagar servicio</h2>
+
+    <% if @error %>
+      <p class="message error"><%= @error %></p>
+    <% elsif @success %>
+      <p class="message success"><%= @success %></p>
+    <% end %>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Servicio</th>
+          <th>Tipo de pago</th>
+          <th>Monto</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if @services.any? %>
+          <% @services.each do |service| %>
+            <% factura = AmountToPay.where(service_id: service.id).order(created_at: :desc).first %>
+            <% next unless factura && !factura.paid %> <!-- solo los impagos -->
+            <tr class="service-row" data-id="<%= service.id %>">
+              <td><%= service.service_name %></td>
+              <td><%= service.tipo_pago %></td>
+              <td>$<%= sprintf("%.2f", factura.amount_cents / 100.0) %></td>
+              <td>Impago</td>
+            </tr>
+          <% end %>
+        <% else %>
+          <tr>
+            <td colspan="4">No hay servicios impagos.</td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <form id="pay-form" action="/services/pay" method="post">
+      <input type="hidden" name="service_id" id="service-id-input">
+      <div class="button">
+        <button type="submit">Confirmar Pago</button>
+        <a href="/services">Cancelar</a>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    const rows = document.querySelectorAll('.service-row');
+    const form = document.getElementById('pay-form');
+    const input = document.getElementById('service-id-input');
+    let selectedRow = null;
+
+    rows.forEach(row => {
+      row.addEventListener('click', () => {
+        if (selectedRow) {
+          selectedRow.classList.remove('selected');
+        }
+
+        row.classList.add('selected');
+        selectedRow = row;
+
+        const serviceId = row.dataset.id;
+        input.value = serviceId;
+        form.style.display = 'block';
+      });
+    });
+  </script>
+</body>
+</html>
