@@ -20,7 +20,7 @@ class AmountToPay < ActiveRecord::Base
 
     today = Date.today
 
-    monto_mensual = rand(100_000..700_000) # en centavos
+    monto_mensual = rand(5000..50000) # en centavos
     self.amount_cents = tipo_pago == "Anual" ? monto_mensual * 12 : monto_mensual
 
     self.due_date = Date.new(today.year, today.month, day)

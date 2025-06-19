@@ -136,7 +136,7 @@
             <tr class="service-row" data-id="<%= service.id %>">
               <td><%= service.service_name %></td>
               <td><%= service.tipo_pago %></td>
-              <td>$<%= sprintf("%.2f", factura.amount_cents / 100.0) %></td>
+              <td>$<%= factura.amount_cents %></td>
               <td>Impago</td>
             </tr>
           <% end %>
