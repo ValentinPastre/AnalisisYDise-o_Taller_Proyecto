@@ -57,7 +57,8 @@ class App < Sinatra::Application
 
     if account && account.authenticate(password) && !account.deleted
       session[:user_id] = account.user.id
-      redirect '/welcome'
+      session[:next_url] = '/welcome'
+      redirect '/security-question'
     elsif account && account.deleted
       @error = "La cuenta no existe o fue desactivada"
       erb :login
