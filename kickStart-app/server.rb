@@ -338,9 +338,26 @@ end
 
     @alias = @cuenta.alias
     @cvu = @cuenta.cvu
+    @virtual_card = @cuenta.virtual_debit_card 
 
     erb :alias
   end
+
+  post '/generate_virtual_card' do
+  redirect '/login' unless session[:user_id]
+  
+  user = User.find(session[:user_id])
+  account = user.account
+  
+  # Eliminar tarjeta existente si existe
+  account.virtual_debit_card&.destroy
+  
+  # Crear nueva tarjeta
+  account.generate_virtual_debit_card
+  redirect '/alias'
+  @error = "Error al generar la tarjeta"
+  erb :alias
+end
 
   get '/change_alias' do
     @user = User.find(session[:user_id])

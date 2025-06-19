@@ -3,10 +3,10 @@ require_relative 'virtual_debit_card'
 class Account < ActiveRecord::Base
   belongs_to :user
   has_one :security_question
-  has_one :virtual_debit_card
   has_many :source_transactions, class_name: 'Transaction', foreign_key: :source_account_id
   has_many :savings
   has_many :confidents
+  has_one :virtual_debit_card, dependent: :destroy
 
   has_and_belongs_to_many :contacts, 
     class_name: 'Account', 
@@ -50,10 +50,22 @@ class Account < ActiveRecord::Base
   end
 
   def generate_virtual_debit_card
-      create_virtual_debit_card!(
-      card_number: Array.new(16) { rand(0..9) }.join,
-      security_code: Array.new(3) { rand(0..9) }.join,
-      expiration: Date.new(Date.today.next_year(7).year, 12, 31)
-    )
+  return if virtual_debit_card.present? # Evitar duplicados
+
+  build_virtual_debit_card(
+    card_number: generate_unique_card_number,
+    expiration_date: 3.years.from_now.to_date, # Ej: 3 años de validez
+    cvv: rand(100..999).to_s,
+    frontal_id: SecureRandom.hex(8).upcase
+  ).save!
+  end
+
+  private
+
+  def generate_unique_card_number
+    loop do
+      card_number = Array.new(16) { rand(0..9) }.join
+      break card_number unless VirtualDebitCard.exists?(card_number: card_number)
+    end
   end
 end
