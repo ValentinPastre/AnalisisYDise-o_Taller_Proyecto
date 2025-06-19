@@ -155,7 +155,7 @@ class App < Sinatra::Application
     redirect '/login'
   end 
   
-# Ruta para mostrar la página de bienvenida 
+  # Ruta para mostrar la página de bienvenida 
   get '/welcome' do  
     redirect '/login' unless session[:user_id]
     @user = User.find(session[:user_id])
@@ -167,7 +167,7 @@ class App < Sinatra::Application
     erb :welcome
   end 
 
-# Ruta para mostrar el historial de transacciones y contactos
+  # Ruta para mostrar el historial de transacciones y contactos
   get '/historial' do
     redirect '/login' unless session[:user_id]
     @user = User.find(session[:user_id])
@@ -233,110 +233,110 @@ class App < Sinatra::Application
     redirect '/contactos'
   end
 
-get '/contactos/eliminar' do
-  redirect '/login' unless session[:user_id]
+  get '/contactos/eliminar' do
+    redirect '/login' unless session[:user_id]
+      @user = User.find(session[:user_id])
+      @account = @user.account
+      @contacts = @account.contacts
+      erb :contactos_eliminar
+  end
+
+  post '/contactos/eliminar' do
+    redirect '/login' unless session[:user_id]
+
     @user = User.find(session[:user_id])
     @account = @user.account
-    @contacts = @account.contacts
-    erb :contactos_eliminar
-end
+    contacto = Account.find_by(id: params[:contacto_id])
 
-post '/contactos/eliminar' do
-  redirect '/login' unless session[:user_id]
-
-  @user = User.find(session[:user_id])
-  @account = @user.account
-  contacto = Account.find_by(id: params[:contacto_id])
-
-  if contacto && @account.contacts.include?(contacto)
-    @account.contacts.delete(contacto)
-    redirect '/contactos'
-  else
-    @error = "Contacto no encontrado o no está en tu lista"
-    @contacts = @account.contacts
-    erb :contactos
+    if contacto && @account.contacts.include?(contacto)
+      @account.contacts.delete(contacto)
+      redirect '/contactos'
+    else
+      @error = "Contacto no encontrado o no está en tu lista"
+      @contacts = @account.contacts
+      erb :contactos
+    end
   end
-end
 
 
-# Ruta para el menú principal de ahorros
-get '/savings' do
-  redirect '/login' unless session[:user_id]
-  @user = User.find(session[:user_id])
-  @account = @user.account
-  erb :savings_menu
-end
+  # Ruta para el menú principal de ahorros
+  get '/savings' do
+    redirect '/login' unless session[:user_id]
+    @user = User.find(session[:user_id])
+    @account = @user.account
+    erb :savings_menu
+  end
 
-# Ruta para mostrar el formulario de creación de ahorro
-get '/savings/new' do
-  redirect '/login' unless session[:user_id]
-  @user = User.find(session[:user_id])
-  @account = @user.account
+  # Ruta para mostrar el formulario de creación de ahorro
+  get '/savings/new' do
+    redirect '/login' unless session[:user_id]
+    @user = User.find(session[:user_id])
+    @account = @user.account
 
-  # Servicios posibles
-  servicios_posibles = ["Luz", "Gas", "Agua"]
-  # Servicios ya agregados por esta cuenta
-  servicios_existentes = Service.where(target_account_id: @account.id).pluck(:service_name)
-  # Servicios que aún puede agregar
-  @servicios_disponibles = servicios_posibles - servicios_existentes
+    # Servicios posibles
+    servicios_posibles = ["Luz", "Gas", "Agua"]
+    # Servicios ya agregados por esta cuenta
+    servicios_existentes = Service.where(target_account_id: @account.id).pluck(:service_name)
+    # Servicios que aún puede agregar
+    @servicios_disponibles = servicios_posibles - servicios_existentes
 
-  erb :savings_new
-end
-
-# Ruta para procesar el nuevo ahorro (POST)
-post '/savings' do
-  redirect '/login' unless session[:user_id]
-  
-  @user = User.find(session[:user_id])
-  @account = @user.account
-  
-  @saving = @account.savings.new(
-    description: params[:saving][:name],
-    amount: params[:saving][:amount]
-  )
-  
-  if @saving.save
-    redirect '/savings/list'
-  else
     erb :savings_new
   end
-end
-post '/savings/:id/add' do
-  redirect '/login' unless session[:user_id]
-  
-  saving = Saving.find(params[:id])
-  additional_amount = params[:additional_amount].to_f
-  
-  if saving.add_amount(additional_amount)
-    redirect '/savings/list'
-  else
-    @error = saving.errors.full_messages.join(", ")
+
+  # Ruta para procesar el nuevo ahorro (POST)
+  post '/savings' do
+    redirect '/login' unless session[:user_id]
+    
+    @user = User.find(session[:user_id])
+    @account = @user.account
+    
+    @saving = @account.savings.new(
+      description: params[:saving][:name],
+      amount: params[:saving][:amount]
+    )
+    
+    if @saving.save
+      redirect '/savings/list'
+    else
+      erb :savings_new
+    end
+  end
+  post '/savings/:id/add' do
+    redirect '/login' unless session[:user_id]
+    
+    saving = Saving.find(params[:id])
+    additional_amount = params[:additional_amount].to_f
+    
+    if saving.add_amount(additional_amount)
+      redirect '/savings/list'
+    else
+      @error = saving.errors.full_messages.join(", ")
+      @user = User.find(session[:user_id])
+      @account = @user.account
+      @savings = @account.savings
+      erb :savings_list
+    end
+  end
+
+  # Ruta para listar ahorros
+  get '/savings/list' do
+    redirect '/login' unless session[:user_id]
+    
     @user = User.find(session[:user_id])
     @account = @user.account
     @savings = @account.savings
+    
     erb :savings_list
   end
-end
 
-# Ruta para listar ahorros
-get '/savings/list' do
-  redirect '/login' unless session[:user_id]
-  
-  @user = User.find(session[:user_id])
-  @account = @user.account
-  @savings = @account.savings
-  
-  erb :savings_list
-end
-
-# Ruta para eliminar ahorros (retirar)
-delete '/savings/:id' do
-  redirect '/login' unless session[:user_id]
-  
-  saving = Saving.find(params[:id])
-  saving.destroy
-  redirect '/savings/list'
-end
+  # Ruta para eliminar ahorros (retirar)
+  delete '/savings/:id' do
+    redirect '/login' unless session[:user_id]
+    
+    saving = Saving.find(params[:id])
+    saving.destroy
+    redirect '/savings/list'
+  end
 
   get '/alias' do
     redirect '/login' unless session[:user_id]
@@ -352,20 +352,20 @@ end
   end
 
   post '/generate_virtual_card' do
-  redirect '/login' unless session[:user_id]
-  
-  user = User.find(session[:user_id])
-  account = user.account
-  
-  # Eliminar tarjeta existente si existe
-  account.virtual_debit_card&.destroy
-  
-  # Crear nueva tarjeta
-  account.generate_virtual_debit_card
-  redirect '/alias'
-  @error = "Error al generar la tarjeta"
-  erb :alias
-end
+    redirect '/login' unless session[:user_id]
+    
+    user = User.find(session[:user_id])
+    account = user.account
+    
+    # Eliminar tarjeta existente si existe
+    account.virtual_debit_card&.destroy
+    
+    # Crear nueva tarjeta
+    account.generate_virtual_debit_card
+    redirect '/alias'
+    @error = "Error al generar la tarjeta"
+    erb :alias
+  end
 
   get '/change_alias' do
     @user = User.find(session[:user_id])
@@ -376,27 +376,27 @@ end
   end
 
   post '/change_alias' do
-  redirect '/login' unless session[:user_id]
+    redirect '/login' unless session[:user_id]
 
-  @user = User.find(session[:user_id])
-  @cuenta = @user.account
+    @user = User.find(session[:user_id])
+    @cuenta = @user.account
 
-  nuevo_alias = params[:nuevo_alias].strip
+    nuevo_alias = params[:nuevo_alias].strip
 
-  if nuevo_alias.empty?
-    @error = "El alias no puede estar vacío"
-    return erb :change_alias
+    if nuevo_alias.empty?
+      @error = "El alias no puede estar vacío"
+      return erb :change_alias
+    end
+
+    @cuenta.alias = nuevo_alias
+
+    if @cuenta.save
+      redirect '/alias'
+    else
+      @error = "Ese alias ya está en uso, elegí otro"
+      erb :change_alias
+    end
   end
-
-  @cuenta.alias = nuevo_alias
-
-  if @cuenta.save
-    redirect '/alias'
-  else
-    @error = "Ese alias ya está en uso, elegí otro"
-    erb :change_alias
-  end
-end
 
   get '/obra-social' do
     redirect '/login' unless session[:user_id]
@@ -760,103 +760,101 @@ end
 
     redirect '/profile'
   end
-end
-
-
-
-#Muestra todos los servicios asociados al usuario actual
-get '/services' do
-  redirect '/login' unless session[:user_id]
-
-  @user = User.find(session[:user_id])
-  @account = @user.account
-
-  #Obtiene todos los servicios vinculados a la cuenta
-  @services = Service.where(target_account_id: @account.id) 
-
-  erb :services
-end
-
-#muestra el formulario para pagar un servicio en particular
-get'/services/:id/pay' do
-  redirect '/login' unless session[:user_id]
-
-  @service = Service.find(params[:id])
-  @user = User.find(session[:user_id])
-  @account = @user.account
-
-  #paga el servicio
-  erb :pay_service
-end
-
-get '/services/new' do
-  redirect '/login' unless session[:user_id]
-  @user = User.find(session[:user_id])
-  @account = @user.account
-
-  # Servicios posibles
-  servicios_posibles = ["Luz", "Gas", "Agua"]
-  # Servicios ya agregados por esta cuenta
-  servicios_existentes = Service.where(target_account_id: @account.id).pluck(:service_name)
-  # Servicios que aún puede agregar
-  @servicios_disponibles = servicios_posibles - servicios_existentes
-
-  erb :new_service
-end
-
-#procesa el pago del servicio
-post '/services/:id/pay' do
-  redirect '/login' unless session [:user_id]
-
-
-  service = Service.find(params[:id])
-  user = User.find(session[:user_id])
-  account = user.account
-
-  begin
-    #Intenta pagar desde la cuenta del usuario actual
-    transaction = service.pay_from(account)
-    redirect '/services'
-  rescue => e
-    @error = e.message
-    @service = service
-    @user = user
-    @account = account
-
+  
+  #Muestra todos los servicios asociados al usuario actual
+  get '/services' do
+    redirect '/login' unless session[:user_id]
+    
+    @user = User.find(session[:user_id])
+    @account = @user.account
+    
+    #Obtiene todos los servicios vinculados a la cuenta
+    @services = Service.where(target_account_id: @account.id) 
+    
+    erb :services
+  end
+  
+  #muestra el formulario para pagar un servicio en particular
+  get'/services/:id/pay' do
+    redirect '/login' unless session[:user_id]
+    
+    @service = Service.find(params[:id])
+    @user = User.find(session[:user_id])
+    @account = @user.account
+    
+    #paga el servicio
     erb :pay_service
   end
-end
-
-#procesa la creacion de un nuevo servicio
-post '/services/new' do
-  redirect '/login' unless session[:user_id]
-  @user = User.find(session[:user_id])
-  @account = @user.account
-
-  nombre = params[:nombre]
-  tipo_pago = params[:tipo_pago]
-
-  servicios_validos = ["Luz", "Gas", "Agua"]
-  tipos_pago_validos = ["Mensual", "Anual"]
-
-  unless servicios_validos.include?(nombre) && tipos_pago_validos.include?(tipo_pago)
-    @error = "Solo se permiten servicios Luz, Gas o Agua y tipo de pago Mensual o Anual"
-    return erb :new_service
+  
+  get '/services/new' do
+    redirect '/login' unless session[:user_id]
+    @user = User.find(session[:user_id])
+    @account = @user.account
+    
+    # Servicios posibles
+    servicios_posibles = ["Luz", "Gas", "Agua"]
+    # Servicios ya agregados por esta cuenta
+    servicios_existentes = Service.where(target_account_id: @account.id).pluck(:service_name)
+    # Servicios que aún puede agregar
+    @servicios_disponibles = servicios_posibles - servicios_existentes
+    
+    erb :new_service
   end
 
-  service = Service.create!(
-    service_name: nombre,
-    tipo_pago: tipo_pago,
-    target_account_id: @account.id
-  )
+  #procesa el pago del servicio
+  post '/services/:id/pay' do
+    redirect '/login' unless session [:user_id]
+    
+    
+    service = Service.find(params[:id])
+    user = User.find(session[:user_id])
+    account = user.account
+    
+    begin
+      #Intenta pagar desde la cuenta del usuario actual
+      transaction = service.pay_from(account)
+      redirect '/services'
+    rescue => e
+      @error = e.message
+      @service = service
+      @user = user
+      @account = account
+      
+      erb :pay_service
+    end
+  end
 
-  AmountToPay.create!(
-    service_name: nombre,
-    tipo_pago: tipo_pago,
-    paid: false,
-    expired: false,
-    service_id: service.id
-  )
-
-  redirect '/services'
+  #procesa la creacion de un nuevo servicio
+  post '/services/new' do
+    redirect '/login' unless session[:user_id]
+    @user = User.find(session[:user_id])
+    @account = @user.account
+    
+    nombre = params[:nombre]
+    tipo_pago = params[:tipo_pago]
+    
+    servicios_validos = ["Luz", "Gas", "Agua"]
+    tipos_pago_validos = ["Mensual", "Anual"]
+    
+    unless servicios_validos.include?(nombre) && tipos_pago_validos.include?(tipo_pago)
+      @error = "Solo se permiten servicios Luz, Gas o Agua y tipo de pago Mensual o Anual"
+      return erb :new_service
+    end
+    
+    service = Service.create!(
+      service_name: nombre,
+      tipo_pago: tipo_pago,
+      target_account_id: @account.id
+      )
+      
+      AmountToPay.create!(
+        service_name: nombre,
+        tipo_pago: tipo_pago,
+        paid: false,
+        expired: false,
+        service_id: service.id
+        )
+        
+        redirect '/services'
+  end
 end
