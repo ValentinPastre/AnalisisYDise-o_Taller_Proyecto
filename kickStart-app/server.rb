@@ -633,6 +633,44 @@ end
     
     redirect '/login'
   end
+
+  get '/premodify-email' do
+    redirect '/login' unless session[:user_id]
+    @user = User.find(session[:user_id])
+    @account = @user.account
+
+    session[:next_url] = '/modify-email'
+    redirect '/security-question'
+  end
+
+  get '/modify-email' do
+    redirect '/login' unless session[:user_id]
+    @user = User.find(session[:user_id])
+    @account = @user.account
+
+    erb :modify_email
+  end
+
+  post '/modify-email' do
+    redirect '/login' unless session[:user_id]
+    @user = User.find(session[:user_id])
+    @account = @user.account
+    email = params[:email]
+    newemail = params[:newemail]
+
+    if email == newemail
+      @account.update(email: email)
+    else
+      @error = "Los emails deben coincidir"
+      return erb :modify_email
+    end
+
+    redirect '/profile'
+  end
+
+  get '/modify-password' do
+    
+  end
 end
 
 

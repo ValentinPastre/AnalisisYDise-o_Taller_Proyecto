@@ -55,8 +55,8 @@
 </head>
 <body>
   <div class="panel">
-    <h2 style="text-align: center; margin-bottom: 30px;">Pregunta de seguridad</h2>
     <% if @secq %>
+      <h2 style="text-align: center; margin-bottom: 30px;">Pregunta de seguridad</h2>
         <form action="/security-question" method="post">
           <div class="form-group">
             <% if @secq.errors.any? %>
