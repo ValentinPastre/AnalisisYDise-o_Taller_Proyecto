@@ -12,17 +12,38 @@
     }
 
     h1 {
-      margin-top: 60px;
-      font-size: 36px;
+      color: #2c3e50;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .info-box {
+      background-color: #f8f9fa;
+      border-left: 4px solid #3498db;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 40px;
+    }
+
+    .panel {
+      max-width: 500px;
+      margin: 0 auto;
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #ccc;
     }
 
     .form-container {
-      background-color: #d9d9d9;
-      width: 60%;
-      max-width: 500px;
-      margin: 40px auto;
-      padding: 30px 40px;
-      border-radius: 20px;
+      background-color: #e4e4e4;
+      border-radius: 10px;
+      padding: 20px;
+      width: 100%;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 0;
     }
 
     .form-container h2 {
@@ -69,41 +90,46 @@
       background-color: #ffe0e0;
       border: 1px solid #ff5c5c;
       color: #b30000;
+      width: 70%;
       padding: 12px 16px;
       border-radius: 8px;
       margin-bottom: 20px;
       font-weight: bold;
       text-align: center;
+      display: block;
+      margin: 0 auto 20px auto;
     }
   </style>
 </head>
 <body>
+  <div class="panel">
+    <h2>Obra Social</h2>
+    <div class="info-box">
+      <p>En ésta sección podés ver descuentos ofrecidos por tu cobertura médica en una gran variedad de productos y servicios médicos.</p>
+      <p>Ingresá tus datos personales y los de tu obra social para enterarte de los últimos descuentos.</p>
+    </div>
 
-  <h1>Obra social</h1>
+      <% if @error %>
+        <div class="error-message">
+          <span> <%= @error %></span>
+        </div>
+      <% end %>
+    <div class="form-container">
 
-  <div class="form-container">
-    <h2>Ingrese los datos de su cobertura médica</h2>
+      <form action="/obra-social" method="post">
+        <label for="obra_social">Obra social</label>
+        <input type="text" name="obra_social" id="obra_social" required>
 
-    <% if @error %>
-      <div class="error-message">
-        <span> <%= @error %></span>
-      </div>
-    <% end %>
+        <label for="documento">Número de documento</label>
+        <input type="text" name="documento" id="id" required>
 
+        <label for="credencial">Número de credencial</label>
+        <input type="text" name="credencial" id="credential" required>
 
-    <form action="/obra-social" method="post">
-      <label for="obra_social">Obra social</label>
-      <input type="text" name="obra_social" id="obra_social" required>
-
-      <label for="documento">Número de documento</label>
-      <input type="text" name="documento" id="id" required>
-
-      <label for="credencial">Número de credencial</label>
-      <input type="text" name="credencial" id="credential" required>
-
-      <button type="submit">Ingresar</button>
-    </form>
-    
+        <button type="submit">Ingresar</button>
+      </form>
+      
+    </div>
   </div>
 
 </body>
