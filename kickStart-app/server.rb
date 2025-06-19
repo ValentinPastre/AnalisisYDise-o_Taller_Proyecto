@@ -857,4 +857,36 @@ class App < Sinatra::Application
         
         redirect '/services'
   end
+
+    get '/services/delete' do
+    redirect '/login' unless session[:user_id]
+    
+    @user = User.find(session[:user_id])
+    @account = @user.account
+    
+    # Obtiene todos los servicios vinculados a la cuenta
+    @services = Service.where(target_account_id: @account.id)
+    
+    erb :delete_service
+  end
+
+  # Procesar eliminación de servicio
+  post '/services/delete' do
+    redirect '/login' unless session[:user_id]
+    
+    user = User.find(session[:user_id])
+    account = user.account
+    service = Service.find_by(id: params[:service_id], target_account_id: account.id)
+    
+    if service
+      # Eliminar también los registros relacionados en AmountToPay
+      AmountToPay.where(service_id: service.id).destroy_all
+      service.destroy
+      redirect '/services'
+    else
+      @error = "No se pudo encontrar el servicio o no tienes permisos"
+      @services = Service.where(target_account_id: account.id)
+      erb :delete_service
+    end
+  end
 end
