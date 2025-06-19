@@ -42,7 +42,7 @@
       font-style: italic;
     }
 
-    .btn-delete, .btn-add, .btn-erase {
+    .btn-delete, .btn-add, .btn-erase, .btn-modify {
       border: none;
       border-radius: 6px;
       padding: 6px 12px;
@@ -60,6 +60,9 @@
     .btn-add {
       background-color:rgb(66, 156, 104);
     }
+    .btn-modify {
+      background-color:rgb(228, 181, 24);
+    }
   </style>
 </head>
 <body>
@@ -70,7 +73,7 @@
     <div class="info-item"><strong>Apellido:</strong> <%= @user.lastname %></div>
     <div class="info-item"><strong>DNI:</strong> <%= @user.dni %></div>
     <div class="info-item"><strong>CUIL:</strong> <%= @user.cuil %></div>
-    <div class="info-item"><strong>Email:</strong> <%= @account.email %></div>
+    <div class="info-item"><strong>Email: </strong><%= @account.email %></div>
     <% if @secq.any? %>
       <% @secq.each do |secquest| %>
         <div class="info-item">
@@ -92,6 +95,17 @@
         </form>
       </div>
     <% end %>
+    <div style="border-top: 2px solid #ccc; margin: 30px 0;"></div>
+      <div style="text-align: center; margin-top: 20px;">
+        <form action="/premodify-email" method="get" style="display: inline-block;">
+          <button type="submit" class="btn-modify" style="font-size: 16px">Modificar email</button>
+        </form>
+      </div>
+      <div style="text-align: center; margin-top: 20px;">
+        <form action="/modify-password" method="get" style="display: inline-block;">
+          <button type="submit" class="btn-modify" style="font-size: 16px">Modificar contraseña</button>
+        </form>
+      </div>
 
     <div style="border-top: 2px solid #ccc; margin: 30px 0;"></div>
     <div class="section-title">Confidentes</div>
