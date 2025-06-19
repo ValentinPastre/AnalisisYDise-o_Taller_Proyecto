@@ -3,20 +3,26 @@ class Service < ActiveRecord::Base
   has_many :expiration
   has_one :obra_social
   belongs_to :target_account, class_name: 'Account', optional: true #cuenta que cobra el servicio
+  belongs_to :last_transaction, class_name: 'Transaction', optional: true
   has_many :transactions
+  has_one :amount_to_pay, -> { order(created_at: :desc) }
+
+  def amount_to_pay_cents
+    amount_to_pay&.total_to_pay || 0
+  end
 
   #Metodo principal para pagar un servicio desde una cuenta de origen
   def pay_from (source_account)
     #validaciones previas
-    raise "Este servicio no tiene una cuenta destino" unless target_account
+    raise ArgumentError, "Este servicio no tiene una cuenta destino" unless target_account
     raise "Este servicio ya fue pagado" if already_paid?
-    raise "No tiene suficiente dinero para pagar el servicio" if payable_by?
+    raise ArgumentError, "No tiene suficiente dinero para pagar el servicio" unless payable_by?(source_account)
 
     #si pasa las validaciones crea una transaccion
     tx = Transaction.create!(
       source_account: source_account,
       target_account: target_account,
-      amount: amount_to_pay
+      amount: amount_to_pay_cents
     )
 
     #guarda la transaccion como la ultima asociada al servicio
@@ -32,6 +38,6 @@ class Service < ActiveRecord::Base
 
   #indica si una cuenta tiene saldo suficiente para pagar el servicio
   def payable_by?(account)
-    account.balance >= amount_to_pay
+    account.balance >= amount_to_pay_cents
   end
 end
