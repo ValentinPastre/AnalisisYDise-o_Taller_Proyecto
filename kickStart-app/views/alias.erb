@@ -2,49 +2,80 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Alias - CVU</title>
+  <title>Alias - CVU - Tarjeta Virtual</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 30px;
-      background-color: #f4f4f4;
+    /* ... estilos existentes ... */
+    
+    .card-container {
+      margin-top: 40px;
       text-align: center;
     }
-
-    .info-box {
-      display: inline-block;
-      margin-top: 40px;
-      background-color: #d9d9d9;
-      padding: 20px 30px;
+    
+    .virtual-card {
+      background: linear-gradient(135deg, #2c3e50, #4ca1af);
+      color: white;
       border-radius: 15px;
-      font-size: 18px;
+      padding: 25px;
+      width: 350px;
+      margin: 0 auto 20px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+      font-family: 'Courier New', monospace;
+      position: relative;
+    }
+    
+    .card-logo {
+      text-align: right;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+    
+    .card-number {
+      font-size: 22px;
+      letter-spacing: 3px;
+      text-align: center;
+      margin: 25px 0;
+    }
+    
+    .card-details {
+      display: flex;
+      justify-content: space-between;
+    }
+    
+    .card-holder {
       text-align: left;
     }
-
-    .info-box span {
-      color: gray;
+    
+    .card-expiry {
+      text-align: right;
     }
-
-    .texto-cambio {
-      margin-top: 60px;
-      font-size: 20px;
-      font-weight: normal;
+    
+    .card-cvv {
+      position: absolute;
+      bottom: 25px;
+      right: 25px;
+      background: rgba(255,255,255,0.2);
+      padding: 5px 10px;
+      border-radius: 4px;
     }
-
-    .boton-alias {
+    
+    .card-frontal {
+      position: absolute;
+      top: 25px;
+      left: 25px;
+      font-size: 14px;
+    }
+    
+    .generate-btn {
       display: inline-block;
-      margin-top: 10px;
-      padding: 15px 30px;
-      background-color: #d9d9d9;
-      border-radius: 12px;
-      font-size: 20px;
-      font-weight: bold;
+      margin-top: 20px;
+      padding: 12px 25px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
       text-decoration: none;
-      color: black;
-    }
-
-    .boton-alias:hover {
-      background-color: #bfbfbf;
     }
   </style>
 </head>
@@ -61,6 +92,35 @@
   </div>
 
   <a href="/change_alias" class="boton-alias">Cambiar Alias</a>
+
+  <!-- Nueva sección para la tarjeta virtual -->
+  <div class="card-container">
+    <h2>Tarjeta de Débito Virtual</h2>
+    
+    <% if @virtual_card %>
+      <div class="virtual-card">
+        <div class="card-logo">JubiCard</div>
+        <div class="card-frontal">ID: <%= @virtual_card.frontal_id %></div>
+        <div class="card-number"><%= @virtual_card.card_number.scan(/.{4}/).join(' ') %></div>
+        <div class="card-details">
+          <div class="card-holder">
+            <div>TITULAR</div>
+            <div><%= @user.name %> <%= @user.lastname %></div>
+          </div>
+          <div class="card-expiry">
+            <div>VENCE</div>
+            <div><%= @virtual_card.expiration_date.strftime('%m/%y') %></div>
+          </div>
+        </div>
+        <div class="card-cvv">CVV: <%= @virtual_card.cvv %></div>
+      </div>
+    <% else %>
+      <p>No tienes una tarjeta virtual generada</p>
+      <form action="/generate_virtual_card" method="post">
+        <button type="submit" class="generate-btn">Generar Tarjeta</button>
+      </form>
+    <% end %>
+  </div>
 
 </body>
 </html>
