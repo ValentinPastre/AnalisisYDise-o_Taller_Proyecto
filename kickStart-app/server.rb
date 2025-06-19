@@ -796,7 +796,8 @@ class App < Sinatra::Application
 
     begin
       service = Service.find(params[:service_id])
-      transaction = service.pay_from(@account)
+      transaction = service.amount_to_pay_cents
+      @account.update(balance: @account.balance-transaction)
       service.update(paid: true)
       @success = "Pago realizado con éxito"
     rescue => e
