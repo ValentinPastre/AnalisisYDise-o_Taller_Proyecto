@@ -114,6 +114,10 @@
       padding: 20px;
       margin-top: 20px;
       box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+      position: relative;
+      min-height: 280px;
+      display: flex;
+      flex-direction: column;
     }
     
     .card-header {
@@ -137,10 +141,10 @@
     }
     
     .card-number {
-      font-size: 22px;
+      font-size: 25px;
       letter-spacing: 3px;
       text-align: center;
-      margin: 20px 0;
+      margin: 10px 0;
       font-family: monospace;
       font-weight: 500;
       padding: 10px;
@@ -169,16 +173,21 @@
       font-weight: 600;
     }
     
+    
+    .card-footer {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: auto;
+      padding-top: 15px;
+    }
+    
     .card-cvv {
       font-size: 18px;
-      text-align: right;
-      margin-top: 20px;
       font-weight: 500;
-      background: rgba(255, 255, 255, 0.2);
+      background: rgba(0, 0, 0, 0.3);
       padding: 8px 15px;
       border-radius: 5px;
-      display: inline-block;
-      float: right;
+      color: white;
     }
     
     .no-card {
@@ -262,7 +271,9 @@
             </div>
           </div>
           
-          <div class="card-cvv">CVV: <%= @virtual_card.cvv %></div>
+          <div class="card-footer">
+            <div class="card-cvv">CVV: <%= @virtual_card.cvv %></div>
+          </div>
         </div>
       <% else %>
         <div class="no-card">
