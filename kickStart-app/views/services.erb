@@ -82,12 +82,30 @@
     .button a:hover {
       background-color: #bbb;
     }
+
+    .message {
+      text-align: center;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+
+    .error {
+      color: red;
+    }
+
+    .success {
+      color: green;
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <h2>Pago de servicios</h2>
-
+    <% if @error %>
+      <p class="message error"><%= @error %></p>
+    <% elsif @success %>
+      <p class="message success"><%= @success %></p>
+    <% end %>
     <table>
       <thead>
         <tr>
