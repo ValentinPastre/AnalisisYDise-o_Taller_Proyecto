@@ -787,12 +787,12 @@ class App < Sinatra::Application
     erb :pay_service
   end
 
-  
+
   #procesa el pago del servicio
   post '/services/pay' do
     redirect '/login' unless session[:user_id]
-    user = User.find(session[:user_id])
-    account = user.account
+    @user = User.find(session[:user_id])
+    @account = @user.account
 
     begin
       service = Service.find(params[:service_id])
