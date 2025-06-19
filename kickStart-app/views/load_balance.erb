@@ -58,14 +58,38 @@
     }
 
     .mensaje {
-      color: red;
-      margin: 10px 0;
+    background-color: #ffe0e0;
+    border: 1px solid #ff5c5c;
+    color: #b30000;
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-weight: bold;
+    text-align: center;
     }
 
     .success {
-      color: green;
-      margin: 10px 0;
+    background-color: #e0ffe5;
+    border: 1px solid #5cff7a;
+    color: #006622;
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-weight: bold;
+    text-align: center;
     }
+
+    .balance-box {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 16px;
+    border-radius: 10px;
+    margin: 20px 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    font-size: 18px;
+    color: #333;
+    }
+
   </style>
 </head>
 <body>
@@ -80,12 +104,14 @@
       <div class="success"><%= @success %></div>
     <% end %>
 
-    <div class="balance">
-      Saldo actual: $<%= @card.balance %>
+    <div class="balance-box">
+      <strong>Saldo actual:</strong> $<%= @card.balance %>
     </div>
-    <div class="balance">
-      Dinero en tu cuenta: $<%= @user.account.balance %>
+
+    <div class="balance-box">
+    <strong>Dinero en tu cuenta:</strong> $<%= @user.account.balance %>
     </div>
+
 
     <form action="/load" method="POST">
       <input type="hidden" name="numero_tarjeta" value="<%= @card.number %>">
