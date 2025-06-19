@@ -767,8 +767,8 @@ class App < Sinatra::Application
   get '/services' do
     redirect '/login' unless session[:user_id]
     
-    user = User.find(session[:user_id])
-    account = user.account
+    @user = User.find(session[:user_id])
+    @account = @user.account
     
     #Obtiene todos los servicios vinculados a la cuenta
     @services = Service.where(target_account_id: @account.id) 
@@ -779,10 +779,10 @@ class App < Sinatra::Application
   #muestra el formulario para pagar un servicio en particular
   get '/services/pay' do
     redirect '/login' unless session[:user_id]
-    user = User.find(session[:user_id])
-    account = user.account
+    @user = User.find(session[:user_id])
+    @account = @user.account
 
-    @services = Service.where(target_account_id: account.id)
+    @services = Service.where(target_account_id: @account.id)
 
     erb :pay_service
   end
@@ -796,13 +796,13 @@ class App < Sinatra::Application
 
     begin
       service = Service.find(params[:service_id])
-      transaction = service.pay_from(account)
+      transaction = service.pay_from(@account)
       @success = "Pago realizado con éxito"
     rescue => e
       @error = e.message
     end
 
-    @services = Service.where(target_account_id: account.id)
+    @services = Service.where(target_account_id: @account.id)
     erb :pay_service
   end
   
