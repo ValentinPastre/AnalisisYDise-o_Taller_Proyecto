@@ -67,6 +67,11 @@
       margin-bottom: 10px;
       text-align: center;
     }
+    .form-actions {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+    }
   </style>
 </head>
 <body>
@@ -96,7 +101,9 @@
             <option value="Anual">Anual</option>
           </select>
         </div>
-        <button type="submit" class="button">Agregar Servicio</button>
+        <div class="form-actions">
+          <button type="submit" class="button">Agregar Servicio</button>
+        </div>
       </form>
     <% end %>
     <a href="/services" class="button" style="background:#ccc; color:black; text-decoration:none; margin-top:10px;">Volver</a>

@@ -100,7 +100,7 @@
       <tbody>
         <% if @services.any? %>
           <% @services.each do |service| %>
-            <% factura = AmountToPay.where(service_id: service.id).order(created_at: :desc).first %>
+            <% factura = service.amount_to_pay %>
             <tr>
               <td><%= service.service_name %></td>
               <td><%= service.tipo_pago %></td>
@@ -134,7 +134,7 @@
     </div>
 
     <div class="button">
-      <a href="/services">Pagar Servicios</a>
+      <a href="/services/pay">Pagar Servicios</a>
       <a href="/transport">Pagar Transporte</a>
     </div>
   </div>

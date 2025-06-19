@@ -777,17 +777,36 @@ class App < Sinatra::Application
   end
   
   #muestra el formulario para pagar un servicio en particular
-  get'/services/:id/pay' do
+  get '/services/pay' do
     redirect '/login' unless session[:user_id]
-    
-    @service = Service.find(params[:id])
-    @user = User.find(session[:user_id])
-    @account = @user.account
-    
-    #paga el servicio
+    user = User.find(session[:user_id])
+    account = user.account
+
+    @services = Service.where(target_account_id: account.id)
+
+    erb :pay_service
+  end
+
+  
+  #procesa el pago del servicio
+  post '/services/pay' do
+    redirect '/login' unless session[:user_id]
+    user = User.find(session[:user_id])
+    account = user.account
+
+    begin
+      service = Service.find(params[:service_id])
+      transaction = service.pay_from(account)
+      @success = "Pago realizado con éxito"
+    rescue => e
+      @error = e.message
+    end
+
+    @services = Service.where(target_account_id: account.id)
     erb :pay_service
   end
   
+
   get '/services/new' do
     redirect '/login' unless session[:user_id]
     @user = User.find(session[:user_id])
@@ -803,28 +822,8 @@ class App < Sinatra::Application
     erb :new_service
   end
 
-  #procesa el pago del servicio
-  post '/services/:id/pay' do
-    redirect '/login' unless session [:user_id]
-    
-    
-    service = Service.find(params[:id])
-    user = User.find(session[:user_id])
-    account = user.account
-    
-    begin
-      #Intenta pagar desde la cuenta del usuario actual
-      transaction = service.pay_from(account)
-      redirect '/services'
-    rescue => e
-      @error = e.message
-      @service = service
-      @user = user
-      @account = account
-      
-      erb :pay_service
-    end
-  end
+
+
 
   #procesa la creacion de un nuevo servicio
   post '/services/new' do
@@ -858,6 +857,38 @@ class App < Sinatra::Application
         )
         
         redirect '/services'
+  end
+
+    get '/services/delete' do
+    redirect '/login' unless session[:user_id]
+    
+    @user = User.find(session[:user_id])
+    @account = @user.account
+    
+    # Obtiene todos los servicios vinculados a la cuenta
+    @services = Service.where(target_account_id: @account.id)
+    
+    erb :delete_service
+  end
+
+  # Procesar eliminación de servicio
+  post '/services/delete' do
+    redirect '/login' unless session[:user_id]
+    
+    user = User.find(session[:user_id])
+    account = user.account
+    service = Service.find_by(id: params[:service_id], target_account_id: account.id)
+    
+    if service
+      # Eliminar también los registros relacionados en AmountToPay
+      AmountToPay.where(service_id: service.id).destroy_all
+      service.destroy
+      redirect '/services'
+    else
+      @error = "No se pudo encontrar el servicio o no tienes permisos"
+      @services = Service.where(target_account_id: account.id)
+      erb :delete_service
+    end
   end
 
   get '/transport' do

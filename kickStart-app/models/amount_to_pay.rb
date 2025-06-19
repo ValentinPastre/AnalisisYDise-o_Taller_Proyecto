@@ -2,6 +2,7 @@ require 'active_record'
 require 'date'
 
 class AmountToPay < ActiveRecord::Base
+  belongs_to :service
   self.table_name = 'amount_to_pay'
 
   SERVICES = {
