@@ -118,7 +118,7 @@
               <td><%= service.tipo_pago %></td>
               <td>
                 <% if factura %>
-                  $<%= factura.amount_cents / 100.0 %>
+                  $<%= factura.amount_cents %>
                 <% else %>
                   -
                 <% end %>

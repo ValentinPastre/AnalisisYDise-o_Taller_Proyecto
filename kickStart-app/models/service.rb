@@ -36,7 +36,7 @@ class Service < ActiveRecord::Base
   #devuelve true si el servicio fue pagado
   def already_paid?
     #Logica de si fue pagado o no
-    last_transaction && last_transaction.amount == amount_to_pay
+    last_transaction && last_transaction.amount == amount_to_pay_cents
   end
 
   #indica si una cuenta tiene saldo suficiente para pagar el servicio
