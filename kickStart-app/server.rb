@@ -513,6 +513,16 @@ end
     erb :profile
   end
 
+  get '/confidente_preagregar' do
+    redirect '/login' unless session[:user_id]
+    @user = User.find(session[:user_id])
+    @account = @user.account
+    @confident = @account.confidents
+
+    session[:next_url] = '/confidente_agregar'
+    redirect '/security-question'
+  end
+  
   get '/confidente_agregar' do
     redirect '/login' unless session[:user_id]
     @user = User.find(session[:user_id])
@@ -531,11 +541,35 @@ end
     redirect '/profile'
   end
 
-  post '/confidente_eliminar' do
+  get '/confidente_preeliminar' do
     redirect '/login' unless session[:user_id]
-    
-    conf = Confident.find(params[:confident_id])
-    conf.destroy
+    @user = User.find(session[:user_id])
+    session[:pending_confident_id] = params[:confident_id].to_i
+
+    session[:next_url] = '/confidente_eliminar'
+    redirect '/security-question'
+  end
+
+  get '/confidente_eliminar' do
+    redirect '/login' unless session[:user_id]
+    @pending_id = session[:pending_confident_id]
+
+    erb :confidente_eliminar
+  end
+
+  post '/confidente_eliminar' do
+    redirect '/login' unless session[:user_id] 
+    #conf = Confident.find(params[@conf.id])
+    id = session.delete(:pending_confident_id)
+    if id
+      conf = Confident.find_by(id: id)
+      if conf
+        conf.destroy
+      else
+        @error = "No es posible borrar el confidente"
+        erb :profile
+      end
+    end
     redirect '/profile'
   end
 

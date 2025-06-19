@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Pregunta de Seguridad</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+      background-color: #f4f4f4;
+    }
+
+    .panel {
+      max-width: 500px;
+      margin: 0 auto;
+      background-color: white;
+      padding: 30px 50px;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    label {
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    input[type="text"] {
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    .btn-add {
+      background-color: rgb(66, 156, 104);
+      color: white;
+      padding: 10px 16px;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .btn-add:hover {
+      background-color: rgb(66, 156, 104);
+    }
+  </style>
+</head>
+<body>
+    <div class="panel">
+    <form id="autoPost" action="/confidente_eliminar" method="post" style="display: none;">
+        <!-- Si necesitás enviar datos, podés poner inputs hidden acá -->
+        <input type="hidden" name="from_security_question" value="true">
+    </form>
+    <script>
+        document.getElementById('autoPost').submit();
+    </script>
+    </div>
+</body>
+</html>
