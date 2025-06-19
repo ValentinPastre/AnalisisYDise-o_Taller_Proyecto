@@ -4,7 +4,7 @@ class CreateService < ActiveRecord::Migration[8.0]
       #t.references :account, null: false, foreign_key: {to_table: :accounts}
       t.references :obras_sociales, null: true, foreign_key: true
       t.references :transactions, null: true, foreign_key: true
-      t.integer :amount_to_pay
+      t.references :amount_to_pay, null: true
       t.timestamps
     end
   end

@@ -132,7 +132,7 @@
         <% if @services.any? %>
           <% @services.each do |service| %>
             <% factura = AmountToPay.where(service_id: service.id).order(created_at: :desc).first %>
-            <% next unless factura && !factura.paid %> <!-- solo los impagos -->
+            <% next unless !service.paid %> <!-- solo los impagos -->
             <tr class="service-row" data-id="<%= service.id %>">
               <td><%= service.service_name %></td>
               <td><%= service.tipo_pago %></td>

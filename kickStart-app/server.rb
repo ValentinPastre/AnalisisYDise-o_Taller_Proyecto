@@ -797,13 +797,14 @@ class App < Sinatra::Application
     begin
       service = Service.find(params[:service_id])
       transaction = service.pay_from(@account)
+      service.update(paid: true)
       @success = "Pago realizado con éxito"
     rescue => e
       @error = e.message
     end
 
     @services = Service.where(target_account_id: @account.id)
-    erb :pay_service
+    erb :services
   end
   
 
