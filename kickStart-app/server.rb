@@ -804,7 +804,7 @@ class App < Sinatra::Application
     end
 
     @services = Service.where(target_account_id: @account.id)
-    erb :pay_service
+    erb :services
   end
   
 
