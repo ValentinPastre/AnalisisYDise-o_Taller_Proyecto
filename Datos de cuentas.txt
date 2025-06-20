@@ -1,25 +1,29 @@
 Cuenta: Marta
+dni: 3456789
 mail: marta@gmail.com
 contraseña: 1
 Pregunta de seguridad:
 ¿Nombre de nieto?
 ramon
 Obra social:
-PAMI
+Grassi
 Nro de credencial:
-583833557
+6153220201
+
 
 
 Cuenta: Norma
+dni: 5008901
 mail: norma@gmail.com
 contraseña:1
 Pregunta de seguridad: no tiene
 Obra social:
-GRASSI
+PAMI
 Nro de credencial:
-6153220201
+583833557
 
 Cuenta: Juan Carlos
+dni: 4112345
 mail: juan@gmail.com
 contraseña:1
 Pregunta de seguridad: no tiene
