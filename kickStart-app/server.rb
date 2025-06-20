@@ -796,11 +796,14 @@ class App < Sinatra::Application
     begin
       service = Service.find(params[:service_id])
       transaction = service.amount_to_pay_cents
-      @account.update(balance: @account.balance-transaction)
-      service.update(paid: true)
-      @success = "Pago realizado con éxito"
-    rescue => e
-      @error = e.message
+      if(@account.balance-transaction >= 0)
+        @account.update(balance: @account.balance-transaction)
+        service.update(paid: true)
+        @success = "Pago realizado con éxito"
+      else
+        @error = "Saldo insuficiente"
+        
+      end
     end
 
     @services = Service.where(target_account_id: @account.id)
