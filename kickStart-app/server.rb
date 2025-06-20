@@ -21,7 +21,6 @@ require_relative 'models/service'
 require_relative 'models/agua'
 require_relative 'models/luz'
 require_relative 'models/gas'
-require_relative 'models/transportation_card'
 require_relative 'models/amount_to_pay'
 
 class App < Sinatra::Application
