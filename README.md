@@ -57,7 +57,18 @@ Este repositorio contiene el desarrollo del proyecto JubiPago, realizado en el m
 
 🚀 Uso
 
-Una vez iniciado el contenedor, la aplicación estará disponible en http://localhost:8000. Desde allí, se puede interactuar con la interfaz de usuario diseñada para facilitar los pagos de los jubilados.
+    Una vez iniciado el contenedor, la aplicación estará disponible en http://localhost:8000. Desde allí, se puede interactuar con la interfaz de usuario diseñada para facilitar los pagos de los jubilados.
+
+    Está hecha para descargar el repositorio y utilizarse. Ya damos datos de cuentas seteadas en un archivo "Datos de cuentas.txt" para utilizar la base de datos. Solamente es necesario construir la imagen docker y correrla.
+
+⚠️ Solucionador de problemas
+
+    Si llegan a haber problemas con la base de datos, se deben eliminar los archivos "schema.rb", "test.sqlite3",
+    "wallet_development.sqlite3", "wallet_development.sqlite3-shm", "wallet_development.sqlite3-wal" y ejecutar los comandos listados más arriba para crear la base de datos.
+
+    NOTA
+    Si se realiza este proceso la base de datos será borrada, y los datos en "Datos de cuentas.txt" no funcionarán.
+
 
 🛠️ Tecnologías utilizadas
 
