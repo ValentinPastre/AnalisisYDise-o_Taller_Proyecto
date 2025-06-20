@@ -1,0 +1,26 @@
+Cuenta: Marta
+mail: marta@gmail.com
+contraseña: 1
+Pregunta de seguridad:
+¿Nombre de nieto?
+ramon
+Obra social:
+PAMI
+Nro de credencial:
+583833557
+
+
+Cuenta: Norma
+mail: norma@gmail.com
+contraseña:1
+Pregunta de seguridad: no tiene
+Obra social:
+GRASSI
+Nro de credencial:
+6153220201
+
+Cuenta: Juan Carlos
+mail: juan@gmail.com
+contraseña:1
+Pregunta de seguridad: no tiene
+Obra Social: no tiene
